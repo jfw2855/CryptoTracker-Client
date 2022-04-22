@@ -34,8 +34,8 @@
 
 
 ## External API:
-- Coincap API will be used to pull current and historical crypto market data 
-- https://docs.coincap.io/
+- Coin Gecko API will be used to pull current and historical crypto market data 
+- https://www.coingecko.com/en/api/documentation
 
 ## ERD
 ![ERD](/media/crypto-erd.png)
