@@ -38,7 +38,7 @@
 - https://www.coingecko.com/en/api/documentation
 
 ## ERD
-![ERD](/media/crypto-erd.png)
+![ERD](/media/cryptoERD.png)
 
 ## Landing
 ![landing](/media/crypto-landing.jpg)
