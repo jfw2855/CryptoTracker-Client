@@ -1,0 +1,29 @@
+ body {
+    background-color: black;
+}
+
+* {
+    color: whitesmoke;
+}
+
+h1 {
+    display: inline-block;
+}
+
+h6 {
+    display: inline-block;
+    border: .5px solid whitesmoke;
+    border-radius: 21%;
+    margin-left: 3%;
+    margin-top: 3%;
+    padding: 3px;
+} 
+
+.price {
+    font-size: 70px;
+}
+
+.name {
+    margin-top: 7%;
+    font-size: 55px;
+}
