@@ -12,6 +12,8 @@ import SignUp from './components/auth/SignUp'
 import SignIn from './components/auth/SignIn'
 import SignOut from './components/auth/SignOut'
 import ChangePassword from './components/auth/ChangePassword'
+import Portfolio from './components/portfolio/portfolio'
+import CryptoShow from './components/cryptos/CryptoShow'
 
 const App = () => {
 
@@ -68,6 +70,21 @@ const App = () => {
                 <ChangePassword msgAlert={msgAlert} user={user} />
               </RequireAuth>}
           />
+          <Route
+            path='/portfolio'
+            element={
+              <RequireAuth user={user}>
+                <Portfolio user={user} />
+              </RequireAuth>}
+					/>
+          <Route
+            path='/crypto/:id'
+            element={
+              <RequireAuth user={user}>
+                <CryptoShow user={user} />
+              </RequireAuth>}
+					/>
+					
 				</Routes>
 				{msgAlerts.map((msgAlert) => (
 					<AutoDismissAlert
