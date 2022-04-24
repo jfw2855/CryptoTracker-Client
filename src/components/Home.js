@@ -1,12 +1,14 @@
-const Home = (props) => {
-	// const { msgAlert, user } = props
-	console.log('props in home', props)
+import TopCryptos from '../components/cryptos/TopCryptos'
 
-	return (
-		<>
-			<h2>Home Page</h2>
-		</>
-	)
+const Home = (props) => {
+  // const { msgAlert, user } = props
+  //   console.log('props in home', props)
+
+  return (
+    <>
+      <TopCryptos />
+    </>
+  )
 }
 
 export default Home
