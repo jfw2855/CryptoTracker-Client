@@ -1,4 +1,4 @@
-import TopCryptos from '../components/cryptos/TopCryptos'
+import CryptosIndex from './cryptos/CryptosIndex'
 
 const Home = (props) => {
   // const { msgAlert, user } = props
@@ -6,7 +6,7 @@ const Home = (props) => {
 
   return (
     <>
-      <TopCryptos />
+      <CryptosIndex />
     </>
   )
 }
