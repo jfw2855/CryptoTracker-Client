@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Plot from 'react-plotly.js';
 
 const CryptoGraph = (props) => {
-    const {history} = props
+    const {history, crypto} = props
 return (
     <>
     <Plot

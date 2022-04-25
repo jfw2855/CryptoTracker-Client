@@ -61,7 +61,7 @@ const CryptoShow = () => {
           <Row>
             <Col>
               <span>24hr change </span><br />
-              <h1 //style={{ crypto.market_data.price_change_percentage_24h } > 0 ? { backgroundColor: 'green'} : {backgroundColor: 'red'}}
+              <h1 style={crypto.market_data.price_change_percentage_24h > 0 ? { color: 'green'} : {color: 'red'}}
               >
               {crypto.market_data.price_change_percentage_24h.toFixed(2)}%
               </h1>
@@ -84,7 +84,8 @@ const CryptoShow = () => {
       <div>
         {/* {graph} */}
         <CryptoGraph
-         history = {history}
+          history={history}
+          crypto = {crypto}
         />
       </div>
     </div>
