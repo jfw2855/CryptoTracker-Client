@@ -23,6 +23,11 @@ const authenticatedOptions = (
 				View Portfolio
 			</Link>
 		</Nav.Item>
+		<Nav.Item>
+			<Link to='favorites' style={linkStyle}>
+				View Favorites
+			</Link>
+		</Nav.Item>
 	</>
 )
 
