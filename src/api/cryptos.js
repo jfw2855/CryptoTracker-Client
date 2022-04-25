@@ -8,7 +8,7 @@ export const getCryptos = () => {
     'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false'
   const config = {
     method: 'get',
-    url: `${searchUrl}`,
+    url: searchUrl,
   }
   return axios(config)
 }
@@ -18,11 +18,19 @@ export const showCrypto = (coin) => {
   const searchUrl = `https://api.coingecko.com/api/v3/coins/${coin}?localization=false&tickers=false&market_data=true&community_data=true&developer_data=true&sparkline=true`
   const config = {
     method: 'get',
-    url: `${searchUrl}`,
+    url: searchUrl,
   }
   return axios(config)
 
 }
 
+export const getHistory = (coin) => {
+  const searchUrl = `https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=365`
+  const config = {
+    method: 'get',
+    url: searchUrl
+  }
+  return axios(config)
+}
 
-// https://api.coingecko.com/api/v3/coins/bitcoin?localization=false&tickers=false&market_data=true&community_data=true&developer_data=true&sparkline=true
+//https://api.coingecko.com/api/v3/coins/bitcoin/history?date=30-12-2017&localization=false

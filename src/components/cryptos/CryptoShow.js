@@ -1,30 +1,50 @@
 import React, { useState, useEffect } from 'react'
-import { showCrypto } from '../../api/cryptos'
+import { showCrypto, getHistory } from '../../api/cryptos'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Spinner, Row, Col, Accordion } from 'react-bootstrap'
+import Plot from 'react-plotly.js';
+import CryptoGraph from './CryptoGraph';
+
 
 const CryptoShow = () => {
 
   const { id } = useParams()
   console.log('id', id)
   const [crypto, setCrypto] = useState(null)
+  const [history, setHistory] = useState(null)
+  let graph
 
   // const { state } = useLocation()
-
   useEffect(() => {
-    showCrypto(id)
-      .then((res) => {
-        setCrypto(res.data)
-        console.log('this is res show page', res.data)
-      })
-      .catch((err) => console.log(err))
+    const fetchData = async () => {
+      const respShow = await showCrypto(id)
+      setCrypto(respShow.data)
+      const respHistory = await getHistory(id)
+      transformData(respHistory.data.prices)
+    } 
+    fetchData()
   }, [])
 
-    if (!crypto) {
+  const transformData = (temp) => {
+    let plot_data = []
+    let time = []
+    let price = []
+    temp.map(each => {
+      time.push(new Date(each[0]))
+      price.push(each[1])
+    })
+    plot_data['time'] = time
+    plot_data['price'] = price
+
+    setHistory(plot_data)
+    
+  }
+  
+    if (!history) {
         return<Spinner animation="border" role="status">
         <span className="visually-hidden">Loading</span>
       </Spinner>
-    } 
+  } 
 
   return (
    
@@ -61,6 +81,12 @@ const CryptoShow = () => {
          <td dangerouslySetInnerHTML={{__html: crypto.description.en}} />
         </Accordion.Body>
       </Accordion>
+      <div>
+        {/* {graph} */}
+        <CryptoGraph
+         history = {history}
+        />
+      </div>
     </div>
   )
 }
