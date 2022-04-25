@@ -3,6 +3,7 @@ import { showCrypto, getHistory } from '../../api/cryptos'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Spinner, Row, Col, Accordion } from 'react-bootstrap'
 import Plot from 'react-plotly.js';
+import CryptoGraph from './CryptoGraph';
 
 
 const CryptoShow = () => {
@@ -11,7 +12,6 @@ const CryptoShow = () => {
   console.log('id', id)
   const [crypto, setCrypto] = useState(null)
   const [history, setHistory] = useState(null)
-  const [temp, setTemp] = useState(null)
   let graph
 
   // const { state } = useLocation()
@@ -20,24 +20,10 @@ const CryptoShow = () => {
       const respShow = await showCrypto(id)
       setCrypto(respShow.data)
       const respHistory = await getHistory(id)
-      await setTemp(respHistory.data.prices)
-      transformData(temp)
+      transformData(respHistory.data.prices)
     } 
     fetchData()
   }, [])
-
-
-  // useEffect(() => {
-  //   showCrypto(id)
-  //     .then((res) => {
-  //       setCrypto(res.data)
-  //       getHistory(id)
-  //         .then((res) => {
-  //         setTemp(res.data.prices)
-  //         })
-  //     })
-  //     .catch((err) => console.log(err))
-  // }, [])
 
   const transformData = (temp) => {
     let plot_data = []
@@ -54,27 +40,11 @@ const CryptoShow = () => {
     
   }
   
-    if (!crypto) {
+    if (!history) {
         return<Spinner animation="border" role="status">
         <span className="visually-hidden">Loading</span>
       </Spinner>
   } 
-  
-  if (history != null) {    
-    graph = 
-      <Plot
-        data = {[
-          {type: 'scatter',
-          mode: 'lines',
-          x: history['time'],
-          y: history['price'],
-          marker: { color: '#ed022d'}}
-          ]}
-        layout = { {width: 1000, height: 500, title: `Price History for ${crypto.name}`} }
-      />
-  }
-  
-  
 
   return (
    
@@ -112,7 +82,10 @@ const CryptoShow = () => {
         </Accordion.Body>
       </Accordion>
       <div>
-        { graph }
+        {/* {graph} */}
+        <CryptoGraph
+         history = {history}
+        />
       </div>
     </div>
   )
