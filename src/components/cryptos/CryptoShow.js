@@ -28,7 +28,7 @@ const CryptoShow = () => {
 
   return (
    
-    <div className="container">
+    <div className="container show">
       <Row>
         <Col>
           <h1 className='logo name'>{crypto.name}</h1><h6>{crypto.symbol.toUpperCase()}</h6>
@@ -41,14 +41,15 @@ const CryptoShow = () => {
           <Row>
             <Col>
               <span>24hr change </span><br />
-              <h1>
+              <h1 //style={{ crypto.market_data.price_change_percentage_24h } > 0 ? { backgroundColor: 'green'} : {backgroundColor: 'red'}}
+              >
               {crypto.market_data.price_change_percentage_24h.toFixed(2)}%
               </h1>
             </Col>
             <Col>
               <span>Market Cap</span><br />
               <h1>
-              {crypto.market_data.market_cap.usd.toLocaleString()}
+              ${crypto.market_data.market_cap.usd.toLocaleString()}
               </h1>
             </Col>
           </Row>
