@@ -24,3 +24,13 @@ export const getAllFavorites = (user, coin) => {
     })
 }
 
+export const deleteFavorite = (user, coin) => {
+    console.log('coin to delete', coin)
+    return axios({
+        url: `${apiUrl}/favorites/${coin}`,
+        method: 'DELETE',
+        headers: {
+            Authorization: `Token token=${user.token}`
+        },
+    })
+}
