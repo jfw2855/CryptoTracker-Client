@@ -31,7 +31,7 @@ const PortfolioIndex = (props) => {
         respMData.data[i].avgPrice = respCoins[i].avgPrice
         respMData.data[i].quantity = respCoins[i].quantity
       }
-      console.log('fixed data!!!!!!!!',respMData.data)
+      setMData(respMData.data)
     }
     fetchData()
   }, [])
@@ -42,10 +42,10 @@ const PortfolioIndex = (props) => {
 
 
 
-  if(assets.length>0) {
+  if(mData.length>0) {
     //coinGeckId: 'meme', avgPrice: 500, quantity: 1
 
-    assetsDisplay = assets.map( (coin,index) => ( 
+    assetsDisplay = mData.map( (coin,index) => ( 
         <ListGroup.Item key={coin._id}>
             <Row>
                 <Col>
