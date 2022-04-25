@@ -1,30 +1,80 @@
 import React, { useState, useEffect } from 'react'
-import { showCrypto } from '../../api/cryptos'
+import { showCrypto, getHistory } from '../../api/cryptos'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Spinner, Row, Col, Accordion } from 'react-bootstrap'
+import Plot from 'react-plotly.js';
+
 
 const CryptoShow = () => {
 
   const { id } = useParams()
   console.log('id', id)
   const [crypto, setCrypto] = useState(null)
+  const [history, setHistory] = useState(null)
+  const [temp, setTemp] = useState(null)
+  let graph
 
   // const { state } = useLocation()
-
   useEffect(() => {
-    showCrypto(id)
-      .then((res) => {
-        setCrypto(res.data)
-        console.log('this is res show page', res.data)
-      })
-      .catch((err) => console.log(err))
+    const fetchData = async () => {
+      const respShow = await showCrypto(id)
+      setCrypto(respShow.data)
+      const respHistory = await getHistory(id)
+      await setTemp(respHistory.data.prices)
+      transformData(temp)
+    } 
+    fetchData()
   }, [])
 
+
+  // useEffect(() => {
+  //   showCrypto(id)
+  //     .then((res) => {
+  //       setCrypto(res.data)
+  //       getHistory(id)
+  //         .then((res) => {
+  //         setTemp(res.data.prices)
+  //         })
+  //     })
+  //     .catch((err) => console.log(err))
+  // }, [])
+
+  const transformData = (temp) => {
+    let plot_data = []
+    let time = []
+    let price = []
+    temp.map(each => {
+      time.push(new Date(each[0]))
+      price.push(each[1])
+    })
+    plot_data['time'] = time
+    plot_data['price'] = price
+
+    setHistory(plot_data)
+    
+  }
+  
     if (!crypto) {
         return<Spinner animation="border" role="status">
         <span className="visually-hidden">Loading</span>
       </Spinner>
-    } 
+  } 
+  
+  if (history != null) {    
+    graph = 
+      <Plot
+        data = {[
+          {type: 'scatter',
+          mode: 'lines',
+          x: history['time'],
+          y: history['price'],
+          marker: { color: '#ed022d'}}
+          ]}
+        layout = { {width: 1000, height: 500, title: `Price History for ${crypto.name}`} }
+      />
+  }
+  
+  
 
   return (
    
@@ -61,6 +111,9 @@ const CryptoShow = () => {
          <td dangerouslySetInnerHTML={{__html: crypto.description.en}} />
         </Accordion.Body>
       </Accordion>
+      <div>
+        { graph }
+      </div>
     </div>
   )
 }
