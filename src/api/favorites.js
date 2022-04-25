@@ -2,15 +2,13 @@ import apiUrl from '../apiConfig'
 import axios from 'axios'
 
 // POST -> create favorite
-export const createFavorite = (user, newFavorite) => {
-    console.log('newFavorite', newFavorite)
+export const createFavorite = (user, coin) => {
     return axios({
-      url: `${apiUrl}/favorites`,
+      url: `${apiUrl}/favorites/${coin}`,
       method: 'POST',
       headers: {
         Authorization: `Token token=${user.token}`,
       },
-      data: { favorite: newFavorite },
     })
 }
   
