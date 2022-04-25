@@ -12,3 +12,15 @@ export const createFavorite = (user, coin) => {
     })
 }
   
+// INDEX -> get all favorites
+export const getAllFavorites = (user, coin) => {
+    console.log('api coin', coin)
+    return axios({
+        url: `${apiUrl}/favorites/${coin}`,
+        method: 'GET',
+        headers: {
+            Authorization: `Token token=${user.token}`
+        },
+    })
+}
+
