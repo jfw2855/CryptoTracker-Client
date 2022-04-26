@@ -12,8 +12,8 @@ export const createFavorite = (user, coin) => {
     })
 }
   
-// INDEX -> get all favorites
-export const getAllFavorites = (user, coin) => {
+// SHOW -> get a single favorites
+export const getAFavorite = (user, coin) => {
     console.log('api coin', coin)
     return axios({
         url: `${apiUrl}/favorites/${coin}`,
@@ -29,6 +29,17 @@ export const deleteFavorite = (user, coin) => {
     return axios({
         url: `${apiUrl}/favorites/${coin}`,
         method: 'DELETE',
+        headers: {
+            Authorization: `Token token=${user.token}`
+        },
+    })
+}
+
+// Index -> get all favorites
+export const getAllFavorites = (user) => {
+    return axios({
+        url: `${apiUrl}/favorites`,
+        method: 'GET',
         headers: {
             Authorization: `Token token=${user.token}`
         },
