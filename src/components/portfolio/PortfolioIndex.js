@@ -1,8 +1,8 @@
-import { queryByAltText } from '@testing-library/react'
-import React, { useState, useEffect, useCallback } from 'react'
-import { Form, Container, Button, Card, Link, Row, Col, ListGroup } from 'react-bootstrap'
+import React, { useState, useEffect} from 'react'
+import {Row, Col, ListGroup } from 'react-bootstrap'
 import { viewPortfolio, getPData } from '../../api/portfolio'
-
+import { Link } from 'react-router-dom'
+import {BsPlusLg,BsArrowLeftRight,BsTrash} from 'react-icons/bs'
 
 const PortfolioIndex = (props) => {
 
@@ -28,8 +28,13 @@ const PortfolioIndex = (props) => {
 
       // updates the response data with average price and quantity of assets
       for (let i in respMData.data) {
-        respMData.data[i].avgPrice = respCoins[i].avgPrice
-        respMData.data[i].quantity = respCoins[i].quantity
+        //currCoin == current coin
+        let currCoin =respMData.data[i]
+        currCoin.avgPrice = respCoins[i].avgPrice
+        currCoin.quantity = respCoins[i].quantity
+        // adds profit loss amount and precentage to currCoin object; pl == profit loss
+        currCoin.pl_amount =(((currCoin.current_price/currCoin.avgPrice)-1))*currCoin.current_price
+        currCoin.pl_precentage = (((currCoin.current_price/currCoin.avgPrice)-1))*100
       }
       setMData(respMData.data)
     }
@@ -47,16 +52,32 @@ const PortfolioIndex = (props) => {
 
     assetsDisplay = mData.map( (coin,index) => ( 
         <ListGroup.Item key={coin._id}>
-            <Row>
+            <Row style={{alignItems:'center'}}>
                 <Col>
-                    <span>{coin.coinGeckId}</span>
+                <img src={coin.image} alt={coin.name} width={25} style={{backgroundColor:"white"}}/> <strong>{coin.name}</strong> {coin.symbol.toUpperCase()}
                 </Col>
                 <Col>
+                ${coin.current_price>1?coin.current_price.toLocaleString('en-US'):coin.current_price.toPrecision(4)}
                 </Col>
                 <Col>
+                <span style={coin.price_change_percentage_24h>0?{color:'green'}:{color:"red"}}>{coin.price_change_percentage_24h.toFixed(2)}%</span>
+                </Col>
+                <Col>
+                {coin.quantity}
+                </Col>
+                <Col>
+                ${coin.avgPrice>1?coin.avgPrice.toLocaleString('en-US'):coin.avgPrice.toPrecision(4)}
+                </Col>
+                <Col style={coin.pl_precentage>0?{color:'green'}:{color:"red"}}>
+                  <Row>{coin.pl_amount>0?`+${coin.pl_amount.toLocaleString('en-US', {style:'currency',currency:'USD'})}`:`-${coin.pl_amount.toLocaleString('en-US')}`} </Row>
+                  <Row>{coin.pl_precentage.toFixed(2)}% </Row>
+                </Col>
+                <Col>
+                &nbsp;<BsPlusLg/> &nbsp;<BsArrowLeftRight/> &nbsp;<BsTrash/>
                 </Col>
             </Row>
         </ListGroup.Item>
+        
     ))
 }
 
@@ -64,7 +85,37 @@ const PortfolioIndex = (props) => {
 
   return (
     <>
-      <h1 className='logo'>Portfolio</h1>
+
+      <ListGroup style={{width:'68%'}}>
+        <ListGroup.Item>
+          <Row style={{fontWeight:'bold'}}>
+            <Col>
+            Name
+            </Col>
+            <Col>
+            Price
+            </Col>
+            <Col>
+            24H
+            </Col>
+            <Col>
+            Holdings
+            </Col>
+            <Col>
+            Avg. Buy Price
+            </Col>
+            <Col>
+            Profit/Loss
+            </Col>
+            <Col>
+            Actions
+            </Col>
+          </Row>
+        </ListGroup.Item>
+        {assetsDisplay}
+
+      </ListGroup>
+      <Link to="/transaction">Transactions!</Link>
     </>
   )
 }
