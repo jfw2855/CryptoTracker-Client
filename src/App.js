@@ -15,6 +15,8 @@ import ChangePassword from './components/auth/ChangePassword'
 import PortfolioIndex from './components/portfolio/PortfolioIndex'
 import CryptoShow from './components/cryptos/CryptoShow'
 import FavoritesIndex from './components/favorites/FavoritesIndex'
+import TransactionIndex from './components/portfolio/TransactionIndex'
+
 
 const App = () => {
 
@@ -76,6 +78,13 @@ const App = () => {
             element={
               <RequireAuth user={user}>
                 <PortfolioIndex msgAlert={msgAlert} user={user} />
+              </RequireAuth>}
+					/>
+          <Route
+            path='/transaction'
+            element={
+              <RequireAuth user={user}>
+                <TransactionIndex msgAlert={msgAlert} user={user} />
               </RequireAuth>}
 					/>
           <Route
