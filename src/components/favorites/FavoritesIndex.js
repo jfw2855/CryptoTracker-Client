@@ -47,7 +47,25 @@ const FavoritesIndex = (props) => {
 
 
 
-       
+        if (favorites == null) {
+                return<Spinner animation="border" className role="status">
+                <span className="visually-hidden">Loading</span>
+                </Spinner>
+            }
+    //    else if (favorites.data.favorites.length > 0) {            
+    //         const favoriteData = getSeveral(query)
+    //         console.log('the coins', favoriteData)
+    //         setMData(favoriteData)
+    //     }
+        else if (favorites.data.favorites.length === 0) {
+            return (
+                <h1>No favorites!</h1>
+            )
+    }
+    
+    
+    // console.log when you know favs are empty, vs when there are favs vs waiting for a response
+    // if empty load "add favorites"
     
     
     if (!mData) {
