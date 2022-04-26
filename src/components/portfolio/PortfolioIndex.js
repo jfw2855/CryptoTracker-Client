@@ -28,8 +28,13 @@ const PortfolioIndex = (props) => {
 
       // updates the response data with average price and quantity of assets
       for (let i in respMData.data) {
-        respMData.data[i].avgPrice = respCoins[i].avgPrice
-        respMData.data[i].quantity = respCoins[i].quantity
+        //currCoin == current coin
+        let currCoin =respMData.data[i]
+        currCoin.avgPrice = respCoins[i].avgPrice
+        currCoin.quantity = respCoins[i].quantity
+        // adds profit loss amount and precentage to currCoin object; pl == profit loss
+        currCoin.pl_amount =(((currCoin.current_price/currCoin.avgPrice)-1))*currCoin.current_price
+        currCoin.pl_precentage = (((currCoin.current_price/currCoin.avgPrice)-1))*100
       }
       setMData(respMData.data)
     }
@@ -47,13 +52,26 @@ const PortfolioIndex = (props) => {
 
     assetsDisplay = mData.map( (coin,index) => ( 
         <ListGroup.Item key={coin._id}>
-            <Row>
+            <Row style={{alignItems:'center'}}>
                 <Col>
-                    <span>{coin.coinGeckId}</span>
+                <img src={coin.image} alt={coin.name} width={25} style={{backgroundColor:"white"}}/> <strong>{coin.name}</strong> {coin.symbol.toUpperCase()}
                 </Col>
                 <Col>
+                ${coin.current_price>1?coin.current_price.toLocaleString('en-US'):coin.current_price.toPrecision(4)}
                 </Col>
                 <Col>
+                <span style={coin.price_change_percentage_24h>0?{color:'green'}:{color:"red"}}>{coin.price_change_percentage_24h.toFixed(2)}%</span>
+                </Col>
+                <Col>
+                {coin.quantity}
+                </Col>
+                <Col>
+                ${coin.avgPrice>1?coin.avgPrice.toLocaleString('en-US'):coin.avgPrice.toPrecision(4)}
+                </Col>
+                <Col style={((coin.current_price/coin.avgPrice)-1)*100>0?{color:'green'}:{color:"red"}}>
+                  <Row>${((((coin.current_price/coin.avgPrice)-1))*coin.current_price).toFixed(2)} </Row>
+                  <Row>{(((coin.current_price/coin.avgPrice)-1)*100).toFixed(2)}% </Row>
+                {/* ${((coin.current_price/coin.avgPrice)-1)*100>0?coin.avgPrice.toLocaleString('en-US'):coin.avgPrice.toPrecision(4)} */}
                 </Col>
             </Row>
         </ListGroup.Item>
@@ -65,7 +83,34 @@ const PortfolioIndex = (props) => {
 
   return (
     <>
-      
+
+      <ListGroup style={{color:"white"}}>
+        <Row>
+          <Col>
+          Name
+          </Col>
+          <Col>
+          Price
+          </Col>
+          <Col>
+          24H
+          </Col>
+          <Col>
+          Holdings
+          </Col>
+          <Col>
+          AvgPrice
+          </Col>
+          <Col>
+          Profit/Loss
+          </Col>
+          <Col>
+          Actions
+          </Col>
+        </Row>
+        {assetsDisplay}
+
+      </ListGroup>
       <Link to="/transaction">Transactions!</Link>
     </>
   )
