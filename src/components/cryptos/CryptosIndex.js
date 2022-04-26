@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getCryptos } from '../../api/cryptos'
-import { Card } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
-import { Spinner } from 'react-bootstrap'
+import { Spinner, Card } from 'react-bootstrap'
 
 const cardContainerLayout = {
     display: 'flex',

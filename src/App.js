@@ -14,6 +14,7 @@ import SignOut from './components/auth/SignOut'
 import ChangePassword from './components/auth/ChangePassword'
 import PortfolioIndex from './components/portfolio/PortfolioIndex'
 import CryptoShow from './components/cryptos/CryptoShow'
+import FavoritesIndex from './components/favorites/FavoritesIndex'
 
 const App = () => {
 
@@ -75,6 +76,13 @@ const App = () => {
             element={
               <RequireAuth user={user}>
                 <PortfolioIndex msgAlert={msgAlert} user={user} />
+              </RequireAuth>}
+					/>
+          <Route
+            path='/favorites'
+            element={
+              <RequireAuth user={user}>
+                <FavoritesIndex msgAlert={msgAlert} user={user} />
               </RequireAuth>}
 					/>
           <Route
