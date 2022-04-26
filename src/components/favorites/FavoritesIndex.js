@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { getAllFavorites } from '../../api/favorites'
-import { Spinner, Card } from 'react-bootstrap'
-import { showCrypto } from '../../api/cryptos'
+import { Spinner, Card, Button, Form } from 'react-bootstrap'
+import { getSeveral } from '../../api/cryptos'
+import { Link, useNavigate } from 'react-router-dom'
+ import { BsFillTrashFill } from "react-icons/bs";
+import { deleteFavorite } from '../../api/favorites';
+
 
 const cardContainerLayout = {
     display: 'flex',
@@ -10,60 +14,78 @@ const cardContainerLayout = {
 }
 
 const FavoritesIndex = (props) => {
-
-//   const navigate = useNavigate()
-
-  const [favorites, setFavorites] = useState(null)
-    const { user } = props
     
-  useEffect(() => {
-    getAllFavorites(user)
-      .then((res) => {
-        setFavorites(res.data.favorites)
-        // console.log(res.data)
-      })
-      .catch((err) => console.log(err))
-  }, [])
-    console.log('the favorites', favorites)
-
+    //   const navigate = useNavigate()
     
-        if (!favorites) {
-            return<Spinner animation="border" role="status">
+    const [favorites, setFavorites] = useState(null)
+    const [mData, setMData] = useState(null)
+    const [updated, setUpdated] = useState(false)
+
+    let coins = []
+    let query = ''
+    const { user } = props    
+    useEffect(() => {
+        const fetchData = async() => {
+            const getFavs = await getAllFavorites(user)
+            setFavorites(getFavs)
+            // console.log('getFavs', getFavs)
+                getFavs.data.favorites.map((crypto) => {
+                    coins.push(crypto.coinGeckId)
+                    query = coins.join().replace(',', '%2C')
+                    // console.log('the coins', crypto.coinGeckId)
+                })
+                console.log('favorites in use effect', favorites)           
+                const favoriteData = await getSeveral(query)
+                console.log('the coins', favoriteData)
+                setMData(favoriteData)
+            setUpdated(false)
+        }
+        fetchData()
+    }, [updated])
+    
+    console.log('favorites when null', favorites)
+
+
+
+       
+    
+    
+    if (!mData) {
+        return<Spinner animation="border" role="status">
             <span className="visually-hidden">Loading</span>
           </Spinner>
     } 
     
-
-    let coins = []
-        favorites.map((crypto) => {
-            showCrypto(crypto.coinGeckId)
-            coins.push(crypto.coinGeckId)
-        // console.log('the coins', crypto.coinGeckId)
-    })
-    console.log('the coins', coins)
     
     
     
-    
-    
-//     let favoriteCards = cryptos.map((crypto) => (
-//         <Card key={crypto.id} style={{ width: '30%' }} className="text-centered m-2">
-//         <Card.Header>{crypto.name} ({crypto.symbol})</Card.Header>
-//         <Card.Body>
-//         <img src={crypto.image} alt={crypto.name} />
-//       </Card.Body>
-//       <Card.Footer>
-//         Price: ${crypto.current_price}
-//         <Link style={{color : "black"}} to={`/crypto/${crypto.id}`}>View Coin</Link>
-//       </Card.Footer>
-//     </Card>
-//   ))
+    console.log('market favortie data', mData)
+    let favoriteCards = mData.data.map((crypto) => (
+        <Card key={crypto.id} style={{ width: '30%' }} className="text-centered m-2">
+        <Card.Header>{crypto.name} ({crypto.symbol})</Card.Header>
+        <Card.Body>
+        <img src={crypto.image} alt={crypto.name} />
+      </Card.Body>
+      <Card.Footer>
+        Price: ${crypto.current_price}
+                <Link style={{ color: "black" }} to={`/crypto/${crypto.id}`}>View Coin</Link>
+                <Form onClick={(e) => handleDelete(e, crypto.id)}>                  
+                    <Button type="button" variant="danger">
+                        <BsFillTrashFill fontSize="18px" />
+                    </Button>
+                </Form>
+      </Card.Footer>
+    </Card>
+  ))
 
   
 
   return (
     <>
-      <h1 className='logo'>Top Cryptos</h1>
+          <h1 className='logo'>Your Favorites</h1>
+          <div style={cardContainerLayout}>
+            {favoriteCards}
+        </div>
     </>
   )
 }
