@@ -64,6 +64,17 @@ const FavoritesIndex = (props) => {
     }
     
     
+    const handleDelete = (e, favoritesId) => {
+        e.preventDefault()
+        
+        deleteFavorite(user, favoritesId)
+        .then(() => setUpdated(true))
+        .catch((err) => console.log(err))
+        
+        
+        
+    }
+    
     // console.log when you know favs are empty, vs when there are favs vs waiting for a response
     // if empty load "add favorites"
     
