@@ -73,8 +73,6 @@ const CryptoShow = (props) => {
 
     setHistory(plot_data)
   }
-
-  
     if (!history) {
         return<Spinner animation="border" role="status">
         <span className="visually-hidden">Loading</span>
@@ -110,6 +108,7 @@ const CryptoShow = (props) => {
               <span>Market Cap</span><br />
               <h1>
               ${crypto.market_data.market_cap.usd.toLocaleString()}
+              
               </h1>
             </Col>
           </Row>
