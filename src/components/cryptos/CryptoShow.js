@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { Form, Spinner, Row, Col, Accordion, Button } from 'react-bootstrap'
 import Plot from 'react-plotly.js';
 import CryptoGraph from './CryptoGraph';
-import { createFavorite, getAllFavorites, deleteFavorite } from '../../api/favorites';
+import { createFavorite, getAFavorite, deleteFavorite } from '../../api/favorites';
 import { BsFillStarFill } from "react-icons/bs";
 
 
@@ -21,7 +21,7 @@ const CryptoShow = (props) => {
   // const { state } = useLocation()
   useEffect(() => {
     const fetchData = async () => {
-      const checkFav = await getAllFavorites(user, id)
+      const checkFav = await getAFavorite(user, id)
       console.log('check fav data', checkFav.data.favorites)
       if (checkFav.data.favorites.length > 0) {
         setFav(true)
