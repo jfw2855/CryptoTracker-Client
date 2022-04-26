@@ -1,7 +1,7 @@
-import { queryByAltText } from '@testing-library/react'
-import React, { useState, useEffect, useCallback } from 'react'
-import { Form, Container, Button, Card, Link, Row, Col, ListGroup } from 'react-bootstrap'
+import React, { useState, useEffect} from 'react'
+import {Row, Col, ListGroup } from 'react-bootstrap'
 import { viewPortfolio, getPData } from '../../api/portfolio'
+import { Link } from 'react-router-dom'
 
 
 const PortfolioIndex = (props) => {
@@ -57,6 +57,7 @@ const PortfolioIndex = (props) => {
                 </Col>
             </Row>
         </ListGroup.Item>
+        
     ))
 }
 
@@ -64,7 +65,8 @@ const PortfolioIndex = (props) => {
 
   return (
     <>
-      <h1 className='logo'>Portfolio</h1>
+      
+      <Link to="/transaction">Transactions!</Link>
     </>
   )
 }
