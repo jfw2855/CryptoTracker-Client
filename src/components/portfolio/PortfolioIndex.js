@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react'
 import {Row, Col, ListGroup } from 'react-bootstrap'
 import { viewPortfolio, getPData } from '../../api/portfolio'
 import { Link } from 'react-router-dom'
-
+import {BsPlusLg,BsArrowLeftRight,BsTrash} from 'react-icons/bs'
 
 const PortfolioIndex = (props) => {
 
@@ -68,10 +68,12 @@ const PortfolioIndex = (props) => {
                 <Col>
                 ${coin.avgPrice>1?coin.avgPrice.toLocaleString('en-US'):coin.avgPrice.toPrecision(4)}
                 </Col>
-                <Col style={((coin.current_price/coin.avgPrice)-1)*100>0?{color:'green'}:{color:"red"}}>
-                  <Row>${((((coin.current_price/coin.avgPrice)-1))*coin.current_price).toFixed(2)} </Row>
-                  <Row>{(((coin.current_price/coin.avgPrice)-1)*100).toFixed(2)}% </Row>
-                {/* ${((coin.current_price/coin.avgPrice)-1)*100>0?coin.avgPrice.toLocaleString('en-US'):coin.avgPrice.toPrecision(4)} */}
+                <Col style={coin.pl_precentage>0?{color:'green'}:{color:"red"}}>
+                  <Row>{coin.pl_amount>0?`+${coin.pl_amount.toLocaleString('en-US', {style:'currency',currency:'USD'})}`:`-${coin.pl_amount.toLocaleString('en-US')}`} </Row>
+                  <Row>{coin.pl_precentage.toFixed(2)}% </Row>
+                </Col>
+                <Col>
+                &nbsp;<BsPlusLg/> &nbsp;<BsArrowLeftRight/> &nbsp;<BsTrash/>
                 </Col>
             </Row>
         </ListGroup.Item>
@@ -84,30 +86,32 @@ const PortfolioIndex = (props) => {
   return (
     <>
 
-      <ListGroup style={{color:"white"}}>
-        <Row>
-          <Col>
-          Name
-          </Col>
-          <Col>
-          Price
-          </Col>
-          <Col>
-          24H
-          </Col>
-          <Col>
-          Holdings
-          </Col>
-          <Col>
-          AvgPrice
-          </Col>
-          <Col>
-          Profit/Loss
-          </Col>
-          <Col>
-          Actions
-          </Col>
-        </Row>
+      <ListGroup style={{width:'68%'}}>
+        <ListGroup.Item>
+          <Row style={{fontWeight:'bold'}}>
+            <Col>
+            Name
+            </Col>
+            <Col>
+            Price
+            </Col>
+            <Col>
+            24H
+            </Col>
+            <Col>
+            Holdings
+            </Col>
+            <Col>
+            Avg. Buy Price
+            </Col>
+            <Col>
+            Profit/Loss
+            </Col>
+            <Col>
+            Actions
+            </Col>
+          </Row>
+        </ListGroup.Item>
         {assetsDisplay}
 
       </ListGroup>
