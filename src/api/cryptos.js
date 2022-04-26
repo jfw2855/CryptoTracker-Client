@@ -5,7 +5,7 @@ import axios from 'axios'
 // GET top xxx cryptos
 export const getCryptos = () => {
   const searchUrl =
-    'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false'
+    'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
   const config = {
     method: 'get',
     url: searchUrl,
