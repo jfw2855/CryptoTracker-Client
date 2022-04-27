@@ -51,10 +51,10 @@ const PortfolioIndex = (props) => {
     //coinGeckId: 'meme', avgPrice: 500, quantity: 1
 
     assetsDisplay = mData.map( (coin,index) => ( 
-        <ListGroup.Item key={coin._id}>
+        <ListGroup.Item style={{backgroundColor:'lightgrey'}} key={coin._id}>
             <Row style={{alignItems:'center'}}>
-                <Col>
-                <img src={coin.image} alt={coin.name} width={25} style={{backgroundColor:"white"}}/> <strong>{coin.name}</strong> {coin.symbol.toUpperCase()}
+                <Col md={3}>
+                <img src={coin.image} alt={coin.name} width={25} style={{borderRadius:'50%'}}/> <strong>{coin.name}</strong> {coin.symbol.toUpperCase()}
                 </Col>
                 <Col>
                 ${coin.current_price>1?coin.current_price.toLocaleString('en-US'):coin.current_price.toPrecision(4)}
@@ -73,7 +73,7 @@ const PortfolioIndex = (props) => {
                   <Row>{coin.pl_precentage.toFixed(2)}% </Row>
                 </Col>
                 <Col>
-                &nbsp;<BsPlusLg/> &nbsp;<BsArrowLeftRight/> &nbsp;<BsTrash/>
+                &nbsp;<BsPlusLg/> &nbsp;&nbsp;<BsArrowLeftRight/> &nbsp;&nbsp;<BsTrash/>
                 </Col>
             </Row>
         </ListGroup.Item>
@@ -85,18 +85,18 @@ const PortfolioIndex = (props) => {
 
   return (
     <>
-
+      <button>Add to Portfolio</button>
       <ListGroup style={{width:'68%'}}>
-        <ListGroup.Item>
+        <ListGroup.Item style={{backgroundColor:'lightgrey'}}>
           <Row style={{fontWeight:'bold'}}>
-            <Col>
+            <Col md={3}>
             Name
             </Col>
             <Col>
             Price
             </Col>
             <Col>
-            24H
+            24H (%)
             </Col>
             <Col>
             Holdings
