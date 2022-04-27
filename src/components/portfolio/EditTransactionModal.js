@@ -1,3 +1,4 @@
+import { name } from 'plotly.js/lib/bar'
 import React, { useState } from 'react'
 import {Modal, Container, Form, Button} from 'react-bootstrap'
 
@@ -30,7 +31,7 @@ const EditTransactionModal = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-
+        console.log('users and transactions in hsSubmit', user, transaction)
         updateTransaction(user, transaction)
             .then(() => {
                 handleClose()
@@ -42,19 +43,22 @@ const EditTransactionModal = (props) => {
             console.log(err)
         })
     }
+    console.log('transaction in edit modal', transaction)
 
-console.log('transaction in edit modal', transaction)
-
-    //title edit transaction
-    //
 
     return (
-        <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton></Modal.Header>
+        <Modal show={show} onHide={handleClose} style={{color:'black'}}>
+            <Modal.Header closeButton style={{ color: 'black' }}>{ }</Modal.Header>
             <Modal.Body>
                 <Container className="justify-content-center">
-                    <h3>{transaction.coinGeckId}</h3>
-                    <Form onSubmit ={handleSubmit}>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Label>Quantity</Form.Label>
+                        <Form.Control 
+                            defaultValue={transaction.amount}
+                            name='amount'
+                            type='number'
+                            onChange={handleChange}
+                        />
                         <Button type='submit'>Update Transaction</Button>
                     </Form>
                 </Container>
