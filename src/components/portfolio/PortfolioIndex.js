@@ -33,6 +33,7 @@ const PortfolioIndex = (props) => {
         let currCoin =respMData.data[i]
         currCoin.avgPrice = respCoins[i].avgPrice
         currCoin.quantity = respCoins[i].quantity
+        currCoin.coinImg = currCoin.image
         // adds profit loss amount and precentage to currCoin object; pl == profit loss
         currCoin.pl_amount =(((currCoin.current_price/currCoin.avgPrice)-1))*currCoin.current_price
         currCoin.pl_precentage = (((currCoin.current_price/currCoin.avgPrice)-1))*100
@@ -75,7 +76,11 @@ const PortfolioIndex = (props) => {
                 </Col>
                 <Col>
                 &nbsp;<BsPlusLg/> &nbsp;&nbsp;
-                  <Link style={{ fontSize:'115%',textDecoration: 'none', color: 'indigo' }} to={`/transaction/${coin.id}`} state={{}}><BsArrowLeftRight/> 
+                  <Link 
+                    style={{ fontSize:'115%',textDecoration: 'none', color: 'indigo' }} 
+                    to={`/transaction/${coin.id}`} 
+                    state={{quantity:coin.quantity,currPrice:coin.current_price,daily:coin.price_change_percentage_24h,symbol:coin.symbol,avgBuy:coin.avgPrice,pl_amount:coin.pl_amount,pl_precentage:coin.pl_precentage,img:coin.coinImg,name:coin.name}}>
+                      <BsArrowLeftRight/> 
                   </Link>
                   &nbsp;&nbsp;<BsTrash/>
                 </Col>

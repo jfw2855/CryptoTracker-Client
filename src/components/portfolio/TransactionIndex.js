@@ -1,22 +1,28 @@
 import { queryByAltText } from '@testing-library/react'
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
-import { viewTransactions } from '../../api/transaction'
+import { viewTransactions,updateTransaction } from '../../api/transaction'
 import { Spinner, ListGroup, Row, Col} from 'react-bootstrap'
 import {BsTrash,BsPencilFill} from 'react-icons/bs'
+import EditTransactionModal from './EditTransactionModal'
+
 
 
 const TransactionIndex = (props) => {
   const {coin} = useParams()
   const { user,msgAlert} = props
   const [transactions,setTransactions] = useState(null)
-  let transactionsDisplay 
+  const [modalOpen,setModalOpen] = useState(false)
+  const [updated, setUpdated] = useState(false)
+  let transactionsDisplay
+  const location = useLocation()
+  const {quantity,currPrice,daily,symbol,avgBuy,pl_amount,pl_precentage,img,name}=location.state
 
+  console.log('name?',pl_precentage,img,name)
 // USE EFFECT PSEUDOCODE
 // fetch data from transaction of specific coin (backend server)
-// fetch data from assets of coin (backend server)
-// fetch current market data of coin (external api)
-
+// fetch data from assets of coin (backend server) - provided by useLocation
+// fetch current market data of coin (external api) - provided by useLocation
 
   useEffect(() => {
     viewTransactions(user,coin)
@@ -42,9 +48,19 @@ const TransactionIndex = (props) => {
             {transaction.amount}
           </Col>
           <Col>
-            <BsPencilFill/> <BsTrash/>
+             <BsPencilFill type='button' onClick={() => setModalOpen(true)} /> 
+             <BsTrash/>
           </Col>
         </Row>
+        <EditTransactionModal
+          transaction={transaction}
+          show={modalOpen}
+          user={user}
+          msgAlert={msgAlert}
+          triggerRefresh={() => setUpdated(prev => !prev)}
+          updateTransaction={updateTransaction}
+          handleClose={() => setModalOpen(false)}
+        />
       </ListGroup.Item>
         
     ))
@@ -58,7 +74,13 @@ const TransactionIndex = (props) => {
   }
   return (
     <>
-
+    <img src={img} width={50}/>
+    <h5 style={{color:'white'}}>{name} ({symbol.toUpperCase()})</h5>
+    <p style={{color:'white'}}>24H: {daily.toFixed(2)}%</p>
+    <p style={{color:'white'}}>Balance: {(quantity*currPrice).toLocaleString('en-US', {style:'currency',currency:'USD'})}</p>
+    <p style={{color:'white'}}>Quantity: {quantity} {symbol.toUpperCase()} </p>
+    <p style={{color:'white'}}>Avg. Buy Price {avgBuy.toLocaleString('en-US', {style:'currency',currency:'USD'})}</p>
+    <p style={{color:'white'}}>P/L: {pl_amount.toLocaleString('en-US', {style:'currency',currency:'USD'})} {pl_precentage.toFixed(2)}%</p>
     <button>Add Transaction</button>
            <ListGroup style={{ width: '85%' }}>
         <ListGroup.Item>
@@ -78,8 +100,8 @@ const TransactionIndex = (props) => {
           </Row>
         </ListGroup.Item>
         {transactionsDisplay}
-        
       </ListGroup>
+      
     </>
   )
 }
