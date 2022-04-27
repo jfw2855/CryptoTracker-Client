@@ -6,7 +6,7 @@ export const viewTransactions = (user,coin) => {
     
     const config = {
       method: 'get',
-      url: `${apiUrl}/transactions/${coin}`,
+      url: `${apiUrl}/transaction/${coin}`,
       headers: {
           Authorization: `Token token=${user.token}`
       }
