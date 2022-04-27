@@ -1,15 +1,19 @@
 import { queryByAltText } from '@testing-library/react'
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
-import { viewTransactions } from '../../api/transaction'
+import { viewTransactions,updateTransaction } from '../../api/transaction'
 import { Spinner, ListGroup, Row, Col} from 'react-bootstrap'
 import {BsTrash,BsPencilFill} from 'react-icons/bs'
+import EditTransactionModal from './EditTransactionModal'
+
 
 
 const TransactionIndex = (props) => {
   const {coin} = useParams()
   const { user,msgAlert} = props
   const [transactions,setTransactions] = useState(null)
+  const [modalOpen,setModalOpen] = useState(false)
+  const [updated, setUpdated] = useState(false)
   let transactionsDisplay
   const location = useLocation()
   const {quantity,currPrice,daily,symbol,avgBuy,pl_amount,pl_precentage,img,name}=location.state
@@ -44,9 +48,19 @@ const TransactionIndex = (props) => {
             {transaction.amount}
           </Col>
           <Col>
-            <BsPencilFill/> <BsTrash/>
+             <BsPencilFill type='button' onClick={() => setModalOpen(true)} /> 
+             <BsTrash/>
           </Col>
         </Row>
+        <EditTransactionModal
+          transaction={transaction}
+          show={modalOpen}
+          user={user}
+          msgAlert={msgAlert}
+          triggerRefresh={() => setUpdated(prev => !prev)}
+          updateTransaction={updateTransaction}
+          handleClose={() => setModalOpen(false)}
+        />
       </ListGroup.Item>
         
     ))
@@ -86,8 +100,8 @@ const TransactionIndex = (props) => {
           </Row>
         </ListGroup.Item>
         {transactionsDisplay}
-        
       </ListGroup>
+      
     </>
   )
 }
