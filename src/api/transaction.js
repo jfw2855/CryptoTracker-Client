@@ -13,3 +13,18 @@ export const viewTransactions = (user,coin) => {
     }
     return axios(config)
   }
+
+
+// UPDATE -> updates a single transaction for a specific coin
+export const updateTransaction = (user,updatedTransaction) => {
+
+  const config = {
+    method: 'patch',
+    url: `${apiUrl}/transaction/tid/${updatedTransaction._id}`,
+    headers: {
+        Authorization: `Token token=${user.token}`
+    },
+    data: {transaction:updatedTransaction}
+  }
+  return axios(config)
+}
