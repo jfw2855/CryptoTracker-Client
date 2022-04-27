@@ -3,6 +3,7 @@ import {Row, Col, ListGroup } from 'react-bootstrap'
 import { viewPortfolio, getPData } from '../../api/portfolio'
 import { Link } from 'react-router-dom'
 import {BsPlusLg,BsArrowLeftRight,BsTrash} from 'react-icons/bs'
+import { viewTransactions } from '../../api/transaction'
 
 const PortfolioIndex = (props) => {
 
@@ -73,7 +74,10 @@ const PortfolioIndex = (props) => {
                   <Row>{coin.pl_precentage.toFixed(2)}% </Row>
                 </Col>
                 <Col>
-                &nbsp;<BsPlusLg/> &nbsp;&nbsp;<BsArrowLeftRight/> &nbsp;&nbsp;<BsTrash/>
+                &nbsp;<BsPlusLg/> &nbsp;&nbsp;
+                  <Link style={{ fontSize:'115%',textDecoration: 'none', color: 'indigo' }} to={`/transaction/${coin.id}`}><BsArrowLeftRight/> 
+                  </Link>
+                  &nbsp;&nbsp;<BsTrash/>
                 </Col>
             </Row>
         </ListGroup.Item>
