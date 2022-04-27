@@ -14,14 +14,13 @@ const TransactionIndex = (props) => {
   const [transactions,setTransactions] = useState(null)
   const [modalOpen,setModalOpen] = useState(false)
   const [updated, setUpdated] = useState(false)
-  const [selected, setSelected] = useState(null)
-  const [num, setNum] = useState(0)
-  
+  const [num, setNum] = useState(null)
+  let editModal
   let transactionsDisplay
   const location = useLocation()
   const {quantity,currPrice,daily,symbol,avgBuy,pl_amount,pl_precentage,img,name}=location.state
 
-  console.log('name?',pl_precentage,img,name)
+
 // USE EFFECT PSEUDOCODE
 // fetch data from transaction of specific coin (backend server)
 // fetch data from assets of coin (backend server) - provided by useLocation
@@ -31,7 +30,6 @@ const TransactionIndex = (props) => {
     viewTransactions(user,coin)
       .then((res) => {
         setUpdated(false)
-        setSelected(res.data.transaction[+num])
         setTransactions(res.data.transaction) 
       })
       .catch((err) => console.log(err))
@@ -39,18 +37,16 @@ const TransactionIndex = (props) => {
     
   const handleEdit = (e, transaction, index) => {
     setNum(index)
-    setUpdated(true)
-      setSelected(transaction)
-      const handleOpen = () => {
-        setModalOpen(true)
-      }
-      handleOpen()
+    setModalOpen()
+    const handleOpen = () => {
+      setModalOpen(true)
     }
-    
+    handleOpen()
+    }
     
   
     if (transactions && transactions.length > 0) {
-      console.log('selected', selected)
+      
       transactionsDisplay = transactions.map((transaction, index) => (
         <ListGroup.Item key={transaction._id}>
       
@@ -73,10 +69,25 @@ const TransactionIndex = (props) => {
         )) 
       }
       
+      if (num !== null) {
+        editModal = <EditTransactionModal
+            transaction={transactions[num]}
+            show={modalOpen}
+            user={user}
+            msgAlert={msgAlert}
+            triggerRefresh={() => setUpdated(prev => !prev)}
+            updateTransaction={updateTransaction}
+            handleClose={() => {
+              setModalOpen(false)
+              setNum(null)
+            }}
+          />  
+      } 
       if (!transactions) {
         return <Spinner animation="border" role="status">
       <span className="visually-hidden">Loading</span>
     </Spinner>
+
   }
   return (
     <>
@@ -107,15 +118,7 @@ const TransactionIndex = (props) => {
         </ListGroup.Item>
         {transactionsDisplay}
       </ListGroup>
-<EditTransactionModal
-transaction={selected}
-show={modalOpen}
-user={user}
-msgAlert={msgAlert}
-triggerRefresh={() => setUpdated(prev => !prev)}
-updateTransaction={updateTransaction}
-handleClose={() => setModalOpen(false)}
-/>  
+      {editModal}
     </>
   )
 }
