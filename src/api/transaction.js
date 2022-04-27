@@ -17,7 +17,7 @@ export const viewTransactions = (user,coin) => {
 
 // UPDATE -> updates a single transaction for a specific coin
 export const updateTransaction = (user,updatedTransaction) => {
-
+  console.log('updatedTransaction', updatedTransaction)
   const config = {
     method: 'patch',
     url: `${apiUrl}/transaction/tid/${updatedTransaction._id}`,
