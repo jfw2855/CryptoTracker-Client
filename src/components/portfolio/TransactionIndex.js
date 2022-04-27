@@ -2,7 +2,7 @@ import { queryByAltText } from '@testing-library/react'
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 import { viewTransactions,updateTransaction } from '../../api/transaction'
-import { Spinner, ListGroup, Row, Col} from 'react-bootstrap'
+import { Spinner, ListGroup, Row, Col, Button} from 'react-bootstrap'
 import {BsTrash,BsPencilFill} from 'react-icons/bs'
 import EditTransactionModal from './EditTransactionModal'
 
@@ -31,7 +31,7 @@ const TransactionIndex = (props) => {
         setTransactions(res.data.transaction)
       })
       .catch((err) => console.log(err))
-  }, [])
+  }, [updated])
 
   if (transactions && transactions.length>0) {
     transactionsDisplay = transactions.map(transaction => (
@@ -48,7 +48,7 @@ const TransactionIndex = (props) => {
             {transaction.amount}
           </Col>
           <Col>
-             <BsPencilFill type='button' onClick={() => setModalOpen(true)} /> 
+             <BsPencilFill type='button' onClick={() => setModalOpen(true)}/> 
              <BsTrash/>
           </Col>
         </Row>
