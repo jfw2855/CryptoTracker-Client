@@ -3,7 +3,7 @@ import {Row, Col, ListGroup } from 'react-bootstrap'
 import { viewPortfolio, getPData } from '../../api/portfolio'
 import { Link } from 'react-router-dom'
 import {BsPlusLg,BsArrowLeftRight,BsTrash} from 'react-icons/bs'
-import { viewTransactions } from '../../api/transaction'
+
 
 const PortfolioIndex = (props) => {
 
@@ -75,7 +75,7 @@ const PortfolioIndex = (props) => {
                 </Col>
                 <Col>
                 &nbsp;<BsPlusLg/> &nbsp;&nbsp;
-                  <Link style={{ fontSize:'115%',textDecoration: 'none', color: 'indigo' }} to={`/transaction/${coin.id}`}><BsArrowLeftRight/> 
+                  <Link style={{ fontSize:'115%',textDecoration: 'none', color: 'indigo' }} to={`/transaction/${coin.id}`} state={{}}><BsArrowLeftRight/> 
                   </Link>
                   &nbsp;&nbsp;<BsTrash/>
                 </Col>
