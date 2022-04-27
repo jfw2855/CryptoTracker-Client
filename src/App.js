@@ -81,7 +81,7 @@ const App = () => {
               </RequireAuth>}
 					/>
           <Route
-            path='/transaction'
+            path='/transaction/:coin'
             element={
               <RequireAuth user={user}>
                 <TransactionIndex msgAlert={msgAlert} user={user} />
