@@ -1,7 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { getCryptos } from '../../api/cryptos'
 import { Link, useNavigate } from 'react-router-dom'
-import { Spinner, Card, Row, Col, ListGroup } from 'react-bootstrap'
+import { Spinner, Card, Row, Col, ListGroup, Button } from 'react-bootstrap'
+import { BsStar } from "react-icons/bs";
 
 const cardContainerLayout = {
     display: 'flex',
@@ -37,8 +38,10 @@ const CryptosIndex = () => {
       <ListGroup.Item key={crypto._id}>
         <Link style={{ textDecoration: 'none', color: 'black' }} to={`/crypto/${crypto.id}`}>
         <Row style={{ alignItems: 'center' }}>
-          <Col>
-            {crypto.market_cap_rank}
+            <Col>
+
+              <BsStar fontSize="14px" />
+          <span style={{marginLeft: 5}}>{crypto.market_cap_rank}</span>
           </Col>
           <Col>
             <img src={crypto.image} alt={crypto.name} width={25} style={{ backgroundColor: "white" }} /> <strong>{crypto.name}</strong> {crypto.symbol.toUpperCase()}
