@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom'
 import {BsPlusLg,BsArrowLeftRight,BsTrash} from 'react-icons/bs'
 import CreateCoinModal from './CreateCoinModal'
 import { createCoin } from '../../api/coin'
+import CreateTransactionModal from './CreateTransactionModal'
+import { createTransaction } from '../../api/transaction'
 
 const PortfolioIndex = (props) => {
 
@@ -83,7 +85,7 @@ const PortfolioIndex = (props) => {
                   <Row>{coin.pl_precentage.toFixed(2)}% </Row>
                 </Col>
                 <Col>
-                &nbsp;<BsPlusLg/> &nbsp;&nbsp;
+                &nbsp;<BsPlusLg type='button' onClick={handleCreate}/> &nbsp;&nbsp;
                   <Link 
                     style={{ fontSize:'115%',textDecoration: 'none', color: 'indigo' }} 
                     to={`/transaction/${coin.id}`} 
@@ -140,7 +142,17 @@ const PortfolioIndex = (props) => {
         handleClose={() => {
               setCreateOpen(false)
             }}
-            />
+      />
+      <CreateTransactionModal
+            show={createOpen}
+            user={user}
+            msgAlert={msgAlert}
+            triggerRefresh={() => setUpdated(prev => !prev)}
+            createTransaction={createTransaction}
+            handleClose={() => {
+              setCreateOpen(false)
+            }}
+          />
       <Link to="/transaction">Transactions!</Link>
     </>
   )
