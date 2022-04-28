@@ -20,7 +20,7 @@ const CreateCoinModal = (props) => {
             }
 
 
-            const updatedValue = { [name]: value }
+            const updatedValue = { [name]: value.toLowerCase() }
 
             console.log('prevTrans', prevCoin)
             console.log('updatedValue', updatedValue)
