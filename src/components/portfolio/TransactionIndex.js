@@ -1,11 +1,12 @@
 import { queryByAltText } from '@testing-library/react'
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
-import { viewTransactions,updateTransaction,removeTransaction, createTransaction } from '../../api/transaction'
+import { viewTransactions,updateTransaction,removeTransaction, createTransaction,showCoinPurchases } from '../../api/transaction'
 import { Spinner, ListGroup, Row, Col, Button} from 'react-bootstrap'
 import {BsTrash,BsPencilFill} from 'react-icons/bs'
 import EditTransactionModal from './EditTransactionModal'
 import CreateTransactionModal from './CreateTransactionModal'
+import { addCoinAsset } from '../../api/coin'
 
 
 
@@ -135,6 +136,8 @@ const TransactionIndex = (props) => {
             msgAlert={msgAlert}
             triggerRefresh={() => setUpdated(prev => !prev)}
             createTransaction={createTransaction}
+            showCoinPurchases={showCoinPurchases}
+            addCoinAsset = {addCoinAsset}
             handleClose={() => {
               setCreateOpen(false)
             }}
