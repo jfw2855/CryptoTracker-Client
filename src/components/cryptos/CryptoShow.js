@@ -22,7 +22,7 @@ const CryptoShow = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       const checkFav = await getAFavorite(user, id)
-      console.log('check fav data', checkFav.data.favorites)
+      // console.log('check fav data', checkFav.data.favorites)
       if (checkFav.data.favorites.length > 0) {
         setFav(true)
       } else {
@@ -78,7 +78,7 @@ const CryptoShow = (props) => {
         <span className="visually-hidden">Loading</span>
       </Spinner>
     } 
-
+console.log('show page data', crypto)
   return (
    
     <div className="container show">
