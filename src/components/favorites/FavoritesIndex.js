@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { getAllFavorites } from '../../api/favorites'
+import { getAllFavorites, deleteFavorite } from '../../api/favorites'
 import { Spinner, Card, Button, Form } from 'react-bootstrap'
 import { getSeveral } from '../../api/cryptos'
 import { Link, useNavigate } from 'react-router-dom'
- import { BsFillTrashFill } from "react-icons/bs";
-import { deleteFavorite } from '../../api/favorites';
+import { BsFillTrashFill } from "react-icons/bs";
 
 
 const cardContainerLayout = {
@@ -69,10 +68,7 @@ const FavoritesIndex = (props) => {
         
         deleteFavorite(user, favoritesId)
         .then(() => setUpdated(true))
-        .catch((err) => console.log(err))
-        
-        
-        
+        .catch((err) => console.log(err))   
     }
     
     // console.log when you know favs are empty, vs when there are favs vs waiting for a response

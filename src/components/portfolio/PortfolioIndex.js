@@ -3,13 +3,19 @@ import {Row, Col, ListGroup } from 'react-bootstrap'
 import { viewPortfolio, getPData } from '../../api/portfolio'
 import { Link } from 'react-router-dom'
 import {BsPlusLg,BsArrowLeftRight,BsTrash} from 'react-icons/bs'
-
+import CreateCoinModal from './CreateCoinModal'
+import { createCoin, deleteCoin } from '../../api/coin'
+import CreateTransactionModal from './CreateTransactionModal'
+import { createTransaction } from '../../api/transaction'
 
 const PortfolioIndex = (props) => {
 
   const [assets,setAssets] = useState(null)
   // mData == Market Data -> state var to set current market data of user's assets
-  const [mData,setMData] = useState(null)
+  const [mData, setMData] = useState(null)
+  const [createOpen, setCreateOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [updated, setUpdated] = useState(false)
   const { user,msgAlert} = props
   let assetsDisplay = null
   let query = ""
@@ -41,7 +47,19 @@ const PortfolioIndex = (props) => {
       setMData(respMData.data)
     }
     fetchData()
-  }, [])
+  }, [updated])
+
+  const handleCreate = (e) => {
+    setCreateOpen(true)
+  }
+
+      const handleDelete = (e, coinGeckId) => {
+        e.preventDefault()
+        
+        deleteCoin(user, coinGeckId)
+        .then(() => setUpdated(true))
+        .catch((err) => console.log(err))   
+    }
   
   if(!mData) {
     return <p>Loading...</p>
@@ -75,14 +93,14 @@ const PortfolioIndex = (props) => {
                   <Row>{coin.pl_precentage.toFixed(2)}% </Row>
                 </Col>
                 <Col>
-                &nbsp;<BsPlusLg/> &nbsp;&nbsp;
+                &nbsp;<BsPlusLg type='button' onClick={handleCreate}/> &nbsp;&nbsp;
                   <Link 
                     style={{ fontSize:'115%',textDecoration: 'none', color: 'indigo' }} 
                     to={`/transaction/${coin.id}`} 
                     state={{quantity:coin.quantity,currPrice:coin.current_price,daily:coin.price_change_percentage_24h,symbol:coin.symbol,avgBuy:coin.avgPrice,pl_amount:coin.pl_amount,pl_precentage:coin.pl_precentage,img:coin.coinImg,name:coin.name}}>
                       <BsArrowLeftRight/> 
                   </Link>
-                  &nbsp;&nbsp;<BsTrash/>
+                  &nbsp;&nbsp;<BsTrash type='button' onClick={(e) => handleDelete(e, coin.id)}/>
                 </Col>
             </Row>
         </ListGroup.Item>
@@ -94,7 +112,7 @@ const PortfolioIndex = (props) => {
 
   return (
     <>
-      <button>Add to Portfolio</button>
+      <button onClick={handleCreate}>Add to Portfolio</button>
       <ListGroup style={{width:'68%'}}>
         <ListGroup.Item style={{backgroundColor:'lightgrey'}}>
           <Row style={{fontWeight:'bold'}}>
@@ -124,6 +142,25 @@ const PortfolioIndex = (props) => {
         {assetsDisplay}
 
       </ListGroup>
+      <CreateCoinModal
+        show={createOpen}
+        user={user}
+        triggerRefresh={() => setUpdated(prev => !prev)}
+        createCoin={createCoin}
+        handleClose={() => {
+              setCreateOpen(false)
+            }}
+      />
+      <CreateTransactionModal
+            show={createOpen}
+            user={user}
+            msgAlert={msgAlert}
+            triggerRefresh={() => setUpdated(prev => !prev)}
+            createTransaction={createTransaction}
+            handleClose={() => {
+              setCreateOpen(false)
+            }}
+          />
       <Link to="/transaction">Transactions!</Link>
     </>
   )

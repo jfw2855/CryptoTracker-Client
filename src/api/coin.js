@@ -1,6 +1,19 @@
 import apiUrl from '../apiConfig'
 import axios from 'axios'
 
+
+
+export const deleteCoin = (user, coin) => {
+    console.log('coin to delete', coin)
+    return axios({
+        url: `${apiUrl}/coin/${coin}`,
+        method: 'DELETE',
+        headers: {
+            Authorization: `Token token=${user.token}`
+        },
+    })
+}
+
 // POST -> adds or updates coin in assets
 export const addCoinAsset = (user,coin) => {
 
@@ -14,3 +27,4 @@ export const addCoinAsset = (user,coin) => {
     }
     return axios(config)
   }
+

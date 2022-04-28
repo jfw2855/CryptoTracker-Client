@@ -24,6 +24,7 @@ export const getAFavorite = (user, coin) => {
     })
 }
 
+// DELETE -> deletes a single coin
 export const deleteFavorite = (user, coin) => {
     console.log('coin to delete', coin)
     return axios({
