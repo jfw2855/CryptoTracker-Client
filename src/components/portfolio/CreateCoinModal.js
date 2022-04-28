@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Modal, Container, Form, Button } from 'react-bootstrap'
 
 const CreateCoinModal = (props) => {
-    const { show, user, triggerRefresh, handleClose, createCoin } = props
+    const { show, user, triggerRefresh, handleClose, addCoinAsset } = props
     const [coin, setCoin] = useState("")
 
     const handleChange = (e) => {
@@ -32,7 +32,7 @@ const CreateCoinModal = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         console.log('users and transactions in hsSubmit', user, coin)
-        createCoin(user, coin)
+        addCoinAsset(user, coin)
             .then(() => {
                 handleClose()
             })
