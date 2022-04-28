@@ -28,3 +28,29 @@ export const updateTransaction = (user,updatedTransaction) => {
   }
   return axios(config)
 }
+
+// DELETE -> removes a single transaction for a specific coin
+export const removeTransaction = (user,transId) => {
+  const config = {
+    method: 'delete',
+    url: `${apiUrl}/transaction/tid/${transId._id}`,
+    headers: {
+        Authorization: `Token token=${user.token}`
+    }
+  }
+  return axios(config)
+}
+
+// POST -> creates a transaction
+export const createTransaction = (user,created) => {
+  console.log('this is api resp for created Transaction',created)
+  const config = {
+    method: 'post',
+    url: `${apiUrl}/transaction`,
+    headers: {
+      Authorization: `Token token=${user.token}`
+    },
+    data: {transaction: created}
+  }
+  return axios(config)
+}

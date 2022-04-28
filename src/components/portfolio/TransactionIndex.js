@@ -1,10 +1,11 @@
 import { queryByAltText } from '@testing-library/react'
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
-import { viewTransactions,updateTransaction } from '../../api/transaction'
+import { viewTransactions,updateTransaction,removeTransaction, createTransaction } from '../../api/transaction'
 import { Spinner, ListGroup, Row, Col, Button} from 'react-bootstrap'
 import {BsTrash,BsPencilFill} from 'react-icons/bs'
 import EditTransactionModal from './EditTransactionModal'
+import CreateTransactionModal from './CreateTransactionModal'
 
 
 
@@ -13,6 +14,7 @@ const TransactionIndex = (props) => {
   const { user,msgAlert } = props
   const [transactions,setTransactions] = useState(null)
   const [modalOpen,setModalOpen] = useState(false)
+  const [createOpen,setCreateOpen] = useState(false)
   const [updated, setUpdated] = useState(false)
   const [num, setNum] = useState(null)
   let editModal
@@ -30,7 +32,7 @@ const TransactionIndex = (props) => {
     viewTransactions(user,coin)
       .then((res) => {
         setUpdated(false)
-        setTransactions(res.data.transaction) 
+        setTransactions(res.data.transaction)
       })
       .catch((err) => console.log(err))
     }, [updated])
@@ -43,50 +45,58 @@ const TransactionIndex = (props) => {
     }
     handleOpen()
     }
+
+  const handleCreate = (e) => {
+    setCreateOpen(true)
+  }
     
-  
-    if (transactions && transactions.length > 0) {
+  const handleDelete = async (e,transId) => {
+    await removeTransaction(user,transId)
+    setUpdated(true)
+  }
+
+  if (transactions && transactions.length > 0) {
+    
+    transactionsDisplay = transactions.map((transaction, index) => (
+      <ListGroup.Item key={transaction._id}>
+    
+      <Row style={{ alignItems: 'center' }}>
+        <Col>
+          {transaction.type}
+        </Col>
+        <Col>
+          {transaction.price}
+        </Col>
+        <Col>
+          {transaction.amount}
+        </Col>
+        <Col>
+            <BsPencilFill type='button' onClick={(e) => handleEdit(e, transaction, index)}/> 
+            <BsTrash type='button' onClick={(e) => handleDelete(e,transaction)}/>
+        </Col>
+      </Row>
+    </ListGroup.Item>
+      )) 
+    }
       
-      transactionsDisplay = transactions.map((transaction, index) => (
-        <ListGroup.Item key={transaction._id}>
-      
-        <Row style={{ alignItems: 'center' }}>
-          <Col>
-            {transaction.type}
-          </Col>
-          <Col>
-            {transaction.price}
-          </Col>
-          <Col>
-            {transaction.amount}
-          </Col>
-          <Col>
-             <BsPencilFill type='button' onClick={(e) => handleEdit(e, transaction, index)}/> 
-             <BsTrash/>
-          </Col>
-        </Row>
-      </ListGroup.Item>
-        )) 
-      }
-      
-      if (num !== null) {
-        editModal = <EditTransactionModal
-            transaction={transactions[num]}
-            show={modalOpen}
-            user={user}
-            msgAlert={msgAlert}
-            triggerRefresh={() => setUpdated(prev => !prev)}
-            updateTransaction={updateTransaction}
-            handleClose={() => {
-              setModalOpen(false)
-              setNum(null)
-            }}
-          />  
-      } 
-      if (!transactions) {
-        return <Spinner animation="border" role="status">
-      <span className="visually-hidden">Loading</span>
-    </Spinner>
+  if (num !== null) {
+    editModal = <EditTransactionModal
+        transaction={transactions[num]}
+        show={modalOpen}
+        user={user}
+        msgAlert={msgAlert}
+        triggerRefresh={() => setUpdated(prev => !prev)}
+        updateTransaction={updateTransaction}
+        handleClose={() => {
+          setModalOpen(false)
+          setNum(null)
+        }}
+      />  
+  } 
+  if (!transactions) {
+    return <Spinner animation="border" role="status">
+    <span className="visually-hidden">Loading</span>
+   </Spinner>
 
   }
   return (
@@ -98,7 +108,7 @@ const TransactionIndex = (props) => {
     <p style={{color:'white'}}>Quantity: {quantity} {symbol.toUpperCase()} </p>
     <p style={{color:'white'}}>Avg. Buy Price {avgBuy.toLocaleString('en-US', {style:'currency',currency:'USD'})}</p>
     <p style={{color:'white'}}>P/L: {pl_amount.toLocaleString('en-US', {style:'currency',currency:'USD'})} {pl_precentage.toFixed(2)}%</p>
-    <button>Add Transaction</button>
+    <button onClick={handleCreate}>Add Transaction</button>
            <ListGroup style={{ width: '85%' }}>
         <ListGroup.Item>
           <Row style={{ fontWeight: 'bold' }}>
@@ -119,6 +129,16 @@ const TransactionIndex = (props) => {
         {transactionsDisplay}
       </ListGroup>
       {editModal}
+      <CreateTransactionModal
+            show={createOpen}
+            user={user}
+            msgAlert={msgAlert}
+            triggerRefresh={() => setUpdated(prev => !prev)}
+            createTransaction={createTransaction}
+            handleClose={() => {
+              setCreateOpen(false)
+            }}
+          />     
     </>
   )
 }
