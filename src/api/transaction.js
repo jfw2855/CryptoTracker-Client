@@ -41,6 +41,19 @@ export const removeTransaction = (user,transId) => {
   return axios(config)
 }
 
+// DELETE all coin transactions -> removes ALL coin transaction
+export const removeAllTransactions = (user,coinId) => {
+  console.log('what is coin in frontend api',coinId)
+  const config = {
+    method: 'delete',
+    url: `${apiUrl}/transaction/${coinId}`,
+    headers: {
+        Authorization: `Token token=${user.token}`
+    }
+  }
+  return axios(config)
+}
+
 // POST -> creates a transaction
 export const createTransaction = (user,created) => {
   console.log('this is api resp for created Transaction',created)
