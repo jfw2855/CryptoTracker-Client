@@ -28,3 +28,15 @@ export const updateTransaction = (user,updatedTransaction) => {
   }
   return axios(config)
 }
+
+// DELETE -> removes a single transaction for a specific coin
+export const removeTransaction = (user,transId) => {
+  const config = {
+    method: 'delete',
+    url: `${apiUrl}/transaction/tid/${transId._id}`,
+    headers: {
+        Authorization: `Token token=${user.token}`
+    }
+  }
+  return axios(config)
+}
