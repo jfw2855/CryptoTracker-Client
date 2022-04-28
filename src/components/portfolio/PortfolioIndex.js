@@ -4,7 +4,7 @@ import { viewPortfolio, getPData } from '../../api/portfolio'
 import { Link } from 'react-router-dom'
 import {BsPlusLg,BsArrowLeftRight,BsTrash} from 'react-icons/bs'
 import CreateCoinModal from './CreateCoinModal'
-import { createCoin } from '../../api/coin'
+import { createCoin, deleteCoin } from '../../api/coin'
 import CreateTransactionModal from './CreateTransactionModal'
 import { createTransaction } from '../../api/transaction'
 
@@ -52,6 +52,14 @@ const PortfolioIndex = (props) => {
   const handleCreate = (e) => {
     setCreateOpen(true)
   }
+
+      const handleDelete = (e, coinGeckId) => {
+        e.preventDefault()
+        
+        deleteCoin(user, coinGeckId)
+        .then(() => setUpdated(true))
+        .catch((err) => console.log(err))   
+    }
   
   if(!mData) {
     return <p>Loading...</p>
@@ -92,7 +100,7 @@ const PortfolioIndex = (props) => {
                     state={{quantity:coin.quantity,currPrice:coin.current_price,daily:coin.price_change_percentage_24h,symbol:coin.symbol,avgBuy:coin.avgPrice,pl_amount:coin.pl_amount,pl_precentage:coin.pl_precentage,img:coin.coinImg,name:coin.name}}>
                       <BsArrowLeftRight/> 
                   </Link>
-                  &nbsp;&nbsp;<BsTrash/>
+                  &nbsp;&nbsp;<BsTrash type='button' onClick={(e) => handleDelete(e, coin.id)}/>
                 </Col>
             </Row>
         </ListGroup.Item>
