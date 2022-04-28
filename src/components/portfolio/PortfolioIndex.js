@@ -3,13 +3,17 @@ import {Row, Col, ListGroup } from 'react-bootstrap'
 import { viewPortfolio, getPData } from '../../api/portfolio'
 import { Link } from 'react-router-dom'
 import {BsPlusLg,BsArrowLeftRight,BsTrash} from 'react-icons/bs'
-
+import CreateCoinModal from './CreateCoinModal'
+import { createCoin } from '../../api/coin'
 
 const PortfolioIndex = (props) => {
 
   const [assets,setAssets] = useState(null)
   // mData == Market Data -> state var to set current market data of user's assets
-  const [mData,setMData] = useState(null)
+  const [mData, setMData] = useState(null)
+  const [createOpen, setCreateOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [updated, setUpdated] = useState(false)
   const { user,msgAlert} = props
   let assetsDisplay = null
   let query = ""
@@ -42,6 +46,10 @@ const PortfolioIndex = (props) => {
     }
     fetchData()
   }, [])
+
+  const handleCreate = (e) => {
+    setCreateOpen(true)
+  }
   
   if(!mData) {
     return <p>Loading...</p>
@@ -94,7 +102,7 @@ const PortfolioIndex = (props) => {
 
   return (
     <>
-      <button>Add to Portfolio</button>
+      <button onClick={handleCreate}>Add to Portfolio</button>
       <ListGroup style={{width:'68%'}}>
         <ListGroup.Item style={{backgroundColor:'lightgrey'}}>
           <Row style={{fontWeight:'bold'}}>
@@ -124,6 +132,15 @@ const PortfolioIndex = (props) => {
         {assetsDisplay}
 
       </ListGroup>
+      <CreateCoinModal
+        show={createOpen}
+        user={user}
+        triggerRefresh={() => setUpdated(prev => !prev)}
+        createCoin={createCoin}
+        handleClose={() => {
+              setCreateOpen(false)
+            }}
+            />
       <Link to="/transaction">Transactions!</Link>
     </>
   )
