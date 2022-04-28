@@ -2,7 +2,7 @@ import apiUrl from '../apiConfig'
 import axios from 'axios'
 
 
-
+// DELETE -> removes a coin from assets
 export const deleteCoin = (user, coin) => {
     console.log('coin to delete', coin)
     return axios({
