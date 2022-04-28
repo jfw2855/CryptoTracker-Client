@@ -40,3 +40,17 @@ export const removeTransaction = (user,transId) => {
   }
   return axios(config)
 }
+
+// POST -> creates a transaction
+export const createTransaction = (user,created) => {
+  console.log('this is api resp for created Transaction',created)
+  const config = {
+    method: 'post',
+    url: `${apiUrl}/transaction`,
+    headers: {
+      Authorization: `Token token=${user.token}`
+    },
+    data: {transaction: created}
+  }
+  return axios(config)
+}
