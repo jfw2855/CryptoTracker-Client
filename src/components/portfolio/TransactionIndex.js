@@ -1,7 +1,7 @@
 import { queryByAltText } from '@testing-library/react'
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
-import { viewTransactions,updateTransaction } from '../../api/transaction'
+import { viewTransactions,updateTransaction,removeTransaction } from '../../api/transaction'
 import { Spinner, ListGroup, Row, Col, Button} from 'react-bootstrap'
 import {BsTrash,BsPencilFill} from 'react-icons/bs'
 import EditTransactionModal from './EditTransactionModal'
@@ -30,7 +30,7 @@ const TransactionIndex = (props) => {
     viewTransactions(user,coin)
       .then((res) => {
         setUpdated(false)
-        setTransactions(res.data.transaction) 
+        setTransactions(res.data.transaction)
       })
       .catch((err) => console.log(err))
     }, [updated])
@@ -44,7 +44,11 @@ const TransactionIndex = (props) => {
     handleOpen()
     }
     
-  
+    const handleDelete = async (e,transId) => {
+      await removeTransaction(user,transId)
+      setUpdated(true)
+    }
+
     if (transactions && transactions.length > 0) {
       
       transactionsDisplay = transactions.map((transaction, index) => (
@@ -62,7 +66,7 @@ const TransactionIndex = (props) => {
           </Col>
           <Col>
              <BsPencilFill type='button' onClick={(e) => handleEdit(e, transaction, index)}/> 
-             <BsTrash/>
+             <BsTrash type='button' onClick={(e) => handleDelete(e,transaction)}/>
           </Col>
         </Row>
       </ListGroup.Item>
