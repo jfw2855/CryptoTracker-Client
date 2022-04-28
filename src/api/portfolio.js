@@ -26,3 +26,16 @@ export const getPData = (coins) => {
     return axios(config)
 }
 
+// POST -> creates portfolio for user
+// PData == portfolio data
+export const createPortfolio = (user) => {
+  console.log('owner aha', user)
+    return axios ({
+      method: 'post',
+      url: `${apiUrl}/portfolio`,
+      headers: {
+          Authorization: `Token token=${user.token}`
+      },
+      data: { portfolio: user }
+    })
+}

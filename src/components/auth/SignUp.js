@@ -7,6 +7,8 @@ import messages from '../shared/AutoDismissAlert/messages'
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import { createPortfolio } from '../../api/portfolio'
+
 
 const SignUp = (props) => {
 	// constructor(props) {
@@ -33,7 +35,15 @@ const SignUp = (props) => {
 
 		signUp(credentials)
 			.then(() => signIn(credentials))
-			.then((res) => setUser(res.data.user))
+            .then((res) => {
+                setUser(res.data.user)
+                createPortfolio(res.data.user)
+                    .then((res) => {
+                    console.log('res', res)
+                })
+                console.log('res.dataatatasdgdafgdfg',res.data.user)
+                
+            })
 			.then(() =>
 				msgAlert({
 					heading: 'Sign Up Success',
