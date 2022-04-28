@@ -45,7 +45,7 @@ const PortfolioIndex = (props) => {
       setMData(respMData.data)
     }
     fetchData()
-  }, [])
+  }, [updated])
 
   const handleCreate = (e) => {
     setCreateOpen(true)
