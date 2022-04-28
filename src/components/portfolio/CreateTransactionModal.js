@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
 const CreateTransactionModal = (props) => {
-    const { show, user, msgAlert, triggerRefresh, createTransaction, handleClose } = props
+    const { show, user, msgAlert, triggerRefresh, createTransaction, handleClose,showCoinPurchases,addCoinAsset } = props
     const [transaction, setTransaction] = useState("")
     const [date,setDate] = useState(null)
 
@@ -44,9 +44,25 @@ const CreateTransactionModal = (props) => {
         setTransaction( prevTrans => {
             return {...prevTrans,'datetime':date}
         })
-    
-
         createTransaction(user, transaction)
+            .then(()=> console.log('test'))
+            .then(()=> {
+                showCoinPurchases(user,transaction.coinGeckId)
+                    .then((res)=>{
+                        let buyArr = res.data.transaction
+                        let amount = 0
+                        let price = 0
+                        for (let i in buyArr) {
+                            amount += buyArr[i].amount
+                            price += buyArr[i].price
+                        }
+                        price = price/buyArr.length
+                        console.log('price & amount',price,amount)
+                        let assetToAdd = {coinGeckId:transaction.coinGeckId,avgPrice:price,quantity:amount}
+                        addCoinAsset(user,assetToAdd)
+                            .then((res)=>console.log('res for adding coin to asset',res))
+                    })
+            })
             .then(() => {
                 handleClose()
             })

@@ -54,3 +54,16 @@ export const createTransaction = (user,created) => {
   }
   return axios(config)
 }
+
+// SHOW -> displays user's purchased transactions for a coin
+export const showCoinPurchases = (user,coinId) => {
+    
+  const config = {
+    method: 'get',
+    url: `${apiUrl}/transaction/buy/${coinId}`,
+    headers: {
+        Authorization: `Token token=${user.token}`
+    }
+  }
+  return axios(config)
+}
