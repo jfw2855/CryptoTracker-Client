@@ -4,9 +4,9 @@ import { viewPortfolio, getPData } from '../../api/portfolio'
 import { Link } from 'react-router-dom'
 import {BsPlusLg,BsArrowLeftRight,BsTrash} from 'react-icons/bs'
 import CreateCoinModal from './CreateCoinModal'
-import { createCoin, deleteCoin } from '../../api/coin'
+import { addCoinAsset, deleteCoin } from '../../api/coin'
 import CreateTransactionModal from './CreateTransactionModal'
-import { createTransaction } from '../../api/transaction'
+import { createTransaction,removeAllTransactions } from '../../api/transaction'
 
 const PortfolioIndex = (props) => {
 
@@ -26,25 +26,30 @@ const PortfolioIndex = (props) => {
     const fetchData = async () => {
       const respAssets = await viewPortfolio(user)
       const respCoins = respAssets.data.portfolio[0].assets
-
+      console.log('respCoins',respCoins)
+      let coinObj = {}
       for (let i in respCoins) {
         query+=`${respCoins[i].coinGeckId}%2C`
+        coinObj[respCoins[i].coinGeckId]=respCoins[i]
       }
       const respMData = await getPData(query)
       console.log('querryyy data',respMData.data)
+      console.log('coinObj',coinObj)
 
       // updates the response data with average price and quantity of assets
       for (let i in respMData.data) {
         //currCoin == current coin
         let currCoin =respMData.data[i]
-        currCoin.avgPrice = respCoins[i].avgPrice
-        currCoin.quantity = respCoins[i].quantity
+        currCoin.avgPrice = coinObj[currCoin.id].avgPrice
+        currCoin.quantity = coinObj[currCoin.id].quantity
         currCoin.coinImg = currCoin.image
+        currCoin.coinId = coinObj[currCoin.id]._id
         // adds profit loss amount and precentage to currCoin object; pl == profit loss
         currCoin.pl_amount =(((currCoin.current_price/currCoin.avgPrice)-1))*currCoin.current_price
         currCoin.pl_precentage = (((currCoin.current_price/currCoin.avgPrice)-1))*100
       }
       setMData(respMData.data)
+      console.log('mdata !!!!1',respMData.data)
     }
     fetchData()
   }, [updated])
@@ -53,11 +58,13 @@ const PortfolioIndex = (props) => {
     setCreateOpen(true)
   }
 
-      const handleDelete = (e, coinGeckId) => {
+      const handleDelete = (e, coinId,name) => {
         e.preventDefault()
+        console.log('coin & coinId that is being deleted!',name,coinId)
         
-        deleteCoin(user, coinGeckId)
-        .then(() => setUpdated(true))
+        deleteCoin(user, coinId,name)
+          .then(() => removeAllTransactions(user,coinId,name))
+          .then(()=>setUpdated(true))
         .catch((err) => console.log(err))   
     }
   
@@ -100,7 +107,7 @@ const PortfolioIndex = (props) => {
                     state={{quantity:coin.quantity,currPrice:coin.current_price,daily:coin.price_change_percentage_24h,symbol:coin.symbol,avgBuy:coin.avgPrice,pl_amount:coin.pl_amount,pl_precentage:coin.pl_precentage,img:coin.coinImg,name:coin.name}}>
                       <BsArrowLeftRight/> 
                   </Link>
-                  &nbsp;&nbsp;<BsTrash type='button' onClick={(e) => handleDelete(e, coin.id)}/>
+                  &nbsp;&nbsp;<BsTrash type='button' onClick={(e) => handleDelete(e, coin.coinId,coin.id)}/>
                 </Col>
             </Row>
         </ListGroup.Item>
@@ -146,7 +153,7 @@ const PortfolioIndex = (props) => {
         show={createOpen}
         user={user}
         triggerRefresh={() => setUpdated(prev => !prev)}
-        createCoin={createCoin}
+        addCoinAsset={addCoinAsset}
         handleClose={() => {
               setCreateOpen(false)
             }}
