@@ -22,9 +22,7 @@ const CreateTransactionModal = (props) => {
             if (e.target.type === 'number') {
                 value = +(e.target.value)
             }
-            if (e.target.type === 'date') {
-                setDate(value)
-            }
+
 
             const updatedValue = { [name]: value }
 
@@ -35,9 +33,10 @@ const CreateTransactionModal = (props) => {
         })
     }
     const handleDate = (selectDate,e) => {
+        console.log('thi sis select date!', selectDate.toISOString().split("T")[0], typeof selectDate)
         setDate(selectDate)
         setTransaction(prevTrans=> {
-            return{...prevTrans,"datetime":selectDate}
+            return{...prevTrans,"datetime":selectDate.toISOString().split("T")[0]}
         })
     }
     const handleSubmit = (e) => {
@@ -45,7 +44,7 @@ const CreateTransactionModal = (props) => {
         setTransaction( prevTrans => {
             return {...prevTrans,'datetime':date}
         })
-        console.log('this is transaction!',transaction)
+    
 
         createTransaction(user, transaction)
             .then(() => {
@@ -78,12 +77,10 @@ const CreateTransactionModal = (props) => {
                             showYearDropdown
                             scrollableMonthYearDropdown
                         />
+                        <Form.Label>Type</Form.Label>
                         <Form.Control
-                            hidden
-                            value={date}
-                            defaultValue={date}
-                            name='datetime'
-                            type='date'
+                            name='type'
+                            type='string'
                             onChange={handleChange}
                         /> 
                         <Form.Label>Coin Name</Form.Label>
