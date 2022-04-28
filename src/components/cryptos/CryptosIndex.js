@@ -62,7 +62,7 @@ const CryptosIndex = (props) => {
     e.preventDefault()
 
     // createFavorite(user, crypto)
-    if (fav) {
+    if (items.includes(id)) {
       // delete route
       deleteFavorite(user, id)
         .then(() => setUpdated(true))
