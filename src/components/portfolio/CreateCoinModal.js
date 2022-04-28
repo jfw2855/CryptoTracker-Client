@@ -29,6 +29,21 @@ const CreateCoinModal = (props) => {
         })
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        console.log('users and transactions in hsSubmit', user, coin)
+        createCoin(user, coin)
+            .then(() => {
+                handleClose()
+            })
+            .then(() => {
+                triggerRefresh()
+            })
+            .catch((err) => {
+            console.log(err)
+        })
+    }
+
 
     return (
         <>
@@ -36,11 +51,23 @@ const CreateCoinModal = (props) => {
             <Modal.Header closeButton style={{ color: 'black' }}>Create Coin</Modal.Header>
             <Modal.Body>
                 <Container className="justify-content-center">
-                        <Form>
+                        <Form onSubmit={handleSubmit}>
                             <Form.Label>Name</Form.Label>
                             <Form.Control
                                 name='coinGeckId'
                                 type='string'
+                                onChange={handleChange}
+                            /> 
+                            <Form.Label>Average Price</Form.Label>
+                            <Form.Control
+                                name='avgPrice'
+                                type='number'
+                                onChange={handleChange}
+                            /> 
+                            <Form.Label>Quantity</Form.Label>
+                            <Form.Control
+                                name='quantity'
+                                type='number'
                                 onChange={handleChange}
                             /> 
                         <Button type='submit'>Add New Coin</Button>
