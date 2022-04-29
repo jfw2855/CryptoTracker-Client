@@ -1,4 +1,6 @@
- .app-container {
+@import url('https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300&display=swap');
+
+.app-container {
     /* height: 100%; */
     position: absolute;
     width:100%;
@@ -7,6 +9,10 @@
     background: rgb(2,0,36);
     /* background: linear-gradient(6deg, rgba(2,0,36,1) 0%, rgba(21,21,24,1) 25%, rgba(88,103,106,1) 100%); */
 }
+
+/* * {
+    font-family: 'Sulphur Point',sans-serif;
+} */
 
 .show {
     color: whitesmoke;
