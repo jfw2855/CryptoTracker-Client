@@ -16,6 +16,7 @@ import PortfolioIndex from './components/portfolio/PortfolioIndex'
 import CryptoShow from './components/cryptos/CryptoShow'
 import FavoritesIndex from './components/favorites/FavoritesIndex'
 import TransactionIndex from './components/portfolio/TransactionIndex'
+import Landing from './components/Landing' 
 
 
 const App = () => {
@@ -49,7 +50,7 @@ const App = () => {
 			<Fragment>
 				<Header user={user} />
 				<Routes>
-					<Route path='/' element={<Home msgAlert={msgAlert} user={user} />} />
+					<Route path='/home' element={<Home msgAlert={msgAlert} user={user} />} />
 					<Route
 						path='/sign-up'
 						element={<SignUp msgAlert={msgAlert} setUser={setUser} />}
@@ -65,6 +66,10 @@ const App = () => {
                 <SignOut msgAlert={msgAlert} clearUser={clearUser} user={user} />
               </RequireAuth>
             }
+          />
+          <Route
+            path='/'
+            element={<Landing />}
           />
           <Route
             path='/change-password'
