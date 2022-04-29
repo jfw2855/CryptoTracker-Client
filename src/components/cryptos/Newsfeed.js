@@ -19,7 +19,7 @@ const Newsfeed = (props) => {
     console.log('news dater', news)
     newsData = news.slice(0, 6).map((article) => {
       return (
-            <ListGroup.Item variant="dark" key={article._id} >
+            <ListGroup.Item style={{backgroundColor:'transparent', borderTop:'grey 1px solid'}} variant="dark" key={article._id} >
           <a href={article.url}>
                 <Row style={{ alignItems: 'center' }}>
                 {article.title}
@@ -122,7 +122,7 @@ const Newsfeed = (props) => {
           {trendingData}
         </Col>
         <Col className='index-col'>
-          <h1 style={{color: 'white'}}>Stay up to Date with Crypto</h1>
+          <h1 style={{color: 'white'}}>Stay Up-To-Date with Crypto</h1>
           {newsData}
         </Col>
         </Row>
