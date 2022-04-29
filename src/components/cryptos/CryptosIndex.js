@@ -5,6 +5,7 @@ import { Spinner, Card, Row, Col, ListGroup, Button, Container, ListGroupItem } 
 import { BsStar, BsFillStarFill } from "react-icons/bs";
 import { getAllFavorites, deleteFavorite, createFavorite } from '../../api/favorites'
 import env from 'react-dotenv'
+import Newsfeed from './Newsfeed';
 
 const cardContainerLayout = {
     display: 'flex',
@@ -25,8 +26,8 @@ const CryptosIndex = (props) => {
 
   const [cryptos, setResults] = useState(null)
   const [market, setMarket] = useState(null)
-  const [news, setNews] = useState(null)
-  const [trending, setTrending] = useState(null)
+  const [news, setNews] = useState([])
+  const [trending, setTrending] = useState([])
 
   let assetsDisplay = null
   let marketBanner = null
@@ -44,7 +45,7 @@ const CryptosIndex = (props) => {
         })
       getCryptoNews()
         .then((res) => {
-          console.log('news', res.data)
+          setNews(res.data)
         })
         if (user) {      
           getAllFavorites(user)
@@ -110,7 +111,7 @@ const CryptosIndex = (props) => {
         <>
         <ListGroup className='banner'>
           
-      <ListGroup.Item>
+      <ListGroup.Item  className='banner'>
       <Row style={{ height: '20px' }}>
       <Col>
                 Cryptos: {market.active_cryptocurrencies.toLocaleString()}
@@ -143,10 +144,9 @@ const CryptosIndex = (props) => {
   if (cryptos.length > 0) {
     assetsDisplay = cryptos.map((crypto) => {
       return (
-
-            <ListGroup.Item key={crypto._id} >
+            <ListGroup.Item style={{backgroundColor:'transparent', borderTop:'grey 1px solid'}} key={crypto._id} >
               <Link style={{ textDecoration: 'none', color: 'black' }} to={`/crypto/${crypto.id}`}>
-                <Row style={{ alignItems: 'center' }}>
+                <Row style={{ alignItems: 'center', color:'white' }}>
                   <Col>
                   <BsFillStarFill onClick={(e) => handleFavorite(e, crypto.id)} style={ items.includes(crypto.id) ? {color:'orange'} : {color:'black'} }type = "button" fontSize="14px" />
                     <span style={{ marginLeft: 5 }}>{crypto.market_cap_rank}</span>
@@ -173,8 +173,13 @@ const CryptosIndex = (props) => {
   return (
     <>
       {marketBanner}
+      <Newsfeed
+        news={news}
+        trending={trending}
+      />
+
       <ListGroup className='scroll' style={{ width: '90%' }}>
-        <ListGroup.Item>
+        <ListGroup.Item variant="dark">
           <Row style={{ fontWeight: 'bold' }}>
             <Col>
               Rank
