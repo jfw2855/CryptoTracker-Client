@@ -54,7 +54,15 @@ const PortfolioIndex = (props) => {
       setMData(respMData.data)
       console.log('mdata !!!!1',respMData.data)
     }
-    fetchData()
+    const test = async () => {
+      let intialTest = await viewPortfolio(user)
+      if (intialTest.data.portfolio[0].assets.length>0) {
+        fetchData()
+      } else {
+        return setMData([])
+      }
+    }
+    test()
   }, [updated])
 
 
@@ -70,14 +78,17 @@ const PortfolioIndex = (props) => {
     e.preventDefault()
     console.log('coin & coinId that is being deleted!',name,coinId)
     
-    deleteCoin(user, coinId,name)
-      .then(() => removeAllTransactions(user,coinId,name))
+    deleteCoin(user, coinId)
+      .then(() => removeAllTransactions(user,name))
       .then(()=>setUpdated(true))
     .catch((err) => console.log(err))   
   }
   
   if(!mData) {
     return <p>Loading...</p>
+  }
+  else if (mData === [] ) {
+    return <button onClick={handleCreate}>Add Transaction</button>
   }
 
   if (coinName !== null) {
