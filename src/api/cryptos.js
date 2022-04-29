@@ -42,7 +42,17 @@ export const getSeveral = (coins) => {
   }
   return axios(config)
 }
-//bitcoin%2Cdogecoin%2Cripple
+
+// GET trending cryptos
+export const getTrending = () => {
+  const searchUrl =
+    'https://api.coingecko.com/api/v3/search/trending'
+  const config = {
+    method: 'get',
+    url: searchUrl,
+  }
+  return axios(config)
+}
 
 
 //https://api.coingecko.com/api/v3/coins/bitcoin/history?date=30-12-2017&localization=false
