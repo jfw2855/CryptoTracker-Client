@@ -5,7 +5,7 @@
     left:0;
     overflow: hidden;
     background: rgb(2,0,36);
-    background: linear-gradient(6deg, rgba(2,0,36,1) 0%, rgba(21,21,24,1) 25%, rgba(88,103,106,1) 100%);
+    /* background: linear-gradient(6deg, rgba(2,0,36,1) 0%, rgba(21,21,24,1) 25%, rgba(88,103,106,1) 100%); */
 }
 
 .show {
@@ -43,6 +43,36 @@ h6 {
     /* overflow: auto;  */
  }
 
-/* .banner{
-    padding-top: 1%;
+.banner{
+    font-size: 12px;
+    background-color: rgb(72, 8, 115);
+    color: white
+}
+
+ .index-col { 
+    margin: auto;
+    
+}
+
+.index-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row
 } */
+
+.trend-container{
+    display: flex;
+    flex-direction: column;
+    border: solid 3px red;
+}
+
+a {
+    color:black;
+    text-decoration: none
+}
+
+a:hover {
+    color:purple;
+    text-decoration: underline;
+
+}
