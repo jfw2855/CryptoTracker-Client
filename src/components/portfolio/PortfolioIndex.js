@@ -6,7 +6,7 @@ import {BsPlusLg,BsArrowLeftRight,BsTrash} from 'react-icons/bs'
 import CreateCoinModal from './CreateCoinModal'
 import { addCoinAsset, deleteCoin } from '../../api/coin'
 import CreateTransactionModal from './CreateTransactionModal'
-import { createTransaction,removeAllTransactions } from '../../api/transaction'
+import { createTransaction,removeAllTransactions,showCoinPurchases} from '../../api/transaction'
 
 const PortfolioIndex = (props) => {
 
@@ -14,15 +14,18 @@ const PortfolioIndex = (props) => {
   // mData == Market Data -> state var to set current market data of user's assets
   const [mData, setMData] = useState(null)
   const [createOpen, setCreateOpen] = useState(false)
-  const [modalOpen, setModalOpen] = useState(false)
+  const [newTransOpen, setNewTransOpen] = useState(false)
   const [updated, setUpdated] = useState(false)
+  const [coinName,setCoinName] = useState(null)
   const { user,msgAlert} = props
   let assetsDisplay = null
   let query = ""
+  let addNewTransModal
 
 
   // calls backend server for portfolio assets then uses info to make an external api call to grab market data
   useEffect(() => {
+    setUpdated(false)
     const fetchData = async () => {
       const respAssets = await viewPortfolio(user)
       const respCoins = respAssets.data.portfolio[0].assets
@@ -54,24 +57,46 @@ const PortfolioIndex = (props) => {
     fetchData()
   }, [updated])
 
+
   const handleCreate = (e) => {
     setCreateOpen(true)
   }
+  const handleAddTrans = (e,coinId) => {
+    setCoinName(coinId)
+    setNewTransOpen(true)
+  }
 
-      const handleDelete = (e, coinId,name) => {
-        e.preventDefault()
-        console.log('coin & coinId that is being deleted!',name,coinId)
-        
-        deleteCoin(user, coinId,name)
-          .then(() => removeAllTransactions(user,coinId,name))
-          .then(()=>setUpdated(true))
-        .catch((err) => console.log(err))   
-    }
+  const handleDelete = (e, coinId,name) => {
+    e.preventDefault()
+    console.log('coin & coinId that is being deleted!',name,coinId)
+    
+    deleteCoin(user, coinId,name)
+      .then(() => removeAllTransactions(user,coinId,name))
+      .then(()=>setUpdated(true))
+    .catch((err) => console.log(err))   
+  }
   
   if(!mData) {
     return <p>Loading...</p>
   }
 
+  if (coinName !== null) {
+    addNewTransModal = <CreateCoinModal
+      coinId={coinName}
+      show={newTransOpen}
+      user={user}
+      msgAlert={msgAlert}
+      triggerRefresh={() => setUpdated(prev => !prev)}
+      createTransaction={createTransaction}
+      showCoinPurchases={showCoinPurchases}
+      addCoinAsset={addCoinAsset}
+      handleClose={() => {
+        setUpdated(true)
+        setCoinName(null)
+        setNewTransOpen(false)
+      }}
+    />  
+  } 
 
 
   if(mData.length>0) {
@@ -100,7 +125,7 @@ const PortfolioIndex = (props) => {
                   <Row>{coin.pl_precentage.toFixed(2)}% </Row>
                 </Col>
                 <Col>
-                &nbsp;<BsPlusLg type='button' onClick={handleCreate}/> &nbsp;&nbsp;
+                &nbsp;<BsPlusLg type='button' onClick={(e)=>handleAddTrans(e,coin.id)}/> &nbsp;&nbsp;
                   <Link 
                     style={{ fontSize:'115%',textDecoration: 'none', color: 'indigo' }} 
                     to={`/transaction/${coin.id}`} 
@@ -119,7 +144,7 @@ const PortfolioIndex = (props) => {
 
   return (
     <>
-      <button onClick={handleCreate}>Add to Portfolio</button>
+      <button onClick={handleCreate}>Add Transaction</button>
       <ListGroup style={{width:'68%'}}>
         <ListGroup.Item style={{backgroundColor:'lightgrey'}}>
           <Row style={{fontWeight:'bold'}}>
@@ -149,26 +174,21 @@ const PortfolioIndex = (props) => {
         {assetsDisplay}
 
       </ListGroup>
-      <CreateCoinModal
+      {addNewTransModal}
+      <CreateTransactionModal
         show={createOpen}
         user={user}
+        msgAlert={msgAlert}
         triggerRefresh={() => setUpdated(prev => !prev)}
-        addCoinAsset={addCoinAsset}
+        createTransaction={createTransaction}
+        showCoinPurchases={showCoinPurchases}
+        addCoinAsset = {addCoinAsset}
         handleClose={() => {
-              setCreateOpen(false)
-            }}
-      />
-      <CreateTransactionModal
-            show={createOpen}
-            user={user}
-            msgAlert={msgAlert}
-            triggerRefresh={() => setUpdated(prev => !prev)}
-            createTransaction={createTransaction}
-            handleClose={() => {
-              setCreateOpen(false)
-            }}
-          />
-      <Link to="/transaction">Transactions!</Link>
+          setUpdated(true)
+          setCreateOpen(false)
+        }
+        }
+      />  
     </>
   )
 }
