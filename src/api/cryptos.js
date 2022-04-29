@@ -1,6 +1,5 @@
-import apiUrl from '../apiConfig'
 import axios from 'axios'
-// import env from 'react-dotenv'
+import env from 'react-dotenv'
 
 // GET top xxx cryptos
 export const getCryptos = () => {
@@ -53,6 +52,29 @@ export const getTrending = () => {
   }
   return axios(config)
 }
+// GET total market data cryptos
+export const getEntireMarket = () => {
+  const searchUrl =
+    'https://api.coingecko.com/api/v3/global'
+  const config = {
+    method: 'get',
+    url: searchUrl,
+  }
+  return axios(config)
+}
 
-
-//https://api.coingecko.com/api/v3/coins/bitcoin/history?date=30-12-2017&localization=false
+// GET crypto news 
+export const getCryptoNews = () => {
+  const searchUrl = 'https://crypto-news-live3.p.rapidapi.com/news'
+  const host = env.HOST
+  const apiKey = env.API_KEY
+  const config = {
+    method: 'get',
+    url: searchUrl,
+    headers: {
+      'X-RapidAPI-Host': `${host}`,
+      'X-RapidAPI-Key': `${apiKey}`
+    }
+  }
+  return axios(config)
+}
