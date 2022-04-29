@@ -15,8 +15,27 @@ return (
         }
       ]}
       
-      layout={{plot_bgcolor:"transparent", paper_bgcolor:"transparent", width: 1000, height: 500, title: `Price History for ${crypto.name}` }
-    
+      layout={{
+        plot_bgcolor: "transparent", paper_bgcolor: "transparent",  
+        title:
+        {
+          text: `Price History for ${crypto.name}`,
+        },
+        font: {
+          color: 'white'
+        },
+        xaxis: {
+          showgrid: false,
+          color:'white'
+        },
+        yaxis: {
+          showgrid: true,
+          color:'white'
+        },
+          autosize: true,
+          width: 710,
+          height: 500,
+      }
       }
     />
     </>
