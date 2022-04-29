@@ -1,10 +1,14 @@
 import { name } from 'plotly.js/lib/bar'
 import React, { useState } from 'react'
 import {Modal, Container, Form, Button} from 'react-bootstrap'
+import DatePicker from 'react-datepicker' 
+import 'react-datepicker/dist/react-datepicker.css'
+
 
 const EditTransactionModal = (props) => {
     const { show, user, msgAlert, triggerRefresh, updateTransaction, handleClose } = props
     const [transaction, setTransaction] = useState(props.transaction)
+    const [date,setDate] = useState(null)
 
     const handleChange = (e) => {
         // e === event
@@ -26,6 +30,12 @@ const EditTransactionModal = (props) => {
             console.log('updatedValue', updatedValue)
 
             return {...prevTrans, ...updatedValue}
+        })
+    }
+    const handleDate = (selectDate,e) => {
+        setDate(selectDate)
+        setTransaction(prevTrans=> {
+            return{...prevTrans,"datetime":selectDate.toISOString().split("T")[0]}
         })
     }
 
@@ -52,12 +62,28 @@ const EditTransactionModal = (props) => {
             <Modal.Body>
                 <Container className="justify-content-center">
                     <Form onSubmit={handleSubmit}>
-                        <Form.Label>Quantity</Form.Label>
+                        <Form.Label>Amount</Form.Label>
                         <Form.Control 
                             defaultValue={transaction.amount}
                             name='amount'
                             type='number'
                             onChange={handleChange}
+                        />
+                        <Form.Label>Price</Form.Label>
+                        <Form.Control
+                            defaultValue={transaction.price}
+                            name='price'
+                            type='number'
+                            onChange={handleChange}
+                        />
+                        <Form.Label>Date</Form.Label>
+                        <DatePicker
+                            dateFormat='E MMM dd yyyy'
+                            name='datetime'
+                            type='date'
+                            selected={date}
+                            value={date}
+                            onChange={(selectDate,e)=>handleDate(selectDate,e)}
                         />
                         <Button type='submit'>Update Transaction</Button>
                     </Form>

@@ -1,4 +1,3 @@
-import { name } from 'plotly.js/lib/bar'
 import React, { useState } from 'react'
 import {Modal, Container, Form, Button} from 'react-bootstrap'
 import DatePicker from 'react-datepicker' 

@@ -5,7 +5,7 @@ import { viewTransactions,updateTransaction,removeTransaction, createTransaction
 import { Spinner, ListGroup, Row, Col, Button} from 'react-bootstrap'
 import {BsTrash,BsPencilFill} from 'react-icons/bs'
 import EditTransactionModal from './EditTransactionModal'
-import CreateTransactionModal from './CreateTransactionModal'
+import CreateCoinModal from './CreateCoinModal'
 import { addCoinAsset } from '../../api/coin'
 
 
@@ -22,12 +22,6 @@ const TransactionIndex = (props) => {
   let transactionsDisplay
   const location = useLocation()
   const {quantity,currPrice,daily,symbol,avgBuy,pl_amount,pl_precentage,img,name}=location.state
-
-
-// USE EFFECT PSEUDOCODE
-// fetch data from transaction of specific coin (backend server)
-// fetch data from assets of coin (backend server) - provided by useLocation
-// fetch current market data of coin (external api) - provided by useLocation
 
   useEffect(() => {
     viewTransactions(user,coin)
@@ -50,7 +44,12 @@ const TransactionIndex = (props) => {
   const handleCreate = (e) => {
     setCreateOpen(true)
   }
-    
+  const convertDate =(dt) => {
+    let convertedDate = new Date (dt)
+    convertedDate.setDate(convertedDate.getDate()+1)
+    convertedDate = convertedDate.toDateString()
+    return  convertedDate
+  }
   const handleDelete = async (e,transId) => {
     await removeTransaction(user,transId)
     setUpdated(true)
@@ -63,7 +62,8 @@ const TransactionIndex = (props) => {
     
       <Row style={{ alignItems: 'center' }}>
         <Col>
-          {transaction.type}
+          <Row>{transaction.type}</Row>
+          <Row>{ convertDate(transaction.datetime)}</Row>
         </Col>
         <Col>
           {transaction.price}
@@ -130,7 +130,8 @@ const TransactionIndex = (props) => {
         {transactionsDisplay}
       </ListGroup>
       {editModal}
-      <CreateTransactionModal
+      <CreateCoinModal
+            coinId={coin}
             show={createOpen}
             user={user}
             msgAlert={msgAlert}
@@ -139,6 +140,7 @@ const TransactionIndex = (props) => {
             showCoinPurchases={showCoinPurchases}
             addCoinAsset = {addCoinAsset}
             handleClose={() => {
+              setUpdated(true)
               setCreateOpen(false)
             }}
           />     
