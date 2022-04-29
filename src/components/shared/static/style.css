@@ -1,5 +1,11 @@
- body {
-    background-color: black;
+ .app-container {
+    /* height: 100%; */
+    position: absolute;
+    width:100%;
+    left:0;
+    overflow: hidden;
+    background: rgb(2,0,36);
+    background: linear-gradient(6deg, rgba(2,0,36,1) 0%, rgba(21,21,24,1) 25%, rgba(88,103,106,1) 100%);
 }
 
 .show {
@@ -30,8 +36,13 @@ h6 {
 
 .scroll {
     margin: auto;
-    max-height: 450px;
-    margin-bottom: 10px;
-    overflow:scroll;
     margin-top: 20px;
-}
+    margin-bottom: 10px;
+    opacity: 90%; 
+    /* max-height: 450px; */
+    /* overflow: auto;  */
+ }
+
+/* .banner{
+    padding-top: 1%;
+} */

@@ -1,9 +1,10 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import { getCryptos, getTrending } from '../../api/cryptos'
+import { getCryptos, getEntireMarket, getTrending, getCryptoNews } from '../../api/cryptos'
 import { Link, useNavigate } from 'react-router-dom'
-import { Spinner, Card, Row, Col, ListGroup, Button, Container } from 'react-bootstrap'
+import { Spinner, Card, Row, Col, ListGroup, Button, Container, ListGroupItem } from 'react-bootstrap'
 import { BsStar, BsFillStarFill } from "react-icons/bs";
 import { getAllFavorites, deleteFavorite, createFavorite } from '../../api/favorites'
+import env from 'react-dotenv'
 
 const cardContainerLayout = {
     display: 'flex',
@@ -23,8 +24,12 @@ const CryptosIndex = (props) => {
 
 
   const [cryptos, setResults] = useState(null)
+  const [market, setMarket] = useState(null)
+  const [news, setNews] = useState(null)
+  const [trending, setTrending] = useState(null)
+
   let assetsDisplay = null
-  let starFav = null
+  let marketBanner = null
 
 
   useEffect(() => {
@@ -35,24 +40,32 @@ const CryptosIndex = (props) => {
       )
       getTrending()
         .then((res) => {
-          console.log('these puppies are trending', res.data.coins)
+          setTrending(res.data.coins)
         })
-      if (user) {      
-        getAllFavorites(user)
+      getCryptoNews()
+        .then((res) => {
+          console.log('news', res.data)
+        })
+        if (user) {      
+          getAllFavorites(user)
           .then((res) => {
             setFavorites(res.data.favorites)
             setUpdated(false)
-          // console.log('index favs', res)
+            // console.log('index favs', res)
+          })
+        } else {
+          console.log('no user')
+        }
+      getEntireMarket()
+        .then((market) => {
+          setMarket(market.data.data)
         })
-      } else {
-        console.log('no user')
-      }
     }
     fetchData()
   }, [updated])
   
   console.log('the response', cryptos)
-  console.log('favorite on index', favorites)
+  console.log('market data', market)
 
 
 
@@ -88,8 +101,44 @@ const CryptosIndex = (props) => {
       items.push(favorites[i].coinGeckId)
     }
   }
-  console.log('a match', items)  
+  // console.log('a match', items)  
   
+  if (market) {
+
+    
+      marketBanner =  
+        <>
+        <ListGroup className='banner'>
+          
+      <ListGroup.Item>
+      <Row style={{ height: '20px' }}>
+      <Col>
+                Cryptos: {market.active_cryptocurrencies.toLocaleString()}
+      </Col>
+      <Col>
+                Exchanges: {market.markets.toLocaleString()}
+      </Col>
+      <Col>
+                Market Cap: 
+                ${market.total_market_cap.usd.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+      </Col>
+      <Col>
+                24h Market Cap %: <span style={market.market_cap_change_percentage_24h_usd > 0 ? { color: 'green'} : {color: 'red'}}> {market.market_cap_change_percentage_24h_usd.toLocaleString(undefined, { maximumFractionDigits: 2 })}%</span>
+      </Col>
+      <Col>
+                Dominance:  
+                BTC: {market.market_cap_percentage.btc.toLocaleString(undefined, { maximumFractionDigits: 2 })}%
+                ETH: {market.market_cap_percentage.eth.toLocaleString(undefined, { maximumFractionDigits: 2 })}%
+      </Col>
+      </Row>
+      </ListGroup.Item>
+    </ListGroup>
+
+      </>
+  }
+      
+      
+    
 
   if (cryptos.length > 0) {
     assetsDisplay = cryptos.map((crypto) => {
@@ -123,8 +172,8 @@ const CryptosIndex = (props) => {
 
   return (
     <>
-        
-      <ListGroup className='scroll' style={{ width: '90%', height:'400px' }}>
+      {marketBanner}
+      <ListGroup className='scroll' style={{ width: '90%' }}>
         <ListGroup.Item>
           <Row style={{ fontWeight: 'bold' }}>
             <Col>
