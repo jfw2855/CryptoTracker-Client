@@ -11,9 +11,13 @@ return (
         mode: 'lines',
         x: history['time'],
         y: history['price'],
-        marker: { color: '#ed022d'}}
-        ]}
-      layout = { {width: 1000, height: 500, title: `Price History for ${crypto.name}`} }
+          marker: { color: '#ed022d' },
+        }
+      ]}
+      
+      layout={{plot_bgcolor:"transparent", paper_bgcolor:"transparent", width: 1000, height: 500, title: `Price History for ${crypto.name}` }
+    
+      }
     />
     </>
     )
