@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import { getCryptos } from '../../api/cryptos'
+import { getCryptos, getTrending } from '../../api/cryptos'
 import { Link, useNavigate } from 'react-router-dom'
-import { Spinner, Card, Row, Col, ListGroup, Button } from 'react-bootstrap'
+import { Spinner, Card, Row, Col, ListGroup, Button, Container } from 'react-bootstrap'
 import { BsStar, BsFillStarFill } from "react-icons/bs";
 import { getAllFavorites, deleteFavorite, createFavorite } from '../../api/favorites'
 
@@ -33,6 +33,10 @@ const CryptosIndex = (props) => {
         .then((res) => 
         setResults(res.data)
       )
+      getTrending()
+        .then((res) => {
+          console.log('these puppies are trending', res.data.coins)
+        })
       if (user) {      
         getAllFavorites(user)
           .then((res) => {
@@ -89,8 +93,9 @@ const CryptosIndex = (props) => {
 
   if (cryptos.length > 0) {
     assetsDisplay = cryptos.map((crypto) => {
-    return (
-    <ListGroup.Item key={crypto._id}>
+      return (
+
+            <ListGroup.Item key={crypto._id} >
               <Link style={{ textDecoration: 'none', color: 'black' }} to={`/crypto/${crypto.id}`}>
                 <Row style={{ alignItems: 'center' }}>
                   <Col>
@@ -112,7 +117,6 @@ const CryptosIndex = (props) => {
                 </Row>
               </Link>
             </ListGroup.Item>
-        
           )
         })
   }
@@ -120,7 +124,7 @@ const CryptosIndex = (props) => {
   return (
     <>
         
-      <ListGroup style={{ width: '85%' }}>
+      <ListGroup className='scroll' style={{ width: '90%', height:'400px' }}>
         <ListGroup.Item>
           <Row style={{ fontWeight: 'bold' }}>
             <Col>
