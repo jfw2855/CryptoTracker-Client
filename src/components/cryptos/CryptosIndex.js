@@ -145,14 +145,15 @@ const CryptosIndex = (props) => {
     assetsDisplay = cryptos.map((crypto) => {
       return (
             <ListGroup.Item style={{backgroundColor:'transparent', borderTop:'grey 1px solid'}} key={crypto._id} >
-              <Link style={{ textDecoration: 'none', color: 'black' }} to={`/crypto/${crypto.id}`}>
                 <Row style={{ alignItems: 'center', color:'white' }}>
                   <Col>
-                  <BsFillStarFill onClick={(e) => handleFavorite(e, crypto.id)} style={ items.includes(crypto.id) ? {color:'orange'} : {color:'black'} }type = "button" fontSize="14px" />
+                  <BsFillStarFill onClick={(e) => handleFavorite(e, crypto.id)} style={ items.includes(crypto.id) ? {color:'orange'} : {color:'white'} }type = "button" fontSize="14px" />
                     <span style={{ marginLeft: 5 }}>{crypto.market_cap_rank}</span>
                   </Col>
                   <Col>
-                    <img src={crypto.image} alt={crypto.name} width={25} style={{ backgroundColor: "white" }} /> <strong>{crypto.name}</strong> {crypto.symbol.toUpperCase()}
+              <Link style={{ textDecoration: 'none', color: 'black' }} to={`/crypto/${crypto.id}`}>
+                    <img src={crypto.image} alt={crypto.name} width={25} style={{ backgroundColor: "white", borderRadius:'50%' }} /> <strong style={{color: 'white'}}>{crypto.name}</strong><span style={{color: 'white'}}> {crypto.symbol.toUpperCase()}</span>
+              </Link>
                   </Col>
                   <Col>
                     ${crypto.current_price > 1 ? crypto.current_price.toLocaleString('en-US') : crypto.current_price.toPrecision(4)}
@@ -164,7 +165,6 @@ const CryptosIndex = (props) => {
                     ${crypto.market_cap.toLocaleString(undefined, { maximumFractionDigits: 2 })}
                   </Col>
                 </Row>
-              </Link>
             </ListGroup.Item>
           )
         })
@@ -177,8 +177,8 @@ const CryptosIndex = (props) => {
         news={news}
         trending={trending}
       />
-
       <ListGroup className='scroll' style={{ width: '90%' }}>
+    <h1 style={{ color: 'white', marginTop:'10px'}}>Top 100 Cryptos by Market Cap</h1>
         <ListGroup.Item variant="dark">
           <Row style={{ fontWeight: 'bold' }}>
             <Col>
