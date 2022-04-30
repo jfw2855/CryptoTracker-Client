@@ -102,7 +102,7 @@ const CryptoShow = (props) => {
             </div>
             <h1
               className="logo name"
-              style={{ display: 'inline-block', marginBottom: '0' }}
+              style={{ display: 'inline-block', marginBottom: '20px' }}
             >
               {crypto.name}
               <BsFillStarFill

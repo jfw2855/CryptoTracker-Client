@@ -32,10 +32,8 @@ const CryptoGraph = (props) => {
             showgrid: true,
             color: 'white',
           },
+
           autosize: true,
-          width: 650,
-          height: 500,
-          responsive: true,
         }}
       />
     </>
