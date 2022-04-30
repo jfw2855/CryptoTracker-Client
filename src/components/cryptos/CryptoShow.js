@@ -167,9 +167,7 @@ const CryptoShow = (props) => {
       <Row>
         <div className="graph-container">
           <Col>
-            <div className="graph">
-              <CryptoGraph history={history} crypto={crypto} />
-            </div>
+            <CryptoGraph history={history} crypto={crypto} />
           </Col>
           <Col>
             <div className="scroll-show">

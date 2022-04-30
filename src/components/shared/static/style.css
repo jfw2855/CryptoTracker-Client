@@ -1,10 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300&display=swap');
 
 .app-container {
-
-    height: 100%;
-    background: rgb(30, 17, 74);
-
+  height: 100%;
+  background: rgb(30, 17, 74);
 }
 
 /* * {
@@ -46,12 +44,10 @@ h6 {
   /* overflow: auto;  */
 }
 
-
-.banner{
-    font-size: 12px;
-    background-color: rgb(25, 19, 29);
-    color: white;
-
+.banner {
+  font-size: 12px;
+  background-color: rgb(25, 19, 29);
+  color: white;
 }
 
 .index-col {
@@ -59,11 +55,10 @@ h6 {
 }
 
 .index-container {
-
-    display: flex;
-    justify-content: center;
-    flex-direction: row
-} 
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
 
 a {
   color: white;
@@ -72,62 +67,62 @@ a {
 }
 
 a:hover {
-
-    color:rgb(173, 98, 173);
-    text-decoration: none;
-
+  color: rgb(173, 98, 173);
+  text-decoration: none;
 }
 
 .navbar {
-    background-color: rgb(25, 19, 29);
+  background-color: rgb(25, 19, 29);
 }
 
-.green,.red {
-    color: white;
-    font-weight: bold;
-    
-    padding: 4px;
-    border-radius: 5px;
+.green,
+.red {
+  color: white;
+  font-weight: bold;
 
+  padding: 4px;
+  border-radius: 5px;
 }
 
 .green {
-    background-color: rgb(12, 105, 12);
+  background-color: rgb(12, 105, 12);
 }
 .red {
-    background-color: rgb(180, 13, 13);
+  background-color: rgb(180, 13, 13);
 }
 
 .dropdown-style {
-    background-color: #b387dc;
-    border-radius: 6px;
-    padding: none;
-    color: white !important;
+  background-color: #b387dc;
+  border-radius: 6px;
+  padding: none;
+  color: white !important;
 }
 
 .dropdown-style:hover {
-    background-color: #916db2;
+  background-color: #916db2;
 }
 
 .logo {
-    font-family: 'Sulphur Point',sans-serif;
-    font-size: 1em;
-    font-weight: bold;
-    background-image: linear-gradient(to bottom, #a06af6, #faeac9);
-    background-clip: text;
-    color: transparent;
-    margin-left: 10px;
-    text-decoration: none !important;
+  font-family: 'Sulphur Point', sans-serif;
+  font-size: 1em;
+  font-weight: bold;
+  background-image: linear-gradient(to bottom, #a06af6, #faeac9);
+  background-clip: text;
+  color: transparent;
+  margin-left: 10px;
+  text-decoration: none !important;
 }
 
 .navv-link:hover {
-    background-color: #916db2;
-    color: black;
+  background-color: #916db2;
+  color: black;
 }
 
 .navv-link {
+
     color: black;
 }
+
 
 
 .scroll-show {
@@ -149,6 +144,7 @@ a:hover {
   flex-direction: row;
   justify-content: space-around;
 }
+
 
 .portfolio-container {
   border: purple 1px solid;
@@ -200,3 +196,31 @@ a:hover {
   }
 }
       
+
+.signin-container,
+.signout-container {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+}
+
+.login-form,
+.signout-form {
+  border-radius: 5%;
+  background-color: rgba(95, 100, 100, 0.692);
+  padding: 50px;
+  color: white;
+}
+.signout-form {
+  width: 500px;
+  height: 300px;
+}
+.login-form {
+  width: 600px;
+  height: 400px;
+}
+
+.sign-button {
+  margin-top: 10px;
+}
+

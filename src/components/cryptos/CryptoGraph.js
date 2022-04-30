@@ -6,6 +6,7 @@ const CryptoGraph = (props) => {
   return (
     <>
       <Plot
+        className="plot-container"
         data={[
           {
             type: 'scatter',
@@ -32,7 +33,8 @@ const CryptoGraph = (props) => {
             showgrid: true,
             color: 'white',
           },
-
+          width: '30%',
+          height: '30%',
           autosize: true,
         }}
       />
