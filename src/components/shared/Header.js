@@ -1,71 +1,67 @@
 import React, { Fragment } from 'react'
+import { Dropdown, DropdownButton,NavDropdown} from 'react-bootstrap'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import { Link } from 'react-router-dom'
+
 const linkStyle = {
     color: 'white',
     textDecoration: 'none'
 }
 const authenticatedOptions = (
 	<>
-		<Nav.Item>
-			<Link to='change-password' style={linkStyle}>
-				Change Password
+		<Navbar.Brand >
+            <Link to='/home' className='logo'>
+                CryptoTracker
+            </Link>
+        </Navbar.Brand>
+		<Nav.Link style={linkStyle}>
+			<Link to='portfolio'>
+				Portfolio
 			</Link>
-		</Nav.Item>
-		<Nav.Item>
-			<Link to='sign-out' style={linkStyle}>
-				Sign Out
+		</Nav.Link>
+		<Nav.Link style={linkStyle}>
+			<Link to='favorites'>
+				Favorites
 			</Link>
-		</Nav.Item>
-		<Nav.Item>
-			<Link to='portfolio' style={linkStyle}>
-				View Portfolio
-			</Link>
-		</Nav.Item>
-		<Nav.Item>
-			<Link to='favorites' style={linkStyle}>
-				View Favorites
-			</Link>
-		</Nav.Item>
+		</Nav.Link>
+		<NavDropdown title="Profile" style={linkStyle} className="dropdown-style">
+			<NavDropdown.Item className="navv-link">
+				<Link to='portfolio' className="navv-link">Portfolio</Link>
+			</NavDropdown.Item>
+			<NavDropdown.Item className="navv-link">
+				<Link to='change-password' className="navv-link">Change Password</Link>
+			</NavDropdown.Item>
+			<NavDropdown.Item className="navv-link" >
+				<Link to='sign-out' className="navv-link">Sign Out</Link>
+			</NavDropdown.Item>
+    	</NavDropdown>
 	</>
 )
 
 const unauthenticatedOptions = (
 	<>
-        <Nav.Item>
+		<Navbar.Brand >
+            <Link to='/' className='logo'>
+                CryptoTracker
+            </Link>
+        </Navbar.Brand >
+        <Nav.Link>
 		    <Link to='sign-up' style={linkStyle}>Sign Up</Link>
-        </Nav.Item>
-        <Nav.Item>
+        </Nav.Link>
+        <Nav.Link>
 		    <Link to='sign-in' style={linkStyle}>Sign In</Link>
-        </Nav.Item>
+        </Nav.Link>
 	</>
 )
 
-const alwaysOptions = (
-	<>
-<Nav.Link>
-	<Link to='/home' style={linkStyle}>
-		Home
-	</Link>
-</Nav.Link>
-</>
-)
 
 const Header = ({ user }) => (
-	<Navbar bg='primary' variant='dark' expand='md'>
-		<Navbar.Brand>
-            <Link to='/home' style={linkStyle}>
-                Crypto Tracker
-            </Link>
-        </Navbar.Brand>
+	<Navbar className='navbar'>
+
 		<Navbar.Toggle aria-controls='basic-navbar-nav' />
 		<Navbar.Collapse id='basic-navbar-nav'>
-			<Nav className='ml-auto'>
-				{user && (
-					<span className='navbar-text mr-2'>Welcome, {user.email}</span>
-				)}
-				{alwaysOptions}
+			<Nav className='me-auto'>
 				{user ? authenticatedOptions : unauthenticatedOptions}
 			</Nav>
 		</Navbar.Collapse>

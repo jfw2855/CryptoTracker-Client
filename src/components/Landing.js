@@ -1,4 +1,5 @@
 import '../landing.css'
+import { Link } from 'react-router-dom'
 
 const Landing = (props) => {
 
@@ -16,7 +17,7 @@ const {user} = props
             <h1 className='title'>CryptoTracker</h1>
             <h4 className='blurb'>Track all of your crypto investments in one place</h4>
             <div className='button-container'>
-                <button className='signup-btn'>Sign Up</button> <button className='login-btn'>Login</button>
+                <Link type='button' className='signup-btn' to="sign-up">Sign Up</Link> <Link type='button' to="sign-in" className='login-btn'>Login</Link>
             </div>
         </div>
     </div>

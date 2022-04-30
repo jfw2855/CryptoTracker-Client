@@ -44,8 +44,8 @@
     border-radius: 5px;
     margin: 10px;
     font-size: 25px;
-    align-items: center;
-    justify-items: center;
+    text-align: center;
+    color: black;
 }
 .login-btn {
     background-color: rgb(231, 215, 215);
