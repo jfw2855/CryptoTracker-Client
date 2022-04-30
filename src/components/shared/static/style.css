@@ -144,3 +144,30 @@ a:hover {
   flex-direction: row;
   justify-content: space-around;
 }
+
+.signin-container,
+.signout-container {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+}
+
+.login-form,
+.signout-form {
+  border-radius: 5%;
+  background-color: rgba(95, 100, 100, 0.692);
+  padding: 50px;
+  color: white;
+}
+.signout-form {
+  width: 500px;
+  height: 300px;
+}
+.login-form {
+  width: 600px;
+  height: 400px;
+}
+
+.sign-button {
+  margin-top: 10px;
+}
