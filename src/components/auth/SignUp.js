@@ -1,6 +1,7 @@
 // import React, { Component } from 'react'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import '../../landing.css'
 
 import { signUp, signIn } from '../../api/auth'
 import messages from '../shared/AutoDismissAlert/messages'
@@ -9,108 +10,112 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { createPortfolio } from '../../api/portfolio'
 
-
 const SignUp = (props) => {
-	// constructor(props) {
-	// 	super(props)
+  // constructor(props) {
+  // 	super(props)
 
-	// 	this.state = {
-	// 		email: '',
-	// 		password: '',
-	// 		passwordConfirmation: '',
-	// 	}
-	// }    
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [passwordConfirmation, setPasswordConfirmation] = useState('')
+  // 	this.state = {
+  // 		email: '',
+  // 		password: '',
+  // 		passwordConfirmation: '',
+  // 	}
+  // }
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [passwordConfirmation, setPasswordConfirmation] = useState('')
 
-    const navigate = useNavigate()
+  const navigate = useNavigate()
 
-	const onSignUp = (event) => {
-		event.preventDefault()
+  const onSignUp = (event) => {
+    event.preventDefault()
 
-		const { msgAlert, setUser } = props
+    const { msgAlert, setUser } = props
 
-        const credentials = {email, password, passwordConfirmation}
+    const credentials = { email, password, passwordConfirmation }
 
-		signUp(credentials)
-			.then(() => signIn(credentials))
-            .then((res) => {
-                setUser(res.data.user)
-                createPortfolio(res.data.user)
-                    .then((res) => {
-                    console.log('res', res)
-                })
-                console.log('res.dataatatasdgdafgdfg',res.data.user)
-                
-            })
-			.then(() =>
-				msgAlert({
-					heading: 'Sign Up Success',
-					message: messages.signUpSuccess,
-					variant: 'success',
-				})
-			)
-			.then(() => navigate('/home'))
-			.catch((error) => {
-                setEmail('')
-                setPassword('')
-                setPasswordConfirmation('')
-				msgAlert({
-					heading: 'Sign Up Failed with error: ' + error.message,
-					message: messages.signUpFailure,
-					variant: 'danger',
-				})
-			})
-	}
+    signUp(credentials)
+      .then(() => signIn(credentials))
+      .then((res) => {
+        setUser(res.data.user)
+        createPortfolio(res.data.user).then((res) => {
+          console.log('res', res)
+        })
+        console.log('res.dataatatasdgdafgdfg', res.data.user)
+      })
+      .then(() =>
+        msgAlert({
+          heading: 'Sign Up Success',
+          message: messages.signUpSuccess,
+          variant: 'success',
+        })
+      )
+      .then(() => navigate('/home'))
+      .catch((error) => {
+        setEmail('')
+        setPassword('')
+        setPasswordConfirmation('')
+        msgAlert({
+          heading: 'Sign Up Failed with error: ' + error.message,
+          message: messages.signUpFailure,
+          variant: 'danger',
+        })
+      })
+  }
 
-
-    return (
-        <div className='row'>
-            <div className='col-sm-10 col-md-8 mx-auto mt-5'>
-                <h3>Sign Up</h3>
-                <Form onSubmit={onSignUp}>
-                    <Form.Group controlId='email'>
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control
-                            required
-                            type='email'
-                            name='email'
-                            value={email}
-                            placeholder='Enter email'
-                            onChange={e => setEmail(e.target.value)}
-                        />
-                    </Form.Group>
-                    <Form.Group controlId='password'>
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control
-                            required
-                            name='password'
-                            value={password}
-                            type='password'
-                            placeholder='Password'
-                            onChange={e => setPassword(e.target.value)}
-                        />
-                    </Form.Group>
-                    <Form.Group controlId='passwordConfirmation'>
-                        <Form.Label>Password Confirmation</Form.Label>
-                        <Form.Control
-                            required
-                            name='passwordConfirmation'
-                            value={passwordConfirmation}
-                            type='password'
-                            placeholder='Confirm Password'
-                            onChange={e => setPasswordConfirmation(e.target.value)}
-                        />
-                    </Form.Group>
-                    <Button variant='primary' type='submit'>
-                        Submit
-                    </Button>
-                </Form>
-            </div>
+  return (
+    <div className="landing-container">
+      <section className="wrapper">
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
+      </section>
+      <div className="row">
+        <div className="col-sm-10 col-md-8 mx-auto mt-5">
+          <div className="signin-container">
+            <Form className="login-form" onSubmit={onSignUp}>
+              <h3>Sign Up</h3>
+              <Form.Group controlId="email">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control
+                  required
+                  type="email"
+                  name="email"
+                  value={email}
+                  placeholder="Enter email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group controlId="password">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  required
+                  name="password"
+                  value={password}
+                  type="password"
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group controlId="passwordConfirmation">
+                <Form.Label>Password Confirmation</Form.Label>
+                <Form.Control
+                  required
+                  name="passwordConfirmation"
+                  value={passwordConfirmation}
+                  type="password"
+                  placeholder="Confirm Password"
+                  onChange={(e) => setPasswordConfirmation(e.target.value)}
+                />
+              </Form.Group>
+              <Button variant="dark" className="sign-button" type="submit">
+                Submit
+              </Button>
+            </Form>
+          </div>
         </div>
-    )
-
+      </div>
+    </div>
+  )
 }
 
 export default SignUp
