@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { getAllFavorites, deleteFavorite } from '../../api/favorites'
-import { Spinner, Card, Button, Form } from 'react-bootstrap'
+import { Card, Button, Form } from 'react-bootstrap'
 import { getSeveral } from '../../api/cryptos'
 import { Link, useNavigate } from 'react-router-dom'
 import { BsFillTrashFill } from "react-icons/bs";
@@ -47,9 +47,7 @@ const FavoritesIndex = (props) => {
 
 
         if (favorites == null) {
-                return<Spinner animation="border" className role="status">
-                <span className="visually-hidden">Loading</span>
-                </Spinner>
+                return<span class="loader"></span>
             }
     //    else if (favorites.data.favorites.length > 0) {            
     //         const favoriteData = getSeveral(query)
@@ -76,9 +74,7 @@ const FavoritesIndex = (props) => {
     
     
     if (!mData) {
-        return<Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading</span>
-          </Spinner>
+        return <span class="loader"></span>
     } 
     
     

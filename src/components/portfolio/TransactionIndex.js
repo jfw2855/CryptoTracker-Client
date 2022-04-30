@@ -2,7 +2,7 @@ import { queryByAltText } from '@testing-library/react'
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 import { viewTransactions,updateTransaction,removeTransaction, createTransaction,showCoinPurchases } from '../../api/transaction'
-import { Spinner, ListGroup, Row, Col, Button} from 'react-bootstrap'
+import {  ListGroup, Row, Col, Button} from 'react-bootstrap'
 import {BsTrash,BsPencilFill} from 'react-icons/bs'
 import EditTransactionModal from './EditTransactionModal'
 import CreateCoinModal from './CreateCoinModal'
@@ -34,7 +34,6 @@ const TransactionIndex = (props) => {
     
   const handleEdit = (e, transaction, index) => {
     setNum(index)
-    setModalOpen()
     const handleOpen = () => {
       setModalOpen(true)
     }
@@ -66,10 +65,12 @@ const TransactionIndex = (props) => {
           <Row>{ convertDate(transaction.datetime)}</Row>
         </Col>
         <Col>
-          {transaction.price}
+          {transaction.price.toLocaleString('en-US', {style:'currency',currency:'USD'})}
         </Col>
         <Col>
-          {transaction.amount}
+          <Row>{(transaction.amount*transaction.price).toLocaleString('en-US', {style:'currency',currency:'USD'})}</Row>
+          <Row>{transaction.amount} {symbol.toUpperCase()}</Row>
+          
         </Col>
         <Col>
             <BsPencilFill type='button' onClick={(e) => handleEdit(e, transaction, index)}/> 
@@ -95,20 +96,31 @@ const TransactionIndex = (props) => {
       />  
   } 
   if (!transactions) {
-    return <Spinner animation="border" role="status">
-    <span className="visually-hidden">Loading</span>
-   </Spinner>
+    return <span class="loader"></span>
 
   }
   return (
     <>
-    <img src={img} width={50}/>
-    <h5 style={{color:'white'}}>{name} ({symbol.toUpperCase()})</h5>
-    <p style={{color:'white'}}>24H: {daily.toFixed(2)}%</p>
-    <p style={{color:'white'}}>Balance: {(quantity*currPrice).toLocaleString('en-US', {style:'currency',currency:'USD'})}</p>
-    <p style={{color:'white'}}>Quantity: {quantity} {symbol.toUpperCase()} </p>
-    <p style={{color:'white'}}>Avg. Buy Price {avgBuy.toLocaleString('en-US', {style:'currency',currency:'USD'})}</p>
-    <p style={{color:'white'}}>P/L: {pl_amount.toLocaleString('en-US', {style:'currency',currency:'USD'})} {pl_precentage.toFixed(2)}%</p>
+    <div className="portfolio-container">
+      <div>
+        <img src={img} width={35}/> <span>{name} ({symbol.toUpperCase()})</span> <span className={daily>0?'green':'red'}>{daily.toFixed(2)}%</span>
+      </div>
+
+    <Row>
+      <Col>
+        <Row>Quantity</Row>
+        <Row>{quantity} {symbol.toUpperCase()} </Row>
+      </Col>
+      <Col>
+        <Row>Avg. Buy Price</Row>
+        <Row>{avgBuy.toLocaleString('en-US', {style:'currency',currency:'USD'})} </Row>
+      </Col>
+      <Col>
+        <Row>Total Profit / Loss</Row>
+        <Row>{pl_amount.toLocaleString('en-US', {style:'currency',currency:'USD'})} {pl_precentage.toFixed(2)}% </Row>
+      </Col>
+    </Row>
+
     <button onClick={handleCreate}>Add Transaction</button>
            <ListGroup style={{ width: '85%' }}>
         <ListGroup.Item>
@@ -129,6 +141,7 @@ const TransactionIndex = (props) => {
         </ListGroup.Item>
         {transactionsDisplay}
       </ListGroup>
+      </div>
       {editModal}
       <CreateCoinModal
             coinId={coin}

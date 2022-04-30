@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { showCrypto, getHistory } from '../../api/cryptos'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Form, Spinner, Row, Col, Accordion, Button } from 'react-bootstrap'
+import { Form, Row, Col, Accordion, Button } from 'react-bootstrap'
 import Plot from 'react-plotly.js'
 import CryptoGraph from './CryptoGraph'
 import {
@@ -75,10 +75,7 @@ const CryptoShow = (props) => {
     setHistory(plot_data)
   }
   if (!history) {
-    return (
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading</span>
-      </Spinner>
+    return (<span class="loader"></span>
     )
   }
   console.log('show page data', crypto)
