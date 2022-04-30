@@ -1,13 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300&display=swap');
 
 .app-container {
-  /* height: 100%; */
-  position: absolute;
-  width: 100%;
-  left: 0;
-  overflow: hidden;
-  background: rgb(2, 0, 36);
-  /* background: linear-gradient(6deg, rgba(2,0,36,1) 0%, rgba(21,21,24,1) 25%, rgba(88,103,106,1) 100%); */
+  height: 100%;
+  background: rgb(30, 17, 74);
 }
 
 /* * {
@@ -51,7 +46,7 @@ h6 {
 
 .banner {
   font-size: 12px;
-  background-color: rgb(72, 8, 115);
+  background-color: rgb(25, 19, 29);
   color: white;
 }
 
@@ -64,11 +59,6 @@ h6 {
   justify-content: center;
   flex-direction: row;
 }
-*/ .trend-container {
-  display: flex;
-  flex-direction: column;
-  border: solid 3px red;
-}
 
 a {
   color: white;
@@ -77,6 +67,60 @@ a {
 }
 
 a:hover {
+  color: rgb(173, 98, 173);
+  text-decoration: none;
+}
+
+.navbar {
+  background-color: rgb(25, 19, 29);
+}
+
+.green,
+.red {
+  color: white;
+  font-weight: bold;
+
+  padding: 4px;
+  border-radius: 5px;
+}
+
+.green {
+  background-color: rgb(12, 105, 12);
+}
+.red {
+  background-color: rgb(180, 13, 13);
+}
+
+.dropdown-style {
+  background-color: #b387dc;
+  border-radius: 6px;
+  padding: none;
+  color: white !important;
+}
+
+.dropdown-style:hover {
+  background-color: #916db2;
+}
+
+.logo {
+  font-family: 'Sulphur Point', sans-serif;
+  font-size: 1em;
+  font-weight: bold;
+  background-image: linear-gradient(to bottom, #a06af6, #faeac9);
+  background-clip: text;
+  color: transparent;
+  margin-left: 10px;
+  text-decoration: none !important;
+}
+
+.navv-link:hover {
+  background-color: #916db2;
+  color: black;
+}
+
+.navv-link {
+  color: black;
+
   color: purple;
   text-decoration: underline;
 }
@@ -99,8 +143,4 @@ a:hover {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-}
-.plot-container {
-  height: 30%;
-  width: 30%;
 }

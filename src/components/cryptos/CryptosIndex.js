@@ -159,7 +159,7 @@ const CryptosIndex = (props) => {
                     ${crypto.current_price > 1 ? crypto.current_price.toLocaleString('en-US') : crypto.current_price.toPrecision(4)}
                   </Col>
                   <Col>
-                    <span style={crypto.price_change_percentage_24h > 0 ? { color: 'green' } : { color: "red" }}>{crypto.price_change_percentage_24h.toFixed(2)}%</span>
+                    <span className={crypto.price_change_percentage_24h > 0 ? 'green': 'red'}>{crypto.price_change_percentage_24h.toFixed(2)}%</span>
                   </Col>
                   <Col>
                     ${crypto.market_cap.toLocaleString(undefined, { maximumFractionDigits: 2 })}
