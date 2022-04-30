@@ -85,7 +85,7 @@ const PortfolioIndex = (props) => {
   }
   
   if(!mData) {
-    return <p>Loading...</p>
+    return <span class="loader"></span>
   }
   else if (mData === [] ) {
     return <button onClick={handleCreate}>Add Transaction</button>
