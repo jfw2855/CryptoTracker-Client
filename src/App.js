@@ -16,7 +16,7 @@ import PortfolioIndex from './components/portfolio/PortfolioIndex'
 import CryptoShow from './components/cryptos/CryptoShow'
 import FavoritesIndex from './components/favorites/FavoritesIndex'
 import TransactionIndex from './components/portfolio/TransactionIndex'
-import Landing from './components/Landing' 
+import Landing from './components/Landing'
 
 
 const App = () => {
