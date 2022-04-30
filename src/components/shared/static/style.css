@@ -100,3 +100,7 @@ a:hover {
   flex-direction: row;
   justify-content: space-around;
 }
+.plot-container {
+  height: 30%;
+  width: 30%;
+}
