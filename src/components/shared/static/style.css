@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300&display=swap');
 
 .app-container {
+
     height: 100%;
     background: rgb(30, 17, 74);
+
 }
 
 /* * {
@@ -10,69 +12,67 @@
 } */
 
 .show {
-    color: whitesmoke;
+  color: whitesmoke;
 }
 
 h1 {
-    display: inline-block;
+  display: inline-block;
 }
 
 h6 {
-    display: inline-block;
-    border: .5px solid whitesmoke;
-    border-radius: 21%;
-    margin-left: 3%;
-    margin-top: 3%;
-    padding: 3px;
-} 
+  display: inline-block;
+  border: 0.5px solid whitesmoke;
+  border-radius: 21%;
+  margin-left: 3%;
+  margin-top: 3%;
+  padding: 3px;
+}
 
 .price {
-    font-size: 70px;
+  font-size: 70px;
 }
 
 .name {
-    margin-top: 7%;
-    font-size: 55px;
+  margin-top: 7%;
+  font-size: 55px;
 }
 
 .scroll {
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    opacity: 90%; 
-    /* max-height: 450px; */
-    /* overflow: auto;  */
- }
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  opacity: 90%;
+  /* max-height: 450px; */
+  /* overflow: auto;  */
+}
+
 
 .banner{
     font-size: 12px;
     background-color: rgb(25, 19, 29);
     color: white;
+
 }
 
- .index-col { 
-    margin: auto;
-    
+.index-col {
+  margin: auto;
 }
 
 .index-container {
+
     display: flex;
     justify-content: center;
     flex-direction: row
-} */
-
-.trend-container{
-    display: flex;
-    flex-direction: column;
-}
+} 
 
 a {
-    color:white;
-    text-decoration: none;
-    font-size: 16px;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
 }
 
 a:hover {
+
     color:rgb(173, 98, 173);
     text-decoration: none;
 
@@ -128,3 +128,28 @@ a:hover {
 .navv-link {
     color: black;
 }
+=======
+  color: purple;
+  text-decoration: underline;
+}
+
+.scroll-show {
+  max-height: 70%;
+  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: inherit;
+  max-width: 100%;
+  margin-top: 50px;
+}
+
+.graph {
+  margin-left: auto;
+  padding-right: 0%;
+}
+
+.graph-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
