@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { getCryptos, getEntireMarket, getTrending, getCryptoNews } from '../../api/cryptos'
 import { Link, useNavigate } from 'react-router-dom'
-import { Spinner, Card, Row, Col, ListGroup, Button, Container, ListGroupItem } from 'react-bootstrap'
+import { Card, Row, Col, ListGroup, Button, Container, ListGroupItem } from 'react-bootstrap'
 import { BsStar, BsFillStarFill } from "react-icons/bs";
 import { getAllFavorites, deleteFavorite, createFavorite } from '../../api/favorites'
 import env from 'react-dotenv'
@@ -71,9 +71,7 @@ const CryptosIndex = (props) => {
 
 
   if (!cryptos) {
-    return <Spinner animation="border" role="status">
-      <span className="visually-hidden">Loading</span>
-    </Spinner>
+    return <span class="loader"></span>
   }
   
  const handleFavorite = (e, id) => {
