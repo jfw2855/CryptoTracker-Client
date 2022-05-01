@@ -140,7 +140,7 @@ const PortfolioIndex = (props) => {
                   <Link 
                     style={{ fontSize:'115%',textDecoration: 'none', color: 'indigo' }} 
                     to={`/transaction/${coin.id}`} 
-                    state={{quantity:coin.quantity,currPrice:coin.current_price,daily:coin.price_change_percentage_24h,symbol:coin.symbol,avgBuy:coin.avgPrice,pl_amount:coin.pl_amount,pl_precentage:coin.pl_precentage,img:coin.coinImg,name:coin.name}}>
+                    state={{currPrice:coin.current_price,daily:coin.price_change_percentage_24h,symbol:coin.symbol,img:coin.coinImg,name:coin.name}}>
                       <BsArrowLeftRight/> 
                   </Link>
                   &nbsp;&nbsp;<BsTrash type='button' onClick={(e) => handleDelete(e, coin.coinId,coin.id)}/>
