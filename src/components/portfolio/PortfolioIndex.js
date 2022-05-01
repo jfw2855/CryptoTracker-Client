@@ -100,13 +100,15 @@ const PortfolioIndex = (props) => {
   }
   
   let layout = {
-    title: 'Allocation',
+    title: {
+      text: "Allocation",
+      font: {
+        color: 'white',
+        size: 23,
+      }
+    },
     annotations: [
       {
-        textfont: {
-          size: 20,
-          color: 'orange'
-        },
         showarrow: false,
         text: '',
         x: 0.82,
@@ -114,8 +116,19 @@ const PortfolioIndex = (props) => {
       }
     ],
     height: 400,
-    width: 300,
-    showlegend: false,
+    width: 500,
+    legend: {
+      x: 0,
+      y: 1,
+      traceorder: 'normal',
+      font: {
+        family: 'sans-serif',
+        size: 12,
+        color: 'white'
+      },
+      borderwidth: 2,
+      bordercolor:'white'
+    },
     paper_bgcolor:'transparent',
     grid: {rows: 1, columns: 1}
   };
@@ -203,9 +216,8 @@ const PortfolioIndex = (props) => {
 
   return (
     <>
-    <h3 style={{color:'white',textAlign:'center',marginTop:'3%'}}>Portfolio</h3>
-    
     <div className='portfolio-container'>
+      <h3 style={{color:'white',textAlign:'center',marginTop:'3%'}}>Portfolio</h3>
       <div className='portfolio-detail'>
         {piechart}
         <div className="balance">
