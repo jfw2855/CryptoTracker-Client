@@ -75,8 +75,7 @@ const CryptoShow = (props) => {
     setHistory(plot_data)
   }
   if (!history) {
-    return (<span class="loader"></span>
-    )
+    return <span class="loader"></span>
   }
   console.log('show page data', crypto)
   return (
@@ -137,9 +136,9 @@ const CryptoShow = (props) => {
           <br />
           <h1 className="price" style={{ borderBottom: 'grey 1px solid' }}>
             $
-            {crypto.market_data.current_price.usd.toLocaleString(undefined, {
-              maximumFractionDigits: 2,
-            })}
+            {crypto.market_data.current_price.usd > 1
+              ? crypto.market_data.current_price.usd.toLocaleString('en-US')
+              : crypto.market_data.current_price.usd.toPrecision(4)}
           </h1>{' '}
           <br />
           <Row>
