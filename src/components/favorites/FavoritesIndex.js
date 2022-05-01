@@ -95,30 +95,6 @@ const FavoritesIndex = (props) => {
 
   console.log('market favortie data', mData)
   let favoriteCards = mData.data.map((crypto) => (
-    // <Card
-    //   key={crypto.id}
-    //   style={{ width: '15%' }}
-    //   className="text-centered m-2"
-    // >
-    //   <Card.Header>
-    //     {crypto.name} ({crypto.symbol})
-    //   </Card.Header>
-    //   <Card.Body>
-    //     <img src={crypto.image} alt={crypto.name} />
-    //   </Card.Body>
-    //   <Card.Footer>
-    //     Price: ${crypto.current_price}
-    //     <Link style={{ color: 'black' }} to={`/crypto/${crypto.id}`}>
-    //       View Coin
-    //     </Link>
-    //     <Form onClick={(e) => handleDelete(e, crypto.id)}>
-    //       <Button type="button" variant="danger">
-    //         <BsFillTrashFill fontSize="18px" />
-    //       </Button>
-    //     </Form>
-    //   </Card.Footer>
-    //   </Card>
-
     <Link to={`/crypto/${crypto.id}`}>
       <Card
         bg="transparent"
