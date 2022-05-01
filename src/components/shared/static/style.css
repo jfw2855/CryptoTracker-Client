@@ -149,6 +149,7 @@ a:hover {
   align-items: center;
   justify-items: center;
   color: white;
+  background: linear-gradient(180deg, rgba(230, 214, 186, 0.169) 0%,rgba(30, 17, 74,1) 80%);
 }
 
 .loader {
