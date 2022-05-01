@@ -6,7 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 
 const EditTransactionModal = (props) => {
-    const { show, user, msgAlert, triggerRefresh, updateTransaction, handleClose } = props
+    const { show, user, msgAlert, triggerRefresh, updateTransaction, handleClose,showCoinPurchases,addCoinAsset } = props
     const [transaction, setTransaction] = useState(props.transaction)
     const [date,setDate] = useState(null)
 
@@ -39,21 +39,24 @@ const EditTransactionModal = (props) => {
         })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log('users and transactions in hsSubmit', user, transaction)
-        updateTransaction(user, transaction)
-            .then(() => {
-                handleClose()
-            })
-            .then(() => {
-                triggerRefresh()
-            })
-            .catch((err) => {
-            console.log(err)
-        })
+        await updateTransaction(user, transaction)
+        const updatedTransactions = await showCoinPurchases(user,transaction.coinGeckId)
+        let buyArr = updatedTransactions.data.transaction
+        let amount = 0
+        let price = 0
+        for (let i in buyArr) {
+          amount += buyArr[i].amount
+          price += buyArr[i].price
+        }
+        price = price/buyArr.length
+        let assetToUpdate = {coinGeckId:transaction.coinGeckId,avgPrice:price,quantity:amount}
+        await addCoinAsset(user, assetToUpdate)
+        handleClose()
+        triggerRefresh()
     }
-    console.log('transaction in edit modal', transaction)
+
 
 
     return (
