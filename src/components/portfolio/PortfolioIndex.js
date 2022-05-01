@@ -7,21 +7,24 @@ import CreateCoinModal from './CreateCoinModal'
 import { addCoinAsset, deleteCoin } from '../../api/coin'
 import CreateTransactionModal from './CreateTransactionModal'
 import { createTransaction,removeAllTransactions,showCoinPurchases} from '../../api/transaction'
+import Plot from 'react-plotly.js'
 
 const PortfolioIndex = (props) => {
 
-  const [assets,setAssets] = useState(null)
   // mData == Market Data -> state var to set current market data of user's assets
   const [mData, setMData] = useState(null)
   const [createOpen, setCreateOpen] = useState(false)
   const [newTransOpen, setNewTransOpen] = useState(false)
   const [updated, setUpdated] = useState(false)
   const [coinName,setCoinName] = useState(null)
+  const [coinnames,setCoinnames] = useState(null)
+  const [coinValues,setCoinValues] = useState(null)
   const { user,msgAlert} = props
   let assetsDisplay = null
   let query = ""
   let addNewTransModal
-
+  let piechart
+  let chartData
 
   // calls backend server for portfolio assets then uses info to make an external api call to grab market data
   useEffect(() => {
@@ -29,10 +32,13 @@ const PortfolioIndex = (props) => {
     const fetchData = async () => {
       const respAssets = await viewPortfolio(user)
       const respCoins = respAssets.data.portfolio[0].assets
+      let coinnameArr = []
+      let coinQtyArr = []
       console.log('respCoins',respCoins)
       let coinObj = {}
       for (let i in respCoins) {
         query+=`${respCoins[i].coinGeckId}%2C`
+        coinnameArr.push(respCoins[i].coinGeckId)
         coinObj[respCoins[i].coinGeckId]=respCoins[i]
       }
       const respMData = await getPData(query)
@@ -50,7 +56,10 @@ const PortfolioIndex = (props) => {
         // adds profit loss amount and precentage to currCoin object; pl == profit loss
         currCoin.pl_amount =(((currCoin.current_price/currCoin.avgPrice)-1))*currCoin.current_price
         currCoin.pl_precentage = (((currCoin.current_price/currCoin.avgPrice)-1))*100
+        coinQtyArr.push(currCoin.quantity*currCoin.current_price)
       }
+      setCoinnames(coinnameArr)
+      setCoinValues(coinQtyArr)
       setMData(respMData.data)
       console.log('mdata !!!!1',respMData.data)
     }
@@ -64,6 +73,7 @@ const PortfolioIndex = (props) => {
     }
     test()
   }, [updated])
+
 
 
   const handleCreate = (e) => {
@@ -84,12 +94,35 @@ const PortfolioIndex = (props) => {
     .catch((err) => console.log(err))   
   }
   
+  let layout = {
+    title: 'Allocation',
+    annotations: [
+      {
+        textfont: {
+          size: 20,
+          color: 'orange'
+        },
+        showarrow: false,
+        text: '',
+        x: 0.82,
+        y: 0.5
+      }
+    ],
+    height: 400,
+    width: 300,
+    showlegend: false,
+    paper_bgcolor:'transparent',
+    grid: {rows: 1, columns: 1}
+  };
+
+
   if(!mData) {
     return <span class="loader"></span>
   }
   else if (mData === [] ) {
     return <button onClick={handleCreate}>Add Transaction</button>
   }
+
 
   if (coinName !== null) {
     addNewTransModal = <CreateCoinModal
@@ -111,7 +144,17 @@ const PortfolioIndex = (props) => {
 
 
   if(mData.length>0) {
-    //coinGeckId: 'meme', avgPrice: 500, quantity: 1
+    if (coinValues.length>0) {
+      chartData = [{
+        values: coinValues,
+        labels: coinnames,
+        name: 'Crypto Assets',
+        hoverinfo: 'label+percent+name',
+        hole: 0.8,
+        type: 'pie'
+      }]
+      piechart = <Plot data={chartData} layout={layout}/>
+    }
 
     assetsDisplay = mData.map( (coin,index) => ( 
         <ListGroup.Item style={{backgroundColor:'lightgrey'}} key={coin._id}>
@@ -155,6 +198,7 @@ const PortfolioIndex = (props) => {
 
   return (
     <>
+      {piechart}
       <button onClick={handleCreate}>Add Transaction</button>
       <ListGroup style={{width:'68%'}}>
         <ListGroup.Item style={{backgroundColor:'lightgrey'}}>
