@@ -119,11 +119,8 @@ a:hover {
 }
 
 .navv-link {
-
-    color: black;
+  color: black;
 }
-
-
 
 .scroll-show {
   max-height: 70%;
@@ -145,7 +142,6 @@ a:hover {
   justify-content: space-around;
 }
 
-
 .portfolio-container {
   border: purple 1px solid;
   display: flex;
@@ -155,7 +151,6 @@ a:hover {
   justify-items: center;
   color: white;
 }
-
 
 .loader {
   transform: translateZ(1px);
@@ -170,18 +165,19 @@ a:hover {
   height: 48px;
   border-radius: 50%;
   text-align: center;
-  line-height:40px;
+  line-height: 40px;
   font-size: 32px;
   font-weight: bold;
-  background: #FFD700;
+  background: #ffd700;
   color: #a98734;
-  border: 4px double ;
+  border: 4px double;
   box-sizing: border-box;
-  box-shadow:  2px 2px 2px 1px rgba(0, 0, 0, .1);
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.1);
   animation: coin-flip 4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }
 @keyframes coin-flip {
-  0%, 100% {
+  0%,
+  100% {
     animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
   }
   0% {
@@ -195,7 +191,6 @@ a:hover {
     transform: rotateY(3600deg);
   }
 }
-      
 
 .signin-container,
 .signout-container {
@@ -205,17 +200,19 @@ a:hover {
 }
 
 .login-form,
-.signout-form {
+.signout-form,
+.no-favorites {
   border-radius: 5%;
-  background-color: rgba(95, 100, 100, 0.692);
   padding: 50px;
   color: white;
 }
 .signout-form {
+  background-color: rgba(95, 100, 100, 0.692);
   width: 500px;
   height: 300px;
 }
 .login-form {
+  background-color: rgba(95, 100, 100, 0.692);
   width: 600px;
   height: 400px;
 }
@@ -224,3 +221,8 @@ a:hover {
   margin-top: 10px;
 }
 
+.no-favorites {
+  background-color: rgba(146, 166, 166, 0.692);
+  width: 300px;
+  height: 300px;
+}
