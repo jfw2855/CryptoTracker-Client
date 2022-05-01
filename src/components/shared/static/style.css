@@ -143,7 +143,6 @@ a:hover {
 }
 
 .portfolio-container {
-  border: purple 1px solid;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -225,4 +224,43 @@ a:hover {
   background-color: rgba(146, 166, 166, 0.692);
   width: 300px;
   height: 300px;
+}
+
+.crypto-list {
+  background-color:'purple';
+  border-top:'grey 1px solid';
+  color: purple;
+}
+
+.transaction-btn {
+  background-color: rgb(133, 57, 171);
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-top: 50%;
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+
+}
+
+.transaction-btn:hover {
+  background-color: rgb(170, 83, 214);
+}
+
+.portfolio-detail {
+
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.balance {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 100%;
 }
