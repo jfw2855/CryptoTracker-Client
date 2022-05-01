@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react'
 import {Row, Col, ListGroup } from 'react-bootstrap'
 import { viewPortfolio, getPData } from '../../api/portfolio'
 import { Link } from 'react-router-dom'
-import {BsPlusLg,BsArrowLeftRight,BsTrash} from 'react-icons/bs'
+import {BsPlusLg,BsArrowLeftRight,BsTrash,BsCashCoin} from 'react-icons/bs'
 import CreateCoinModal from './CreateCoinModal'
 import { addCoinAsset, deleteCoin } from '../../api/coin'
 import CreateTransactionModal from './CreateTransactionModal'
@@ -19,6 +19,7 @@ const PortfolioIndex = (props) => {
   const [coinName,setCoinName] = useState(null)
   const [coinnames,setCoinnames] = useState(null)
   const [coinValues,setCoinValues] = useState(null)
+  const [balance,setBalance] = useState(0)
   const { user,msgAlert} = props
   let assetsDisplay = null
   let query = ""
@@ -34,11 +35,13 @@ const PortfolioIndex = (props) => {
       const respCoins = respAssets.data.portfolio[0].assets
       let coinnameArr = []
       let coinQtyArr = []
+      let tempBal = 0
       console.log('respCoins',respCoins)
       let coinObj = {}
       for (let i in respCoins) {
         query+=`${respCoins[i].coinGeckId}%2C`
         coinnameArr.push(respCoins[i].coinGeckId)
+
         coinObj[respCoins[i].coinGeckId]=respCoins[i]
       }
       const respMData = await getPData(query)
@@ -57,7 +60,9 @@ const PortfolioIndex = (props) => {
         currCoin.pl_amount =(((currCoin.current_price/currCoin.avgPrice)-1))*currCoin.current_price
         currCoin.pl_precentage = (((currCoin.current_price/currCoin.avgPrice)-1))*100
         coinQtyArr.push(currCoin.quantity*currCoin.current_price)
+        tempBal+=(currCoin.current_price*currCoin.quantity)
       }
+      setBalance(tempBal)
       setCoinnames(coinnameArr)
       setCoinValues(coinQtyArr)
       setMData(respMData.data)
@@ -95,13 +100,15 @@ const PortfolioIndex = (props) => {
   }
   
   let layout = {
-    title: 'Allocation',
+    title: {
+      text: "Allocation",
+      font: {
+        color: 'white',
+        size: 23,
+      }
+    },
     annotations: [
       {
-        textfont: {
-          size: 20,
-          color: 'orange'
-        },
         showarrow: false,
         text: '',
         x: 0.82,
@@ -109,8 +116,19 @@ const PortfolioIndex = (props) => {
       }
     ],
     height: 400,
-    width: 300,
-    showlegend: false,
+    width: 500,
+    legend: {
+      x: 0,
+      y: 1,
+      traceorder: 'normal',
+      font: {
+        family: 'sans-serif',
+        size: 12,
+        color: 'white'
+      },
+      borderwidth: 2,
+      bordercolor:'white'
+    },
     paper_bgcolor:'transparent',
     grid: {rows: 1, columns: 1}
   };
@@ -156,8 +174,8 @@ const PortfolioIndex = (props) => {
       piechart = <Plot data={chartData} layout={layout}/>
     }
 
-    assetsDisplay = mData.map( (coin,index) => ( 
-        <ListGroup.Item style={{backgroundColor:'lightgrey'}} key={coin._id}>
+    assetsDisplay = mData.map( (coin,index) => (
+        <ListGroup.Item style={{backgroundColor:'transparent',borderTop:'1px grey solid', color:'white'}} key={coin._id}>
             <Row style={{alignItems:'center'}}>
                 <Col md={3}>
                 <img src={coin.image} alt={coin.name} width={25} style={{borderRadius:'50%'}}/> <strong>{coin.name}</strong> {coin.symbol.toUpperCase()}
@@ -166,7 +184,7 @@ const PortfolioIndex = (props) => {
                 ${coin.current_price>1?coin.current_price.toLocaleString('en-US'):coin.current_price.toPrecision(4)}
                 </Col>
                 <Col>
-                <span style={coin.price_change_percentage_24h>0?{color:'green'}:{color:"red"}}>{coin.price_change_percentage_24h.toFixed(2)}%</span>
+                <span style={coin.price_change_percentage_24h>0?{color:'green',fontWeight:'bold'}:{color:"red",fontWeight:'bold'}}>{coin.price_change_percentage_24h.toFixed(2)}%</span>
                 </Col>
                 <Col>
                 {coin.quantity}
@@ -181,7 +199,7 @@ const PortfolioIndex = (props) => {
                 <Col>
                 &nbsp;<BsPlusLg type='button' onClick={(e)=>handleAddTrans(e,coin.id)}/> &nbsp;&nbsp;
                   <Link 
-                    style={{ fontSize:'115%',textDecoration: 'none', color: 'indigo' }} 
+                    style={{ fontSize:'115%',textDecoration: 'none'}} 
                     to={`/transaction/${coin.id}`} 
                     state={{currPrice:coin.current_price,daily:coin.price_change_percentage_24h,symbol:coin.symbol,img:coin.coinImg,name:coin.name}}>
                       <BsArrowLeftRight/> 
@@ -198,11 +216,20 @@ const PortfolioIndex = (props) => {
 
   return (
     <>
-      {piechart}
-      <button onClick={handleCreate}>Add Transaction</button>
-      <ListGroup style={{width:'68%'}}>
-        <ListGroup.Item style={{backgroundColor:'lightgrey'}}>
-          <Row style={{fontWeight:'bold'}}>
+    <div className='portfolio-container'>
+      <h3 style={{color:'white',textAlign:'center',marginTop:'3%'}}>Portfolio</h3>
+      <div className='portfolio-detail'>
+        {piechart}
+        <div className="balance">
+          <p>Current Balance</p>
+          <h3>{balance.toLocaleString('en-US', {style:'currency',currency:'USD'})}</h3>
+          <button className="transaction-btn" onClick={handleCreate}><BsCashCoin/> Add Transaction</button>
+        </div>
+      </div>
+      <ListGroup style={{width:'75%'}}>
+        <ListGroup.Item style={{backgroundColor:'transparent',color:'white',fontWeight:'bold',fontSize:'25px'}}>Crypto Assets</ListGroup.Item>
+        <ListGroup.Item style={{backgroundColor:'transparent',borderTop:'1px grey solid',color:'white',fontWeight:'bold'}} >
+          <Row >
             <Col md={3}>
             Name
             </Col>
@@ -227,8 +254,8 @@ const PortfolioIndex = (props) => {
           </Row>
         </ListGroup.Item>
         {assetsDisplay}
-
       </ListGroup>
+      </div>
       {addNewTransModal}
       <CreateTransactionModal
         show={createOpen}
