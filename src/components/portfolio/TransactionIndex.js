@@ -18,26 +18,40 @@ const TransactionIndex = (props) => {
   const [createOpen,setCreateOpen] = useState(false)
   const [updated, setUpdated] = useState(false)
   const [num, setNum] = useState(null)
+  const [avgBuy,setAvgBuy] = useState(null)
+  const [quantity,setQuantity] = useState(null)
+  const [pl_amount, setPl_amount] = useState(null)
+  const [pl_percentage, setPl_percentage] = useState(null)
   let editModal
   let transactionsDisplay
   const location = useLocation()
-  const {quantity,currPrice,daily,symbol,avgBuy,pl_amount,pl_precentage,img,name}=location.state
-
+  const {currPrice,daily,symbol,img,name}=location.state
+  
   useEffect(() => {
-    viewTransactions(user,coin)
-      .then((res) => {
-        setUpdated(false)
-        setTransactions(res.data.transaction)
-      })
-      .catch((err) => console.log(err))
+    const fetchData = async () => {
+      setUpdated(false)
+      let viewResp = await viewTransactions(user,coin)
+      let tempTransactions = viewResp.data.transaction
+      let tempAvg = 0
+      let tempAmt = 0
+      setTransactions(tempTransactions)
+      for (let i in tempTransactions) {
+        tempAvg+=tempTransactions[i].price
+        tempAmt+=tempTransactions[i].amount
+      }
+      tempAvg=tempAvg/tempTransactions.length
+      setAvgBuy(tempAvg)
+      setQuantity(tempAmt)
+      setPl_amount(((currPrice/tempAvg)-1)*currPrice)
+      setPl_percentage(((currPrice/tempAvg)-1)*100)
+    }
+    fetchData()
     }, [updated])
-    
+
+
   const handleEdit = (e, transaction, index) => {
     setNum(index)
-    const handleOpen = () => {
-      setModalOpen(true)
-    }
-    handleOpen()
+    setModalOpen(true)
     }
 
   const handleCreate = (e) => {
@@ -51,8 +65,26 @@ const TransactionIndex = (props) => {
   }
   const handleDelete = async (e,transId) => {
     await removeTransaction(user,transId)
+    const updatedTransactions = await showCoinPurchases(user,coin)
+    let buyArr = updatedTransactions.data.transaction
+    let amount = 0
+    let price = 0
+    for (let i in buyArr) {
+      amount += buyArr[i].amount
+      price += buyArr[i].price
+    }
+    price = price/buyArr.length
+    let assetToUpdate = {coinGeckId:coin,avgPrice:price,quantity:amount}
+    await addCoinAsset(user, assetToUpdate)
     setUpdated(true)
   }
+  
+  
+  if (!pl_percentage) {
+    return <span class="loader"></span>
+
+  }
+
 
   if (transactions && transactions.length > 0) {
     
@@ -87,6 +119,8 @@ const TransactionIndex = (props) => {
         show={modalOpen}
         user={user}
         msgAlert={msgAlert}
+        showCoinPurchases={showCoinPurchases}
+        addCoinAsset={addCoinAsset}
         triggerRefresh={() => setUpdated(prev => !prev)}
         updateTransaction={updateTransaction}
         handleClose={() => {
@@ -95,15 +129,12 @@ const TransactionIndex = (props) => {
         }}
       />  
   } 
-  if (!transactions) {
-    return <span class="loader"></span>
-
-  }
   return (
     <>
     <div className="portfolio-container">
       <div>
         <img src={img} width={35}/> <span>{name} ({symbol.toUpperCase()})</span> <span className={daily>0?'green':'red'}>{daily.toFixed(2)}%</span>
+        Balance: {(quantity*currPrice).toLocaleString('en-US', {style:'currency',currency:'USD'})}
       </div>
 
     <Row>
@@ -117,7 +148,7 @@ const TransactionIndex = (props) => {
       </Col>
       <Col>
         <Row>Total Profit / Loss</Row>
-        <Row>{pl_amount.toLocaleString('en-US', {style:'currency',currency:'USD'})} {pl_precentage.toFixed(2)}% </Row>
+        <Row>{pl_amount.toLocaleString('en-US', {style:'currency',currency:'USD'})} {pl_percentage.toFixed(2)}% </Row>
       </Col>
     </Row>
 
