@@ -187,7 +187,9 @@ const PortfolioIndex = (props) => {
                 <span style={coin.price_change_percentage_24h>0?{color:'green',fontWeight:'bold'}:{color:"red",fontWeight:'bold'}}>{coin.price_change_percentage_24h.toFixed(2)}%</span>
                 </Col>
                 <Col>
-                {coin.quantity}
+                <Row>{(coin.current_price*coin.quantity).toLocaleString('en-US', {style:'currency',currency:'USD'})}</Row>
+                <Row>{coin.quantity} {coin.symbol.toUpperCase()}</Row>
+
                 </Col>
                 <Col>
                 ${coin.avgPrice>1?coin.avgPrice.toLocaleString('en-US'):coin.avgPrice.toPrecision(4)}
@@ -201,7 +203,7 @@ const PortfolioIndex = (props) => {
                   <Link 
                     style={{ fontSize:'115%',textDecoration: 'none'}} 
                     to={`/transaction/${coin.id}`} 
-                    state={{currPrice:coin.current_price,daily:coin.price_change_percentage_24h,symbol:coin.symbol,img:coin.coinImg,name:coin.name}}>
+                    state={{currPrice:coin.current_price,daily:coin.price_change_percentage_24h,symbol:coin.symbol,img:coin.coinImg,name:coin.name,coinId:coin.coinId}}>
                       <BsArrowLeftRight/> 
                   </Link>
                   &nbsp;&nbsp;<BsTrash type='button' onClick={(e) => handleDelete(e, coin.coinId,coin.id)}/>
@@ -217,7 +219,7 @@ const PortfolioIndex = (props) => {
   return (
     <>
     <div className='portfolio-container'>
-      <h3 style={{color:'white',textAlign:'center',marginTop:'3%'}}>Portfolio</h3>
+      <h3 className='title'>Portfolio</h3>
       <div className='portfolio-detail'>
         {piechart}
         <div className="balance">
