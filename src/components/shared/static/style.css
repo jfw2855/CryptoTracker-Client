@@ -149,7 +149,11 @@ a:hover {
   align-items: center;
   justify-items: center;
   color: white;
-  background: linear-gradient(180deg, rgba(230, 214, 186, 0.169) 0%,rgba(30, 17, 74,1) 80%);
+  background: linear-gradient(
+    180deg,
+    rgba(230, 214, 186, 0.169) 0%,
+    rgba(30, 17, 74, 1) 80%
+  );
 }
 
 .loader {
@@ -228,24 +232,34 @@ a:hover {
 }
 
 .crypto-list {
-  background-color:'purple';
-  border-top:'grey 1px solid';
+  background-color: 'purple';
+  border-top: 'grey 1px solid';
   color: purple;
 }
 
-.transaction-btn {
+.transaction-btn,
+.new-transaction-btn {
   background-color: rgb(133, 57, 171);
   padding: 10px;
   border-radius: 5px;
   border: none;
-  margin-top: 50%;
   font-size: 15px;
   font-weight: bold;
   color: white;
+}
 
+.transaction-btn {
+  margin-top: 50%;
+}
+
+.new-transaction-btn {
+  margin-top: 5%;
 }
 
 .transaction-btn:hover {
+  background-color: rgb(170, 83, 214);
+}
+.new-transaction-btn:hover {
   background-color: rgb(170, 83, 214);
 }
 
@@ -268,7 +282,6 @@ a:hover {
 
 
 .portfolio-detail {
-
   width: 100%;
   display: flex;
   align-items: center;
@@ -296,6 +309,19 @@ a:hover {
   height: 100%;
 }
 
+.modal-header {
+  padding: 9px 15px;
+  border-bottom: 1px solid #eee;
+  background-color: rgb(94, 94, 94);
+  font-weight: bold;
+}
+
+.modal-body {
+  background-color: rgba(95, 100, 100, 0.692);
+  color: white;
+  font-weight: bold;
+}
+
 .title {
   font-family: 'Sulphur Point', sans-serif;
   font-size: 3em;
@@ -317,3 +343,4 @@ a:hover {
   width: 40%;
   font-weight: bold;
 }
+
