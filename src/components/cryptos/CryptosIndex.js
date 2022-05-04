@@ -1,10 +1,9 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect } from 'react'
 import { getCryptos, getEntireMarket, getTrending, getCryptoNews } from '../../api/cryptos'
-import { Link, useNavigate } from 'react-router-dom'
-import { Card, Row, Col, ListGroup, Button, Container, ListGroupItem } from 'react-bootstrap'
-import { BsStar, BsFillStarFill } from "react-icons/bs";
+import { Link } from 'react-router-dom'
+import { Row,Col, ListGroup} from 'react-bootstrap'
+import {BsFillStarFill } from "react-icons/bs";
 import { getAllFavorites, deleteFavorite, createFavorite } from '../../api/favorites'
-import env from 'react-dotenv'
 import Newsfeed from './Newsfeed';
 
 const cardContainerLayout = {
@@ -15,15 +14,9 @@ const cardContainerLayout = {
 
 const CryptosIndex = (props) => {
 
-  const navigate = useNavigate()
   const { user } = props
-
-
   const [favorites, setFavorites] = useState([])
   const [updated, setUpdated] = useState(false)
-  const [fav, setFav] = useState(false)
-
-
   const [cryptos, setResults] = useState(null)
   const [market, setMarket] = useState(null)
   const [news, setNews] = useState([])
@@ -32,7 +25,7 @@ const CryptosIndex = (props) => {
   let assetsDisplay = null
   let marketBanner = null
 
-
+  // fetches cryptocurrency data from external api
   useEffect(() => {
     const fetchData = async () => {
       getCryptos()
@@ -52,7 +45,6 @@ const CryptosIndex = (props) => {
           .then((res) => {
             setFavorites(res.data.favorites)
             setUpdated(false)
-            // console.log('index favs', res)
           })
         } else {
           console.log('no user')
@@ -64,20 +56,18 @@ const CryptosIndex = (props) => {
     }
     fetchData()
   }, [updated])
-  
-  console.log('the response', cryptos)
-  console.log('market data', market)
 
 
 
+  // renders loader while waiting for api resp
   if (!cryptos) {
     return <span class="loader"></span>
   }
   
+ // handle fav function that adds or removes coin from user's favorites
  const handleFavorite = (e, id) => {
     e.preventDefault()
 
-    // createFavorite(user, crypto)
     if (items.includes(id)) {
       // delete route
       deleteFavorite(user, id)
@@ -93,18 +83,20 @@ const CryptosIndex = (props) => {
   }
 
   
-
+  // sets favorites to a favorites array (item) that will check if id is in array
+    //e.g. if coin is in items array, star will appear next to coin's name
   const items = []
    if (favorites.length > 0) {
       for (let i = 0; i < favorites.length; i++){
       items.push(favorites[i].coinGeckId)
     }
   }
-  // console.log('a match', items)  
-  
+
+
+  // awaits for market state variable to have data before rendering market banner
   if (market) {
 
-    
+    // creates a market banner of current cryptocurrency global data
       marketBanner =  
         <>
         <ListGroup className='banner'>
@@ -138,7 +130,7 @@ const CryptosIndex = (props) => {
       
       
     
-
+  // awaits for api resp in order to render crypto indexes
   if (cryptos.length > 0) {
     assetsDisplay = cryptos.map((crypto) => {
       return (

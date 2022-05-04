@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { showCrypto, getHistory } from '../../api/cryptos'
-import { useParams, useNavigate } from 'react-router-dom'
-import { Form, Row, Col, Accordion, Button } from 'react-bootstrap'
-import Plot from 'react-plotly.js'
+import { useParams } from 'react-router-dom'
+import { Row, Col} from 'react-bootstrap'
 import CryptoGraph from './CryptoGraph'
 import {
   createFavorite,
@@ -14,17 +13,15 @@ import { BsFillStarFill } from 'react-icons/bs'
 const CryptoShow = (props) => {
   const { id } = useParams()
   const { user } = props
-  // console.log('id', id)
   const [crypto, setCrypto] = useState(null)
   const [history, setHistory] = useState(null)
   const [updated, setUpdated] = useState(false)
   const [fav, setFav] = useState(false)
 
-  // const { state } = useLocation()
+  // gets crypto data from external api
   useEffect(() => {
     const fetchData = async () => {
       const checkFav = await getAFavorite(user, id)
-      // console.log('check fav data', checkFav.data.favorites)
       if (checkFav.data.favorites.length > 0) {
         setFav(true)
       } else {
@@ -39,6 +36,7 @@ const CryptoShow = (props) => {
     fetchData()
   }, [updated])
 
+  // handle fav function that adds or removes coin from user's favorites
   const handleFavorite = (e) => {
     e.preventDefault()
 
@@ -54,13 +52,9 @@ const CryptoShow = (props) => {
         .then(() => setUpdated(true))
         .catch((err) => console.log(err))
     }
-    // getAllFavorites(user, crypto.id)
-    //   // .then(() => setUpdated(true))
-    //   .then((res) => console.log('response from create favorite button', res))
-    //   .catch((err) => console.log(err))
   }
 
-  // data to be graphed
+  // coin's price history data to be graphed
   const transformData = (temp) => {
     let plot_data = []
     let time = []
@@ -77,7 +71,7 @@ const CryptoShow = (props) => {
   if (!history) {
     return <span class="loader"></span>
   }
-  console.log('show page data', crypto)
+
   return (
     <div className="container show">
       <Row>
@@ -110,7 +104,7 @@ const CryptoShow = (props) => {
             </h1>
             <br />
           </div>
-          {/* <h5 style={{marginLeft: '70px', display: 'inline-block'}}>Rank #{crypto.market_cap_rank}</h5> */}
+          
           <Row>
             <Col>
               <span>Market Cap Rank </span>

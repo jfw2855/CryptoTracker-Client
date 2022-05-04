@@ -1,22 +1,15 @@
-import { useEffect } from "react"
-import { getCryptoNews } from "../../api/cryptos"
-import { Row, Col, ListGroup, Button, Container, Carousel} from 'react-bootstrap'
-import { Link, useNavigate } from 'react-router-dom'
+import { Row, Col, ListGroup, Container, Carousel} from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 
 const Newsfeed = (props) => {
   const { news, trending } = props
   let newsData = []
   let trendingData = []
-    // useEffect(()=>{
-    //     getCryptoNews()
-    //         .then(res=>{
-    //             console.log('this is the news',res)
-    //         })
-    // })
 
+  // awaits for crypto news api resp before rendering
   if (news.length > 0) {
-    console.log('news dater', news)
+    // only gets the first 6 news articles to render on index page
     newsData = news.slice(0, 6).map((article) => {
       return (
             <ListGroup.Item style={{backgroundColor:'transparent', borderTop:'grey 1px solid'}} variant="dark" key={article._id} >
@@ -29,8 +22,10 @@ const Newsfeed = (props) => {
           )
         })
   }
-
+  // awaits for crypto data api resp before rendering 
   if (trending.length > 0) {
+
+    // creates a carousel of trending coins
     trendingData = 
       (
       <>
@@ -112,8 +107,6 @@ const Newsfeed = (props) => {
       )
   }
   
-  
-  console.log('trending in news component', trending)
   
   return (
       <Container>

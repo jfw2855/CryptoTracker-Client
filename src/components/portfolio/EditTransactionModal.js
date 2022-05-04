@@ -1,4 +1,3 @@
-import { name } from 'plotly.js/lib/bar'
 import React, { useState } from 'react'
 import { Modal, Container, Form, Button, Row, Col } from 'react-bootstrap'
 import DatePicker from 'react-datepicker'
@@ -8,7 +7,6 @@ const EditTransactionModal = (props) => {
   const {
     show,
     user,
-    msgAlert,
     triggerRefresh,
     updateTransaction,
     handleClose,
@@ -18,6 +16,7 @@ const EditTransactionModal = (props) => {
   const [transaction, setTransaction] = useState(props.transaction)
   const [date, setDate] = useState(null)
 
+  // updates the transaction state variable for each key stroke/selection
   const handleChange = (e) => {
     // e === event
     e.persist()
@@ -25,21 +24,16 @@ const EditTransactionModal = (props) => {
     setTransaction((prevTrans) => {
       const name = e.target.name
       let value = e.target.value
-      console.log('etarget type', e.target.type)
-      console.log('this is e.target checked', e.target.checked)
 
       if (e.target.type === 'number') {
         value = +e.target.value
       }
-
       const updatedValue = { [name]: value }
-
-      console.log('prevTrans', prevTrans)
-      console.log('updatedValue', updatedValue)
-
       return { ...prevTrans, ...updatedValue }
     })
   }
+
+  // handle date function that converts date to ISO string then updates date & transaction state variables
   const handleDate = (selectDate, e) => {
     setDate(selectDate)
     setTransaction((prevTrans) => {
@@ -47,6 +41,7 @@ const EditTransactionModal = (props) => {
     })
   }
 
+  // handle submit function that will update the transaction and saves to the db
   const handleSubmit = async (e) => {
     e.preventDefault()
     await updateTransaction(user, transaction)

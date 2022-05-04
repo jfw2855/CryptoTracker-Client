@@ -17,6 +17,7 @@ const CreateCoinModal = (props) => {
   const [transaction, setTransaction] = useState({ coinGeckId: coinId })
   const [date, setDate] = useState(null)
 
+  // updates the transaction state variable for each key stroke/selection
   const handleChange = (e) => {
     // e === event
     e.persist()
@@ -24,21 +25,16 @@ const CreateCoinModal = (props) => {
     setTransaction((prevTrans) => {
       const name = e.target.name
       let value = e.target.value
-      console.log('etarget type', e.target.type)
-      console.log('this is e.target checked', e.target.checked)
 
       if (e.target.type === 'number') {
         value = +e.target.value
       }
-
       const updatedValue = { [name]: value }
-
-      console.log('prevTrans', prevTrans)
-      console.log('updatedValue', updatedValue)
-
       return { ...prevTrans, ...updatedValue }
     })
   }
+
+  // handle date function that converts date to ISO string then updates date & transaction state variables
   const handleDate = (selectDate, e) => {
     console.log(
       'thi sis select date!',
@@ -50,6 +46,8 @@ const CreateCoinModal = (props) => {
       return { ...prevTrans, datetime: selectDate.toISOString().split('T')[0] }
     })
   }
+
+  // handle submit function that will create a new transaction and saves to the db
   const handleSubmit = (e) => {
     e.preventDefault()
     setTransaction((prevTrans) => {
@@ -58,6 +56,7 @@ const CreateCoinModal = (props) => {
     createTransaction(user, transaction)
       .then(() => console.log('test'))
       .then(() => {
+        // updates user's portfolio for specific coin
         showCoinPurchases(user, transaction.coinGeckId).then((res) => {
           let buyArr = res.data.transaction
           let amount = 0
@@ -67,14 +66,13 @@ const CreateCoinModal = (props) => {
             price += buyArr[i].price
           }
           price = price / buyArr.length
-          console.log('price & amount', price, amount)
           let assetToAdd = {
             coinGeckId: transaction.coinGeckId,
             avgPrice: price,
             quantity: amount,
           }
           addCoinAsset(user, assetToAdd).then((res) =>
-            console.log('res for adding coin to asset', res)
+            console.log('')
           )
         })
       })
