@@ -1,65 +1,70 @@
 @import url('https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300&display=swap');
 
 .landing-container {
-    height: 100vh;
-    overflow: hidden;
-    background: linear-gradient(to bottom, #210234,#8e0cb6);
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #210234, #8e0cb6);
+  position: absolute;
 }
 
 .title-container {
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 80%;
 }
 .title {
-    font-family: 'Sulphur Point',sans-serif;
-    font-size: 100px;
-    font-weight: bold;
-    text-align: center;
-    background-image: linear-gradient(to bottom, #a06af6, #faeac9);
-    background-clip: text;
-    color: transparent;
+  font-family: 'Sulphur Point', sans-serif;
+  font-size: 100px;
+  font-weight: bold;
+  text-align: center;
+  background-image: linear-gradient(to bottom, #a06af6, #faeac9);
+  background-clip: text;
+  color: transparent;
 }
 .blurb {
-    color: white;
+  color: white;
 }
 
 .button-container {
-    display: flex;
+  display: flex;
 
-    justify-content: center;
-    height: 100px;
-    
+  justify-content: center;
+  height: 100px;
 }
 
+button {
+  /* display: flex;
+  align-content: center;
+  justify-content: center; */
+}
 
-
-.signup-btn,.login-btn {
-    width: 170px;
-    height: 50px;
-    margin: 20px;
-    border-radius: 5px;
-    margin: 10px;
-    font-size: 25px;
-    text-align: center;
-    color: black;
+.signup-btn,
+.login-btn {
+  width: 170px;
+  height: 50px;
+  margin: 20px;
+  border-radius: 5px;
+  font-size: 25px;
+  text-align: center;
+  color: black;
+  line-height: 50px;
 }
 .login-btn {
-    background-color: rgb(231, 215, 215);
+  background-color: rgb(231, 215, 215);
 }
 .signup-btn {
-    background-color: rgb(224, 185, 12);
+  background-color: rgb(224, 185, 12);
 }
 
 #stars {
-    width: 1px;
-    height: 1px;
-    background: transparent;
-    animation: animStar 50s linear infinite;
-    box-shadow: 779px 1331px #fff, 324px 42px #fff, 303px 586px #fff,
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  animation: animStar 50s linear infinite;
+  box-shadow: 779px 1331px #fff, 324px 42px #fff, 303px 586px #fff,
     1312px 276px #fff, 451px 625px #fff, 521px 1931px #fff, 1087px 1871px #fff,
     36px 1546px #fff, 132px 934px #fff, 1698px 901px #fff, 1418px 664px #fff,
     1448px 1157px #fff, 1084px 232px #fff, 347px 1776px #fff, 1722px 243px #fff,
@@ -239,13 +244,13 @@
 }
 
 #stars:after {
-    content: '';
-    position: absolute;
-    top: 2000px;
-    width: 1px;
-    height: 1px;
-    background: transparent;
-    box-shadow: 779px 1331px #fff, 324px 42px #fff, 303px 586px #fff,
+  content: '';
+  position: absolute;
+  top: 2000px;
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow: 779px 1331px #fff, 324px 42px #fff, 303px 586px #fff,
     1312px 276px #fff, 451px 625px #fff, 521px 1931px #fff, 1087px 1871px #fff,
     36px 1546px #fff, 132px 934px #fff, 1698px 901px #fff, 1418px 664px #fff,
     1448px 1157px #fff, 1084px 232px #fff, 347px 1776px #fff, 1722px 243px #fff,
@@ -425,11 +430,11 @@
 }
 
 #stars2 {
-    width: 2px;
-    height: 2px;
-    background: transparent;
-    animation: animStar 100s linear infinite;
-    box-shadow: 1448px 320px #fff, 1775px 1663px #fff, 332px 1364px #fff,
+  width: 2px;
+  height: 2px;
+  background: transparent;
+  animation: animStar 100s linear infinite;
+  box-shadow: 1448px 320px #fff, 1775px 1663px #fff, 332px 1364px #fff,
     878px 340px #fff, 569px 1832px #fff, 1422px 1684px #fff, 1946px 1907px #fff,
     121px 979px #fff, 1044px 1069px #fff, 463px 381px #fff, 423px 112px #fff,
     523px 1179px #fff, 779px 654px #fff, 1398px 694px #fff, 1085px 1464px #fff,
@@ -483,13 +488,13 @@
 }
 
 #stars2:after {
-    content: '';
-    position: absolute;
-    top: 2000px;
-    width: 2px;
-    height: 2px;
-    background: transparent;
-    box-shadow: 1448px 320px #fff, 1775px 1663px #fff, 332px 1364px #fff,
+  content: '';
+  position: absolute;
+  top: 2000px;
+  width: 2px;
+  height: 2px;
+  background: transparent;
+  box-shadow: 1448px 320px #fff, 1775px 1663px #fff, 332px 1364px #fff,
     878px 340px #fff, 569px 1832px #fff, 1422px 1684px #fff, 1946px 1907px #fff,
     121px 979px #fff, 1044px 1069px #fff, 463px 381px #fff, 423px 112px #fff,
     523px 1179px #fff, 779px 654px #fff, 1398px 694px #fff, 1085px 1464px #fff,
@@ -543,11 +548,11 @@
 }
 
 #stars3 {
-    width: 3px;
-    height: 3px;
-    background: transparent;
-    animation: animStar 150s linear infinte;
-    box-shadow: 387px 1878px #fff, 760px 1564px #fff, 1487px 999px #fff,
+  width: 3px;
+  height: 3px;
+  background: transparent;
+  animation: animStar 150s linear infinte;
+  box-shadow: 387px 1878px #fff, 760px 1564px #fff, 1487px 999px #fff,
     948px 1828px #fff, 1977px 1001px #fff, 1284px 1963px #fff, 656px 284px #fff,
     1268px 1635px #fff, 1820px 598px #fff, 642px 1900px #fff, 296px 57px #fff,
     921px 1620px #fff, 476px 1858px #fff, 658px 613px #fff, 1171px 1363px #fff,
@@ -576,13 +581,13 @@
 }
 
 #stars3:after {
-    content: '';
-    position: absolute;
-    top: 2000px;
-    width: 3px;
-    height: 3px;
-    background: transparent;
-    box-shadow: 387px 1878px #fff, 760px 1564px #fff, 1487px 999px #fff,
+  content: '';
+  position: absolute;
+  top: 2000px;
+  width: 3px;
+  height: 3px;
+  background: transparent;
+  box-shadow: 387px 1878px #fff, 760px 1564px #fff, 1487px 999px #fff,
     948px 1828px #fff, 1977px 1001px #fff, 1284px 1963px #fff, 656px 284px #fff,
     1268px 1635px #fff, 1820px 598px #fff, 642px 1900px #fff, 296px 57px #fff,
     921px 1620px #fff, 476px 1858px #fff, 658px 613px #fff, 1171px 1363px #fff,
@@ -610,12 +615,11 @@
     498px 1947px #fff, 617px 880px #fff, 240px 403px #fff;
 }
 
-
 @keyframes animStar {
-    from {
-        transform: translateY(0px);
-    }
-    to {
-        transform: translateY(-2000px);
-    }
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-2000px);
+  }
 }

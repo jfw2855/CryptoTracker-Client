@@ -60,7 +60,6 @@ const SignIn = (props) => {
       <section className="wrapper">
         <div id="stars"></div>
         <div id="stars2"></div>
-        <div id="stars3"></div>
       </section>
       <div className="row">
         <div className="col-sm-10 col-md-8 mx-auto mt-5">
