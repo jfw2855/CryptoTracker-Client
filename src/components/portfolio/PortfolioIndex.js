@@ -197,14 +197,14 @@ const PortfolioIndex = (props) => {
                   <Row>{coin.pl_precentage.toFixed(2)}% </Row>
                 </Col>
                 <Col>
-                &nbsp;<BsPlusLg type='button' onClick={(e)=>handleAddTrans(e,coin.id)}/> &nbsp;&nbsp;
+                &nbsp;<BsPlusLg type='button' className='icon' onClick={(e)=>handleAddTrans(e,coin.id)}/> &nbsp;&nbsp;
                   <Link 
                     style={{ fontSize:'115%',textDecoration: 'none'}} 
                     to={`/transaction/${coin.id}`} 
                     state={{currPrice:coin.current_price,daily:coin.price_change_percentage_24h,symbol:coin.symbol,img:coin.coinImg,name:coin.name,coinId:coin.coinId}}>
                       <BsArrowLeftRight/> 
                   </Link>
-                  &nbsp;&nbsp;<BsTrash type='button' onClick={(e) => handleDelete(e, coin.coinId,coin.id)}/>
+                  &nbsp;&nbsp;<BsTrash className='trash' type='button' onClick={(e) => handleDelete(e, coin.coinId,coin.id)}/>
                 </Col>
             </Row>
         </ListGroup.Item>
