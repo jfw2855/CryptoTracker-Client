@@ -112,12 +112,19 @@ const CreateCoinModal = (props) => {
                 />
               </Col>
               <Col>
-                <Form.Label>Type</Form.Label>
-                <Form.Control
-                  name="type"
-                  type="string"
-                  onChange={handleChange}
-                />
+                <Form.Group controlId="formBasicSelect">
+                  <Form.Label>Type</Form.Label>
+                  <Form.Control
+                    as="select"
+                    onChange={handleChange}
+                    name="type"
+                    type="string"
+                  >
+                    <option value=""></option>
+                    <option value="buy">Buy</option>
+                    <option value="sell">Sell</option>
+                  </Form.Control>
+                </Form.Group>
               </Col>
             </Row>
             <Row>
@@ -126,6 +133,8 @@ const CreateCoinModal = (props) => {
                 <Form.Control
                   name="price"
                   type="number"
+                  min={0}
+                  step="any"
                   onChange={handleChange}
                 />
               </Col>
@@ -134,6 +143,8 @@ const CreateCoinModal = (props) => {
                 <Form.Control
                   name="amount"
                   type="number"
+                  min={0}
+                  step="any"
                   onChange={handleChange}
                 />
               </Col>

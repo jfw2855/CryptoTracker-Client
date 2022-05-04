@@ -1,5 +1,13 @@
 import React, { useState } from 'react'
-import { Modal, Container, Form, Button, Col, Row } from 'react-bootstrap'
+import {
+  Modal,
+  Container,
+  Form,
+  Button,
+  Col,
+  Row,
+  FormControl,
+} from 'react-bootstrap'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -110,12 +118,31 @@ const CreateTransactionModal = (props) => {
             />
             <Row>
               <Col>
-                <Form.Label>Type</Form.Label>
-                <Form.Control
-                  name="type"
-                  type="string"
-                  onChange={handleChange}
-                />
+                {/* <Form.Group controlId="formBasicSelect">
+                  <Form.Label>Type</Form.Label>
+                  <Form.Control
+                    as="select"
+                    name="type"
+                    type="string"
+                    onChange={handleChange}
+                  />
+                  <option value="buy">Buy</option>
+                  <option value="sell">Sell</option>
+                  <Form.Control />
+                </Form.Group> */}
+                <Form.Group controlId="formBasicSelect">
+                  <Form.Label>Type</Form.Label>
+                  <Form.Control
+                    as="select"
+                    onChange={handleChange}
+                    name="type"
+                    type="string"
+                  >
+                    <option value=""></option>
+                    <option value="buy">Buy</option>
+                    <option value="sell">Sell</option>
+                  </Form.Control>
+                </Form.Group>
               </Col>
               <Col>
                 <Form.Label>Coin Name</Form.Label>
@@ -132,6 +159,8 @@ const CreateTransactionModal = (props) => {
                 <Form.Control
                   name="price"
                   type="number"
+                  min={0}
+                  step="any"
                   onChange={handleChange}
                 />
               </Col>
@@ -140,6 +169,8 @@ const CreateTransactionModal = (props) => {
                 <Form.Control
                   name="amount"
                   type="number"
+                  min={0}
+                  step="any"
                   onChange={handleChange}
                 />
               </Col>
