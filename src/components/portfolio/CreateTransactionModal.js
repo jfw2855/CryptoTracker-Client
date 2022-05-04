@@ -5,17 +5,19 @@ import {
   Form,
   Button,
   Col,
-  Row,
-  FormControl,
+  Row
 } from 'react-bootstrap'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
+
+
+
 const CreateTransactionModal = (props) => {
+
   const {
     show,
     user,
-    msgAlert,
     triggerRefresh,
     createTransaction,
     handleClose,
@@ -25,6 +27,7 @@ const CreateTransactionModal = (props) => {
   const [transaction, setTransaction] = useState('')
   const [date, setDate] = useState(null)
 
+  // updates the transaction state variable for each key stroke/selection
   const handleChange = (e) => {
     // e === event
     e.persist()
@@ -32,21 +35,17 @@ const CreateTransactionModal = (props) => {
     setTransaction((prevTrans) => {
       const name = e.target.name
       let value = e.target.value
-      console.log('etarget type', e.target.type)
-      console.log('this is e.target checked', e.target.checked)
 
       if (e.target.type === 'number') {
         value = +e.target.value
       }
-
       const updatedValue = { [name]: value }
-
-      console.log('prevTrans', prevTrans)
-      console.log('updatedValue', updatedValue)
 
       return { ...prevTrans, ...updatedValue }
     })
   }
+
+  // handle date function that converts date to ISO string then updates date & transaction state variables
   const handleDate = (selectDate, e) => {
     console.log(
       'thi sis select date!',
@@ -58,6 +57,8 @@ const CreateTransactionModal = (props) => {
       return { ...prevTrans, datetime: selectDate.toISOString().split('T')[0] }
     })
   }
+
+  // handle submit function that will create a new transaction and saves to the db
   const handleSubmit = (e) => {
     e.preventDefault()
     setTransaction((prevTrans) => {
@@ -66,6 +67,7 @@ const CreateTransactionModal = (props) => {
     createTransaction(user, transaction)
       .then(() => console.log('test'))
       .then(() => {
+        // updates user's portfolio for specific coin
         showCoinPurchases(user, transaction.coinGeckId).then((res) => {
           let buyArr = res.data.transaction
           let amount = 0
@@ -82,7 +84,7 @@ const CreateTransactionModal = (props) => {
             quantity: amount,
           }
           addCoinAsset(user, assetToAdd).then((res) =>
-            console.log('res for adding coin to asset', res)
+            console.log('')
           )
         })
       })
@@ -118,18 +120,6 @@ const CreateTransactionModal = (props) => {
             />
             <Row>
               <Col>
-                {/* <Form.Group controlId="formBasicSelect">
-                  <Form.Label>Type</Form.Label>
-                  <Form.Control
-                    as="select"
-                    name="type"
-                    type="string"
-                    onChange={handleChange}
-                  />
-                  <option value="buy">Buy</option>
-                  <option value="sell">Sell</option>
-                  <Form.Control />
-                </Form.Group> */}
                 <Form.Group controlId="formBasicSelect">
                   <Form.Label>Type</Form.Label>
                   <Form.Control

@@ -10,9 +10,13 @@ import { addCoinAsset,deleteCoin } from '../../api/coin'
 
 
 const TransactionIndex = (props) => {
-  const navigate = useNavigate()
-  const {coin} = useParams()
   const { user,msgAlert } = props
+
+  const navigate = useNavigate()
+  const location = useLocation()
+  const {currPrice,daily,symbol,img,name,coinId}=location.state
+  const {coin} = useParams()
+
   const [transactions,setTransactions] = useState(null)
   const [modalOpen,setModalOpen] = useState(false)
   const [createOpen,setCreateOpen] = useState(false)
@@ -22,10 +26,9 @@ const TransactionIndex = (props) => {
   const [quantity,setQuantity] = useState(null)
   const [pl_amount, setPl_amount] = useState(null)
   const [pl_percentage, setPl_percentage] = useState(null)
+
   let editModal
   let transactionsDisplay
-  const location = useLocation()
-  const {currPrice,daily,symbol,img,name,coinId}=location.state
   
  // gets all of the transaction data from backend server and creates coin overview data
   useEffect(() => {
@@ -49,6 +52,7 @@ const TransactionIndex = (props) => {
     fetchData()
     }, [updated])
 
+
   // handle function for the edit button
   const handleEdit = (e, transaction, index) => {
     setNum(index)
@@ -69,7 +73,7 @@ const TransactionIndex = (props) => {
   }
 
   // deletes transaction from coin
-    // redirects to portfolio if no transactions exist
+    // redirects to portfolio if no transactions exist for coin
   const handleDelete = async (e,transId) => {
     await removeTransaction(user,transId)
     let viewResp = await viewTransactions(user,coin)
@@ -120,15 +124,15 @@ const TransactionIndex = (props) => {
           
         </Col>
         <Col  md={2}>
-            <BsPencilFill type='button' onClick={(e) => handleEdit(e, transaction, index)}/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-            <BsTrash type='button' onClick={(e) => handleDelete(e,transaction)}/>
+            <BsPencilFill className='edit' type='button' onClick={(e) => handleEdit(e, transaction, index)}/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+            <BsTrash className='trash' type='button' onClick={(e) => handleDelete(e,transaction)}/>
         </Col>
       </Row>
     </ListGroup.Item>
       )) 
     }
   
-  // ensures the correct transaction is selected before rendering modal
+  // ensures the correct transaction is selected before rendering edit modal
   if (num !== null) {
     editModal = <EditTransactionModal
         transaction={transactions[num]}
@@ -145,6 +149,9 @@ const TransactionIndex = (props) => {
         }}
       />  
   } 
+
+
+  
   return (
     <>
     <div className="portfolio-container">

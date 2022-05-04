@@ -12,50 +12,45 @@ const cardContainerLayout = {
 }
 
 const FavoritesIndex = (props) => {
-  //   const navigate = useNavigate()
 
+  
+  const { user } = props
   const [favorites, setFavorites] = useState(null)
   const [mData, setMData] = useState(null)
   const [updated, setUpdated] = useState(false)
-
   const navigate = useNavigate()
 
   let coins = []
   let query = ''
-  const { user } = props
+
+  // fetches data from the backend server to get a user's favorite coins
   useEffect(() => {
     const fetchData = async () => {
       const getFavs = await getAllFavorites(user)
       setFavorites(getFavs)
-      // console.log('getFavs', getFavs)
+      // creates a query string of user's favorites
       getFavs.data.favorites.map((crypto) => {
         coins.push(crypto.coinGeckId)
         query = coins.join().replace(',', '%2C')
-        // console.log('the coins', crypto.coinGeckId)
       })
-      console.log('favorites in use effect', favorites)
+      //gets daily market data of favorite coins
       const favoriteData = await getSeveral(query)
-      console.log('the coins', favoriteData)
       setMData(favoriteData)
       setUpdated(false)
     }
     fetchData()
   }, [updated])
 
-  console.log('favorites when null', favorites)
-
+  // function that redirects user to home page if they do not have any favorited coins
   const onAddSome = () => {
     navigate('/home')
   }
 
+  // shows loader while awaiting for favorites backend resp
   if (favorites == null) {
     return <span class="loader"></span>
   }
-  //    else if (favorites.data.favorites.length > 0) {
-  //         const favoriteData = getSeveral(query)
-  //         console.log('the coins', favoriteData)
-  //         setMData(favoriteData)
-  //     }
+  // shows an add coins card if user has no favorited coins
   else if (favorites.data.favorites.length === 0) {
     return (
       <div className="row">
@@ -78,22 +73,20 @@ const FavoritesIndex = (props) => {
     )
   }
 
+  // handle function that removes favorited coins from user's favorites
   const handleDelete = (e, favoritesId) => {
     e.preventDefault()
-
     deleteFavorite(user, favoritesId)
       .then(() => setUpdated(true))
       .catch((err) => console.log(err))
   }
 
-  // console.log when you know favs are empty, vs when there are favs vs waiting for a response
-  // if empty load "add favorites"
-
+  // loads spinner while awaiting for market data (mData)
   if (!mData) {
     return <span class="loader"></span>
   }
 
-  console.log('market favortie data', mData)
+  // maps over market data to create favorite cards
   let favoriteCards = mData.data.map((crypto) => (
     <Link to={`/crypto/${crypto.id}`}>
       <Card

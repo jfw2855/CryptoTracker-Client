@@ -66,12 +66,14 @@ const PortfolioIndex = (props) => {
     }
     // determines if portfolio has any coins to render
     const initialFetch = async () => {
-      // work around to allow portfolio to be updated
+      // work around to allow portfolio to be updated when adding the very first coin & transaction
       await viewPortfolio(user)
       let checkPortfolio = await viewPortfolio(user)
       if (checkPortfolio.data.portfolio[0].assets.length>0) {
         fetchData()
-      } else {
+      } 
+      // if no coins/transactions exist, sets portfolio back to 0
+      else {
         setBalance(0)
         return setMData([])
       }
@@ -90,6 +92,7 @@ const PortfolioIndex = (props) => {
     setNewTransOpen(true)
   }
 
+  // handle delete function that will remove coin from portfolio & all of its transactions
   const handleDelete = (e, coinId,name) => {
     e.preventDefault()    
     deleteCoin(user, coinId)
@@ -98,20 +101,37 @@ const PortfolioIndex = (props) => {
     .catch((err) => console.log(err))   
   }
   
+  // sets layout for allocation pie chart (plotly)
   let layout = {
+    values: {
+      color: 'white'
+    },
+    textfont: {
+      color: '#000'
+    },
     title: {
-      text: "Allocation",
-      font: {
+      text: "",
+      textfont: {
         color: 'white',
         size: 23,
+      },
+      font: {
+        color: 'white'
+      }
+    },
+    marker: {
+      colorbar: {
+        tickfont: {color:'white'}
       }
     },
     annotations: [
-      {
+      { 
+        font: {
+          color: 'white',
+          size: '18'
+        },
         showarrow: false,
-        text: '',
-        x: 0.82,
-        y: 0.5
+        text: "Coin Allocation"
       }
     ],
     height: 400,
@@ -131,15 +151,16 @@ const PortfolioIndex = (props) => {
     grid: {rows: 1, columns: 1}
   };
 
-
+  // loads spinner while awaiting api resp
   if(!mData) {
     return <span class="loader"></span>
   }
+  // renders if user does not own any coins
   else if (mData === [] ) {
     return <button onClick={handleCreate}>Add Transaction</button>
   }
 
-
+  // ensures the correct coin is selected before rendering modal to create transaction
   if (coinName !== null) {
     addNewTransModal = <CreateCoinModal
       coinId={coinName}
@@ -158,8 +179,9 @@ const PortfolioIndex = (props) => {
     />  
   } 
 
-
+  // awaits for api resp before rendering
   if(mData.length>0) {
+    // creates a pie chart if user has coins
     if (coinValues.length>0) {
       chartData = [{
         values: coinValues,
@@ -172,6 +194,7 @@ const PortfolioIndex = (props) => {
       piechart = <Plot data={chartData} layout={layout}/>
     }
 
+    // maps over market data (mData) in order to create coin rows
     assetsDisplay = mData.map( (coin,index) => (
         <ListGroup.Item style={{backgroundColor:'transparent',borderTop:'1px grey solid', color:'white'}} key={coin._id}>
             <Row style={{alignItems:'center'}}>
@@ -193,18 +216,18 @@ const PortfolioIndex = (props) => {
                 ${coin.avgPrice>1?coin.avgPrice.toLocaleString('en-US'):coin.avgPrice.toPrecision(4)}
                 </Col>
                 <Col style={coin.pl_precentage>0?{color:'green'}:{color:"red"}}>
-                  <Row>{coin.pl_amount>0?`+${coin.pl_amount.toLocaleString('en-US', {style:'currency',currency:'USD'})}`:`-${coin.pl_amount.toLocaleString('en-US')}`} </Row>
+                  <Row>{coin.pl_amount>0?`+${coin.pl_amount.toLocaleString('en-US', {style:'currency',currency:'USD'})}`:`-${(-1*coin.pl_amount).toLocaleString('en-US', {style:'currency',currency:'USD'})}`} </Row>
                   <Row>{coin.pl_precentage.toFixed(2)}% </Row>
                 </Col>
                 <Col>
-                &nbsp;<BsPlusLg type='button' onClick={(e)=>handleAddTrans(e,coin.id)}/> &nbsp;&nbsp;
+                &nbsp;<BsPlusLg type='button' className='icon' onClick={(e)=>handleAddTrans(e,coin.id)}/> &nbsp;&nbsp;
                   <Link 
                     style={{ fontSize:'115%',textDecoration: 'none'}} 
                     to={`/transaction/${coin.id}`} 
                     state={{currPrice:coin.current_price,daily:coin.price_change_percentage_24h,symbol:coin.symbol,img:coin.coinImg,name:coin.name,coinId:coin.coinId}}>
                       <BsArrowLeftRight/> 
                   </Link>
-                  &nbsp;&nbsp;<BsTrash type='button' onClick={(e) => handleDelete(e, coin.coinId,coin.id)}/>
+                  &nbsp;&nbsp;<BsTrash className='trash' type='button' onClick={(e) => handleDelete(e, coin.coinId,coin.id)}/>
                 </Col>
             </Row>
         </ListGroup.Item>

@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Plot from 'react-plotly.js'
 
 const CryptoGraph = (props) => {
   const { history, crypto } = props
+
+  // plots price history data of coin
   return (
     <>
       <Plot

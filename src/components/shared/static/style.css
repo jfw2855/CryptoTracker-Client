@@ -344,3 +344,17 @@ a:hover {
   font-weight: bold;
 }
 
+.icon:hover {
+  color: rgb(103, 222, 156);
+  text-decoration: none;
+}
+
+.trash:hover {
+  color: rgb(218, 49, 102);
+  text-decoration: none;
+}
+
+.edit:hover {
+  color: rgb(241, 212, 124);
+  text-decoration: none;
+}
