@@ -36,17 +36,14 @@ const PortfolioIndex = (props) => {
       let coinnameArr = []
       let coinQtyArr = []
       let tempBal = 0
-      console.log('respCoins',respCoins)
       let coinObj = {}
+      // creates query string for external api & creates coinObj
       for (let i in respCoins) {
         query+=`${respCoins[i].coinGeckId}%2C`
         coinnameArr.push(respCoins[i].coinGeckId)
-
         coinObj[respCoins[i].coinGeckId]=respCoins[i]
       }
       const respMData = await getPData(query)
-      console.log('querryyy data',respMData.data)
-      console.log('coinObj',coinObj)
 
       // updates the response data with average price and quantity of assets
       for (let i in respMData.data) {
@@ -57,7 +54,7 @@ const PortfolioIndex = (props) => {
         currCoin.coinImg = currCoin.image
         currCoin.coinId = coinObj[currCoin.id]._id
         // adds profit loss amount and precentage to currCoin object; pl == profit loss
-        currCoin.pl_amount =(((currCoin.current_price/currCoin.avgPrice)-1))*currCoin.current_price
+        currCoin.pl_amount =(((currCoin.current_price/currCoin.avgPrice)-1))*(currCoin.avgPrice*currCoin.quantity)
         currCoin.pl_precentage = (((currCoin.current_price/currCoin.avgPrice)-1))*100
         coinQtyArr.push(currCoin.quantity*currCoin.current_price)
         tempBal+=(currCoin.current_price*currCoin.quantity)
@@ -66,33 +63,35 @@ const PortfolioIndex = (props) => {
       setCoinnames(coinnameArr)
       setCoinValues(coinQtyArr)
       setMData(respMData.data)
-      console.log('mdata !!!!1',respMData.data)
     }
-    const test = async () => {
-      let intialTest = await viewPortfolio(user)
-      if (intialTest.data.portfolio[0].assets.length>0) {
+    // determines if portfolio has any coins to render
+    const initialFetch = async () => {
+      // work around to allow portfolio to be updated
+      await viewPortfolio(user)
+      let checkPortfolio = await viewPortfolio(user)
+      if (checkPortfolio.data.portfolio[0].assets.length>0) {
         fetchData()
       } else {
+        setBalance(0)
         return setMData([])
       }
     }
-    test()
+    initialFetch()
   }, [updated])
 
-
-
+  // handle function to create new transaction
   const handleCreate = (e) => {
     setCreateOpen(true)
   }
+
+  // handle function to add a transaction to a preexisting coin
   const handleAddTrans = (e,coinId) => {
     setCoinName(coinId)
     setNewTransOpen(true)
   }
 
   const handleDelete = (e, coinId,name) => {
-    e.preventDefault()
-    console.log('coin & coinId that is being deleted!',name,coinId)
-    
+    e.preventDefault()    
     deleteCoin(user, coinId)
       .then(() => removeAllTransactions(user,name))
       .then(()=>setUpdated(true))
@@ -118,8 +117,7 @@ const PortfolioIndex = (props) => {
     height: 400,
     width: 500,
     legend: {
-      x: 0,
-      y: 1,
+      orientation: 'h',
       traceorder: 'normal',
       font: {
         family: 'sans-serif',
@@ -268,8 +266,8 @@ const PortfolioIndex = (props) => {
         showCoinPurchases={showCoinPurchases}
         addCoinAsset = {addCoinAsset}
         handleClose={() => {
-          setUpdated(true)
           setCreateOpen(false)
+          setUpdated(true)
         }
         }
       />  

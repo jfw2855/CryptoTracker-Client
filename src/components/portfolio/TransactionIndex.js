@@ -1,8 +1,7 @@
-import { queryByAltText } from '@testing-library/react'
 import React, { useState, useEffect } from 'react'
 import { useParams, useLocation,useNavigate } from 'react-router-dom'
 import { viewTransactions,updateTransaction,removeTransaction, createTransaction,showCoinPurchases } from '../../api/transaction'
-import {  ListGroup, Row, Col, Button} from 'react-bootstrap'
+import {  ListGroup, Row, Col} from 'react-bootstrap'
 import {BsTrash,BsPencilFill,BsCashCoin} from 'react-icons/bs'
 import EditTransactionModal from './EditTransactionModal'
 import CreateCoinModal from './CreateCoinModal'
@@ -28,11 +27,11 @@ const TransactionIndex = (props) => {
   const location = useLocation()
   const {currPrice,daily,symbol,img,name,coinId}=location.state
   
+ // gets all of the transaction data from backend server and creates coin overview data
   useEffect(() => {
     const fetchData = async () => {
       setUpdated(false)
       let viewResp = await viewTransactions(user,coin)
-      console.log('viewREsp console log',viewResp)
       let tempTransactions = viewResp.data.transaction
       let tempAvg = 0
       let tempAmt = 0
@@ -50,32 +49,37 @@ const TransactionIndex = (props) => {
     fetchData()
     }, [updated])
 
-
+  // handle function for the edit button
   const handleEdit = (e, transaction, index) => {
     setNum(index)
     setModalOpen(true)
     }
 
+  // handle function for the create button
   const handleCreate = (e) => {
     setCreateOpen(true)
   }
+
+  // converts date to Datestring in order to be stored in db
   const convertDate =(dt) => {
     let convertedDate = new Date (dt)
     convertedDate.setDate(convertedDate.getDate()+1)
     convertedDate = convertedDate.toDateString()
     return  convertedDate
   }
+
+  // deletes transaction from coin
+    // redirects to portfolio if no transactions exist
   const handleDelete = async (e,transId) => {
     await removeTransaction(user,transId)
-    let viewResp = await viewTransactions(user,transId)
-    console.log('this is transactions after delete',viewResp.data.transaction)
+    let viewResp = await viewTransactions(user,coin)
+    // deletes coin if no transactions exist
     if (viewResp.data.transaction.length === 0) {
       await deleteCoin(user, coinId)
       navigate('/portfolio')
+      // updates transaction overview data if transactions still exist for coin
     } else {
-
         const updatedTransactions = await showCoinPurchases(user,coin)
-        console.log('updatedTransactions',updateTransaction)
         let buyArr = updatedTransactions.data.transaction
         let amount = 0
         let price = 0
@@ -90,13 +94,13 @@ const TransactionIndex = (props) => {
     }
   }
   
-  
+  // renders loader if data isn't returned from useEffect
   if (!pl_percentage) {
     return <span class="loader"></span>
 
   }
 
-
+  // creates rows of transaction data for each purchase/sell
   if (transactions && transactions.length > 0) {
     
     transactionsDisplay = transactions.map((transaction, index) => (
@@ -123,7 +127,8 @@ const TransactionIndex = (props) => {
     </ListGroup.Item>
       )) 
     }
-      
+  
+  // ensures the correct transaction is selected before rendering modal
   if (num !== null) {
     editModal = <EditTransactionModal
         transaction={transactions[num]}
