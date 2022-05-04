@@ -37,6 +37,7 @@ const PortfolioIndex = (props) => {
       let coinQtyArr = []
       let tempBal = 0
       let coinObj = {}
+      // creates query string for external api & creates coinObj
       for (let i in respCoins) {
         query+=`${respCoins[i].coinGeckId}%2C`
         coinnameArr.push(respCoins[i].coinGeckId)
