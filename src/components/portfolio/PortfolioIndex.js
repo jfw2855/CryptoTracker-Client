@@ -36,7 +36,6 @@ const PortfolioIndex = (props) => {
       let coinnameArr = []
       let coinQtyArr = []
       let tempBal = 0
-      console.log('respCoins',respCoins)
       let coinObj = {}
       for (let i in respCoins) {
         query+=`${respCoins[i].coinGeckId}%2C`
@@ -45,8 +44,6 @@ const PortfolioIndex = (props) => {
         coinObj[respCoins[i].coinGeckId]=respCoins[i]
       }
       const respMData = await getPData(query)
-      console.log('querryyy data',respMData.data)
-      console.log('coinObj',coinObj)
 
       // updates the response data with average price and quantity of assets
       for (let i in respMData.data) {
@@ -66,17 +63,18 @@ const PortfolioIndex = (props) => {
       setCoinnames(coinnameArr)
       setCoinValues(coinQtyArr)
       setMData(respMData.data)
-      console.log('mdata !!!!1',respMData.data)
     }
-    const test = async () => {
-      let intialTest = await viewPortfolio(user)
-      if (intialTest.data.portfolio[0].assets.length>0) {
+    // determines if portfolio has any coins to render
+    const initialFetch = async () => {
+      let checkPortfolio = await viewPortfolio(user)
+      if (checkPortfolio.data.portfolio[0].assets.length>0) {
         fetchData()
       } else {
+        setBalance(0)
         return setMData([])
       }
     }
-    test()
+    initialFetch()
   }, [updated])
 
 
@@ -118,8 +116,7 @@ const PortfolioIndex = (props) => {
     height: 400,
     width: 500,
     legend: {
-      x: 0,
-      y: 1,
+      orientation: 'h',
       traceorder: 'normal',
       font: {
         family: 'sans-serif',
