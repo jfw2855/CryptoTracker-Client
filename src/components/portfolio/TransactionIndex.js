@@ -120,8 +120,8 @@ const TransactionIndex = (props) => {
           
         </Col>
         <Col  md={2}>
-            <BsPencilFill type='button' onClick={(e) => handleEdit(e, transaction, index)}/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-            <BsTrash type='button' onClick={(e) => handleDelete(e,transaction)}/>
+            <BsPencilFill className='edit' type='button' onClick={(e) => handleEdit(e, transaction, index)}/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+            <BsTrash className='trash' type='button' onClick={(e) => handleDelete(e,transaction)}/>
         </Col>
       </Row>
     </ListGroup.Item>
