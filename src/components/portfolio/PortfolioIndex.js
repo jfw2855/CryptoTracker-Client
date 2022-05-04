@@ -193,7 +193,7 @@ const PortfolioIndex = (props) => {
                 ${coin.avgPrice>1?coin.avgPrice.toLocaleString('en-US'):coin.avgPrice.toPrecision(4)}
                 </Col>
                 <Col style={coin.pl_precentage>0?{color:'green'}:{color:"red"}}>
-                  <Row>{coin.pl_amount>0?`+${coin.pl_amount.toLocaleString('en-US', {style:'currency',currency:'USD'})}`:`-${coin.pl_amount.toLocaleString('en-US')}`} </Row>
+                  <Row>{coin.pl_amount>0?`+${coin.pl_amount.toLocaleString('en-US', {style:'currency',currency:'USD'})}`:`-${(-1*coin.pl_amount).toLocaleString('en-US', {style:'currency',currency:'USD'})}`} </Row>
                   <Row>{coin.pl_precentage.toFixed(2)}% </Row>
                 </Col>
                 <Col>
