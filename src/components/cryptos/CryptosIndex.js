@@ -134,7 +134,7 @@ const CryptosIndex = (props) => {
   if (cryptos.length > 0) {
     assetsDisplay = cryptos.map((crypto) => {
       return (
-            <ListGroup.Item style={{backgroundColor:'transparent', borderTop:'grey 1px solid'}} key={crypto._id} >
+            <ListGroup.Item style={{backgroundColor:'transparent', borderTop:'grey 1px solid',zIndex:'5'}} key={crypto._id} >
                 <Row style={{ alignItems: 'center', color:'white' }}>
                   <Col>
                   <BsFillStarFill onClick={(e) => handleFavorite(e, crypto.id)} style={ items.includes(crypto.id) ? {color:'orange'} : {color:'white'} }type = "button" fontSize="14px" />
@@ -167,8 +167,8 @@ const CryptosIndex = (props) => {
         news={news}
         trending={trending}
       />
-      <ListGroup className='scroll' style={{ width: '90%' }}>
-    <h1 style={{ color: 'white', marginTop:'10px'}}>Top 100 Cryptos by Market Cap</h1>
+      <ListGroup className='scroll' style={{ width: '90%', zIndex: '5' }}>
+    <h1 style={{ color: 'white', marginTop:'10px', zIndex: '5'}}>Top 100 Cryptos by Market Cap</h1>
         <ListGroup.Item variant="dark">
           <Row style={{ fontWeight: 'bold' }}>
             <Col>
