@@ -67,7 +67,7 @@ export const getEntireMarket = () => {
 export const getCryptoNews = () => {
   const searchUrl = 'https://crypto-news-live3.p.rapidapi.com/news'
   const host = "crypto-news-live3.p.rapidapi.com"
-  const apiKey = process.env.REACT_APP_API_KEY
+  const apiKey = process.env.REACT_APP_API_KEY || env.REACT_APP_API_KEY
   const config = {
     method: 'get',
     url: searchUrl,
