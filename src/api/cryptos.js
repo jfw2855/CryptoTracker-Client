@@ -66,7 +66,7 @@ export const getEntireMarket = () => {
 // GET crypto news 
 export const getCryptoNews = () => {
   const searchUrl = 'https://crypto-news-live3.p.rapidapi.com/news'
-  const host = env.HOST
+  const host = "crypto-news-live3.p.rapidapi.com"
   const apiKey = env.API_KEY
   const config = {
     method: 'get',
