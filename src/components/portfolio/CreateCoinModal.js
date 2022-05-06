@@ -104,7 +104,7 @@ const CreateCoinModal = (props) => {
                   selected={date}
                   value={date}
                   onChange={(selectDate, e) => handleDate(selectDate, e)}
-                  dateFormat="dd-MM-yyyy"
+                  dateFormat="E MMM dd yyyy"
                   showYearDropdown
                   scrollableMonthYearDropdown
                 />
