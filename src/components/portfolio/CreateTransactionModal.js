@@ -100,16 +100,18 @@ const CreateTransactionModal = (props) => {
             })
             .catch((err) => {
               msgAlert({
+                heading: 'Invalid Coin',
                 message: messages.coinDNE,
-                variant: 'red',
+                variant: 'danger',
               })
             })
 
       })
       .catch((err)=>{
         msgAlert({
+          heading: 'Invalid Coin',
           message: messages.coinDNE,
-          variant: 'red',
+          variant: 'danger',
         })
       })
 
@@ -130,7 +132,7 @@ const CreateTransactionModal = (props) => {
               selected={date}
               value={date}
               onChange={(selectDate, e) => handleDate(selectDate, e)}
-              dateFormat="dd-MM-yyyy"
+              dateFormat="E MMM dd yyyy"
               showYearDropdown
               scrollableMonthYearDropdown
             />
