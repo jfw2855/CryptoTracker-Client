@@ -1,14 +1,9 @@
 import React, { useState } from 'react'
-import {
-  Modal,
-  Container,
-  Form,
-  Button,
-  Col,
-  Row
-} from 'react-bootstrap'
+import {Modal, Container, Form, Button, Col, Row } from 'react-bootstrap'
+import { showCrypto } from '../../api/cryptos'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import messages from '../shared/AutoDismissAlert/messages'
 
 
 
@@ -23,6 +18,7 @@ const CreateTransactionModal = (props) => {
     handleClose,
     showCoinPurchases,
     addCoinAsset,
+    msgAlert
   } = props
   const [transaction, setTransaction] = useState('')
   const [date, setDate] = useState(null)
@@ -69,41 +65,54 @@ const CreateTransactionModal = (props) => {
       return { ...prevTrans, datetime: date }
     })
     // checks to make sure coin exists via external api (CoinGecko)
-    //showCrypto(transaction.)
+    showCrypto(transaction.coinGeckId)
+      .then((coinResp)=>{
 
-    createTransaction(user, transaction)
-      .then(() => console.log('test'))
-      .then(() => {
-        // updates user's portfolio for specific coin
-        showCoinPurchases(user, transaction.coinGeckId).then((res) => {
-          let buyArr = res.data.transaction
-          let amount = 0
-          let price = 0
-          for (let i in buyArr) {
-            amount += buyArr[i].amount
-            price += buyArr[i].price
-          }
-          price = price / buyArr.length
-          console.log('price & amount', price, amount)
-          let assetToAdd = {
-            coinGeckId: transaction.coinGeckId,
-            avgPrice: price,
-            quantity: amount,
-          }
-          addCoinAsset(user, assetToAdd).then((res) =>
-            console.log('')
-          )
+          createTransaction(user, transaction)
+            .then(() => console.log('test'))
+            .then(() => {
+              // updates user's portfolio for specific coin
+              showCoinPurchases(user, transaction.coinGeckId).then((res) => {
+                let buyArr = res.data.transaction
+                let amount = 0
+                let price = 0
+                for (let i in buyArr) {
+                  amount += buyArr[i].amount
+                  price += buyArr[i].price
+                }
+                price = price / buyArr.length
+                console.log('price & amount', price, amount)
+                let assetToAdd = {
+                  coinGeckId: transaction.coinGeckId,
+                  avgPrice: price,
+                  quantity: amount,
+                }
+                addCoinAsset(user, assetToAdd).then((res) =>
+                  console.log('')
+                )
+              })
+            })
+            .then(() => {
+              handleClose()
+            })
+            .then(() => {
+              triggerRefresh()
+            })
+            .catch((err) => {
+              msgAlert({
+                message: messages.coinDNE,
+                variant: 'red',
+              })
+            })
+
+      })
+      .catch((err)=>{
+        msgAlert({
+          message: messages.coinDNE,
+          variant: 'red',
         })
       })
-      .then(() => {
-        handleClose()
-      })
-      .then(() => {
-        triggerRefresh()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+
   }
 
   return (
