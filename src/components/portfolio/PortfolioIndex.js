@@ -43,6 +43,7 @@ const PortfolioIndex = (props) => {
         coinnameArr.push(respCoins[i].coinGeckId)
         coinObj[respCoins[i].coinGeckId]=respCoins[i]
       }
+
       const respMData = await getPData(query)
 
       // updates the response data with average price and quantity of assets
