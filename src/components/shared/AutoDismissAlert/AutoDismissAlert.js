@@ -33,7 +33,10 @@ class AutoDismissAlert extends React.Component {
 		}
 
 		return (
+			<div className='alert-container'>
+
 			<Alert
+				className='alert-msg'
 				dismissible
 				show={this.state.show}
 				variant={variant}
@@ -43,6 +46,7 @@ class AutoDismissAlert extends React.Component {
 					<p className='alert-body'>{message}</p>
 				</div>
 			</Alert>
+			</div>
 		)
 	}
 }
