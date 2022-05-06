@@ -357,3 +357,17 @@ a:hover {
   background-color: rgba(49, 21, 109, 0.427);
 
 }
+
+.alert-container {
+  position: absolute;
+  top: 5%;
+  left: 40%;
+
+
+
+}
+
+.alert-msg {
+  font-weight: bold;
+  color: rgba(75, 51, 51, 0.837);
+}
