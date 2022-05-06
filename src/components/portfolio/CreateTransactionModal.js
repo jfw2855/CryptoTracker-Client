@@ -39,6 +39,10 @@ const CreateTransactionModal = (props) => {
       if (e.target.type === 'number') {
         value = +e.target.value
       }
+      // sets coin name to lowercase for server and external api calls
+      if (name === 'coinGeckId') {
+        value = value.toLowerCase()
+      }
       const updatedValue = { [name]: value }
 
       return { ...prevTrans, ...updatedValue }
@@ -64,6 +68,9 @@ const CreateTransactionModal = (props) => {
     setTransaction((prevTrans) => {
       return { ...prevTrans, datetime: date }
     })
+    // checks to make sure coin exists via external api (CoinGecko)
+    //showCrypto(transaction.)
+
     createTransaction(user, transaction)
       .then(() => console.log('test'))
       .then(() => {
