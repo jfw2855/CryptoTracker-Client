@@ -43,19 +43,19 @@ an app to allow users to track their crypto investments
 
 ## App Screenshots
 
-<img src="/media/CryptoTracker-LandingPage.png" alt="Landing_page" width="70%"/>
+<img src="/media/CryptoTracker-LandingPage.png" alt="Landing_page" width="100%"/>
 
-<img src="/media/CryptoTracker-HomePage.png" alt="Homepage" width="70%"/>
+<img src="/media/CryptoTracker-HomePage.png" alt="Homepage" width="100%"/>
 
-<img src="/media/CryptoTracker-FavoritesPage.png" alt="Favorites_Page" width="70%"/>
+<img src="/media/CryptoTracker-FavoritesPage.png" alt="Favorites_Page" width="100%"/>
 
-<img src="/media/CryptoTracker-CryptoShowPage.png" alt="CryptoShowPage" width="70%"/>
+<img src="/media/CryptoTracker-CryptoShowPage.png" alt="CryptoShowPage" width="100%"/>
 
-<img src="/media/CryptoTracker-Portfolio.png" alt="Portfolio" width="70%"/>
+<img src="/media/CryptoTracker-Portfolio.png" alt="Portfolio" width="100%"/>
 
-<img src="/media/CryptoTracker-TransactionModal.png" alt="Modal" width="70%"/>
+<img src="/media/CryptoTracker-TransactionModal.png" alt="Modal" width="100%"/>
 
-<img src="/media/CryptoTracker-Transactions.png" alt="Transactions" width="70%"/>
+<img src="/media/CryptoTracker-Transactions.png" alt="Transactions" width="100%"/>
 
 
 ## Planning & Design 
